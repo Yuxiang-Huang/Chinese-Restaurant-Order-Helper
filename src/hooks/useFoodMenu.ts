@@ -12,8 +12,6 @@ const useFoodMenu = () => {
 
     const foodList = Object.keys(priceDict)
 
-    console.log("Only twice in dev");
-
     return { foodList, priceDict };
 }
 

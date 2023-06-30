@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { List, ListItem, Button } from "@chakra-ui/react";
 // import { produce } from "immer";
@@ -69,6 +70,12 @@ const AddOrderPage = () => {
 
   return (
     <>
+      <Link to="/OrderList">
+        <Button colorScheme="blue" margin={3}>
+          View All Orders
+        </Button>
+      </Link>
+
       <SearchBar ref={searchRef} handleSearch={handleSearch} />
       {foodList.map((food, index) => (
         <Button
@@ -80,7 +87,7 @@ const AddOrderPage = () => {
           {food}
         </Button>
       ))}
-      <List spacing={3}>
+      <List spacing={3} margin={3}>
         {order.map((orderItem, index) => (
           <ListItem key={index} justifyContent={"space-between"}>
             {orderItem.name} {"$" + orderItem.price}
