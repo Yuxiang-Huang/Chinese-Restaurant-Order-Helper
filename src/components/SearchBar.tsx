@@ -27,4 +27,26 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
+export const SatisfySearchBarRequirement = (
+  foodName: string,
+  searchText: string
+) => {
+  const foodNameList = foodName.toLowerCase().split(" ");
+  const searchTextList = searchText.toLowerCase().split(" ");
+
+  // has less words than needed
+  if (searchTextList.length > foodNameList.length) return false;
+
+  // check each part
+  let index = 0;
+  while (index < searchTextList.length) {
+    const curWord = searchTextList[index];
+    if (!(foodNameList[index].substring(0, curWord.length) === curWord))
+      return false;
+    index++;
+  }
+
+  return true;
+};
+
 export default SearchBar;

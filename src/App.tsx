@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@chakra-ui/react";
 
-import SearchBar from "./components/SearchBar";
+import SearchBar, { SatisfySearchBarRequirement } from "./components/SearchBar";
 import useFoodMenu, { FoodMenuItem } from "./hooks/useFoodMenu";
 
 const App = () => {
@@ -12,8 +12,13 @@ const App = () => {
     setFoodMenu(useFoodMenu());
   }, []);
 
-  const matchSearch = (str: string) => {
-    setFoodMenu(useFoodMenu().filter((food) => food.name.indexOf(str) !== -1));
+  // set food menu to only have foods that satisfy the search text
+  const matchSearch = (searchText: string) => {
+    setFoodMenu(
+      useFoodMenu().filter((food) =>
+        SatisfySearchBarRequirement(food.name, searchText)
+      )
+    );
   };
 
   return (
