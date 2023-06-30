@@ -10,7 +10,11 @@ const SearchBar = ({ onSearch }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <form>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
+    >
       <InputGroup>
         <InputLeftElement children={<BsSearch />} />
         <Input
@@ -27,6 +31,7 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
+// use to check if a food name satisfy the search requirement
 export const SatisfySearchBarRequirement = (
   foodName: string,
   searchText: string
