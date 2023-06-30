@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { Button } from "@chakra-ui/react";
+import { List, ListItem, Button } from "@chakra-ui/react";
 // import { produce } from "immer";
 
 import SearchBar, { SatisfySearchBarRequirement } from "./components/SearchBar";
@@ -30,21 +30,34 @@ const App = () => {
   const [foodList, setFoodList] = useState<string[]>([]);
 
   // set food list to only have foods that satisfy the search text
-  const handleSearch = (searchText: string) => {
-    setFoodList(
-      fullFoodList.filter((food) =>
-        SatisfySearchBarRequirement(food, searchText)
-      )
-    );
+  const handleSearch = () => {
+    if (searchRef.current) {
+      const searchText = searchRef.current.value;
+      if (searchText) {
+        setFoodList(
+          fullFoodList.filter((food) =>
+            SatisfySearchBarRequirement(food, searchText)
+          )
+        );
+      } else {
+        // empty if no string
+        setFoodList([]);
+      }
+    }
   };
   //#endregion
 
-  //#region order
+  //#region Order
+  const searchRef = useRef<HTMLInputElement>(null);
 
   // when clicked, add to order
   const handleClick = (foodName: string) => {
     const p = 1;
     setOrder([...order, { name: foodName, price: p }]);
+
+    // reset search text and food list
+    if (searchRef.current) searchRef.current.value = "";
+    setFoodList([]);
   };
 
   // sync order wth session storage
@@ -56,7 +69,7 @@ const App = () => {
 
   return (
     <>
-      <SearchBar onSearch={(str) => handleSearch(str)} />
+      <SearchBar ref={searchRef} handleSearch={handleSearch} />
       {foodList.map((food, index) => (
         <Button
           style={{ width: "100%" }}
@@ -67,11 +80,13 @@ const App = () => {
           {food}
         </Button>
       ))}
-      {order.map((orderItem, index) => (
-        <li key={index}>
-          {orderItem.name} {orderItem.price}
-        </li>
-      ))}
+      <List spacing={3}>
+        {order.map((orderItem, index) => (
+          <ListItem key={index} justifyContent={"space-between"}>
+            {orderItem.name} {"$" + orderItem.price}
+          </ListItem>
+        ))}
+      </List>
     </>
   );
 };

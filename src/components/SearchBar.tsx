@@ -1,35 +1,34 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { useRef } from "react";
+import { forwardRef } from "react";
 import { BsSearch } from "react-icons/bs";
 
 interface Props {
-  onSearch: (searchText: string) => void;
+  ref: React.RefObject<HTMLInputElement>;
+  handleSearch: () => void;
 }
 
-const SearchBar = ({ onSearch }: Props) => {
-  const ref = useRef<HTMLInputElement>(null);
-
-  return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-      }}
-    >
-      <InputGroup>
-        <InputLeftElement children={<BsSearch />} />
-        <Input
-          ref={ref}
-          borderRadius={20}
-          placeholder="Search Chinese Foods..."
-          variant="filled"
-          onChange={() => {
-            if (ref.current) onSearch(ref.current.value);
-          }}
-        />
-      </InputGroup>
-    </form>
-  );
-};
+const SearchBar = forwardRef<HTMLInputElement, Props>(
+  ({ handleSearch }, searchRef) => {
+    return (
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
+        <InputGroup>
+          <InputLeftElement children={<BsSearch />} />
+          <Input
+            ref={searchRef}
+            borderRadius={20}
+            placeholder="Search Chinese Foods..."
+            variant="filled"
+            onChange={handleSearch}
+          />
+        </InputGroup>
+      </form>
+    );
+  }
+);
 
 // use to check if a food name satisfy the search requirement
 export const SatisfySearchBarRequirement = (
