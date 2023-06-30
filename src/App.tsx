@@ -8,13 +8,20 @@ import useFoodMenu, { OrderItem } from "./hooks/useFoodMenu";
 
 const App = () => {
   //#region Initial Declaration
+  const storage = window.sessionStorage;
+
   const [fullFoodList, setFullFoodList] = useState<string[]>([]);
   const [priceDict, setPriceDict] = useState<{ [key: string]: number }>();
+  const [order, setOrder] = useState<OrderItem[]>([]);
 
   useEffect(() => {
     const foodMenu = useFoodMenu();
     setFullFoodList(foodMenu.foodList);
     setPriceDict(foodMenu.priceDict);
+
+    // order from session storage
+    const rawValue = storage.getItem("order");
+    if (rawValue) setOrder(JSON.parse(rawValue));
   }, []);
 
   //#endregion
@@ -33,12 +40,17 @@ const App = () => {
   //#endregion
 
   //#region order
-  const [order, setOrder] = useState<OrderItem[]>([]);
 
   // when clicked, add to order
   const handleClick = (foodName: string) => {
-    // const p = setOrder([...order, { name: foodName, price: p }]);
+    const p = 1;
+    setOrder([...order, { name: foodName, price: p }]);
   };
+
+  // sync order wth session storage
+  useEffect(() => {
+    if (order.length > 0) storage.setItem("order", JSON.stringify(order));
+  }, [order]);
 
   //#endregion
 
@@ -54,6 +66,11 @@ const App = () => {
         >
           {food}
         </Button>
+      ))}
+      {order.map((orderItem, index) => (
+        <li key={index}>
+          {orderItem.name} {orderItem.price}
+        </li>
       ))}
     </>
   );
