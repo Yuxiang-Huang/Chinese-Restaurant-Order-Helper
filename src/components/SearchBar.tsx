@@ -10,7 +10,9 @@ interface Props {
 
 const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
   const searchTextRef = useRef<HTMLInputElement>(null);
+  const [highlightedButtonIndex, setHighlightedButtonIndex] = useState(0);
 
+  //#region food list
   const [foodList, setFoodList] = useState<string[]>([]);
 
   // set food list to only have foods that satisfy the search text
@@ -37,6 +39,8 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
     setFoodList([]);
   };
 
+  //#endregion
+
   return (
     <>
       <form
@@ -55,14 +59,23 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           />
         </InputGroup>
       </form>
-      <PriceInputModal />
+      {/* <PriceInputModal /> */}
       {foodList.map((food, index) => (
         <Button
           style={{ width: "100%" }}
           justifyContent={"space-between"}
           key={index}
           onClick={(event) => handleClick(event.currentTarget.innerHTML)}
-          background={index === 0 ? "Highlight" : "white"}
+          _hover={{ bg: "Highlight" }}
+          background={
+            index === highlightedButtonIndex ||
+            (highlightedButtonIndex === -1 && index === 0)
+              ? "Highlight"
+              : "white"
+          }
+          onMouseEnter={() => {
+            setHighlightedButtonIndex(index);
+          }}
         >
           {food}
         </Button>
@@ -86,6 +99,7 @@ export const SatisfySearchBarRequirement = (
   // check each part
   let foodNameListIndex = 0;
   let searchTextListIndex = 0;
+
   // true when all search text words are matched
   while (
     foodNameListIndex < foodNameList.length &&
@@ -109,6 +123,7 @@ export const SatisfySearchBarRequirement = (
     foodNameListIndex++;
   }
 
+  // make sure it is not the case where only food name words run out
   return searchTextListIndex == searchTextList.length;
 };
 
