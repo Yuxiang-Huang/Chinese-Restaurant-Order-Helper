@@ -1,15 +1,45 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { forwardRef } from "react";
+import { useState, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
+import { Button } from "@chakra-ui/react";
 
 interface Props {
-  ref: React.RefObject<HTMLInputElement>;
-  handleSearch: () => void;
+  fullFoodList: string[];
+  addToOrder: (str: string) => void;
 }
 
-const SearchBar = forwardRef<HTMLInputElement, Props>(
-  ({ handleSearch }, searchRef) => {
-    return (
+const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
+  const ref = useRef<HTMLInputElement>(null);
+
+  const [foodList, setFoodList] = useState<string[]>([]);
+
+  // set food list to only have foods that satisfy the search text
+  const handleSearch = () => {
+    if (ref.current) {
+      const searchText = ref.current.value;
+      if (searchText) {
+        setFoodList(
+          fullFoodList.filter((food) =>
+            SatisfySearchBarRequirement(food, searchText)
+          )
+        );
+      } else {
+        // empty if no string
+        setFoodList([]);
+      }
+    }
+  };
+
+  const handleClick = (foodName: string) => {
+    addToOrder(foodName);
+
+    // reset search text and food list
+    if (ref.current) ref.current.value = "";
+    setFoodList([]);
+  };
+
+  return (
+    <>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -18,7 +48,7 @@ const SearchBar = forwardRef<HTMLInputElement, Props>(
         <InputGroup>
           <InputLeftElement children={<BsSearch />} />
           <Input
-            ref={searchRef}
+            ref={ref}
             borderRadius={20}
             placeholder="Search Chinese Foods..."
             variant="filled"
@@ -26,9 +56,19 @@ const SearchBar = forwardRef<HTMLInputElement, Props>(
           />
         </InputGroup>
       </form>
-    );
-  }
-);
+      {foodList.map((food, index) => (
+        <Button
+          style={{ width: "100%" }}
+          justifyContent={"space-between"}
+          key={index}
+          onClick={(event) => handleClick(event.currentTarget.innerHTML)}
+        >
+          {food}
+        </Button>
+      ))}
+    </>
+  );
+};
 
 // use to check if a food name satisfy the search requirement
 export const SatisfySearchBarRequirement = (
