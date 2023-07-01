@@ -10,7 +10,7 @@ interface Props {
 
 const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
   const searchTextRef = useRef<HTMLInputElement>(null);
-  const [highlightedButtonIndex, setHighlightedButtonIndex] = useState(0);
+  const [highlightedFoodName, setHighlightedFoodName] = useState("");
 
   //#region food list
   const [foodList, setFoodList] = useState<string[]>([]);
@@ -36,6 +36,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
     addToOrder(foodName);
     // reset search text and food list
     if (searchTextRef.current) searchTextRef.current.value = "";
+    setHighlightedFoodName("");
     setFoodList([]);
   };
 
@@ -46,6 +47,13 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
       <form
         onSubmit={(event) => {
           event.preventDefault();
+          if (highlightedFoodName === "") {
+            if (foodList.length > 0) {
+              handleClick(foodList[0]);
+            }
+          } else {
+            handleClick(highlightedFoodName);
+          }
         }}
       >
         <InputGroup>
@@ -68,13 +76,13 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           onClick={(event) => handleClick(event.currentTarget.innerHTML)}
           _hover={{ bg: "Highlight" }}
           background={
-            index === highlightedButtonIndex ||
-            (highlightedButtonIndex === -1 && index === 0)
+            food === highlightedFoodName ||
+            (highlightedFoodName === "" && index === 0)
               ? "Highlight"
               : "white"
           }
           onMouseEnter={() => {
-            setHighlightedButtonIndex(index);
+            setHighlightedFoodName(food);
           }}
         >
           {food}
