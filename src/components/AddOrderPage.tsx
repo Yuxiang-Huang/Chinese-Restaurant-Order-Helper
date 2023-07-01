@@ -6,6 +6,7 @@ import { List, ListItem, Button } from "@chakra-ui/react";
 
 import SearchBar from "./SearchBar";
 import useFoodMenu, { OrderItem } from "../hooks/useFoodMenu";
+import OrderItemDisplay from "./OrderItemDisplay";
 
 const AddOrderPage = () => {
   //#region Initial Declaration
@@ -54,8 +55,8 @@ const AddOrderPage = () => {
       <SearchBar fullFoodList={fullFoodList} addToOrder={addToOrder} />
       <List spacing={3} margin={3}>
         {order.map((orderItem, index) => (
-          <ListItem key={index} justifyContent={"space-between"}>
-            {orderItem.name} {"$" + orderItem.price}
+          <ListItem key={index}>
+            <OrderItemDisplay orderItem={orderItem} />
           </ListItem>
         ))}
       </List>
