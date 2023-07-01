@@ -29,7 +29,7 @@ const PriceInputModal = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <Input ref={priceRef} placeholder="Enter price..." />
+              <Input ref={priceRef} placeholder="Enter price of food..." />
             </FormControl>
           </ModalBody>
 

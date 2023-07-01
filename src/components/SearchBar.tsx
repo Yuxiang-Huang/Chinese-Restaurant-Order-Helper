@@ -62,6 +62,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           justifyContent={"space-between"}
           key={index}
           onClick={(event) => handleClick(event.currentTarget.innerHTML)}
+          background={index === 0 ? "Highlight" : "white"}
         >
           {food}
         </Button>
@@ -86,7 +87,10 @@ export const SatisfySearchBarRequirement = (
   let foodNameListIndex = 0;
   let searchTextListIndex = 0;
   // true when all search text words are matched
-  while (searchTextListIndex < searchTextList.length) {
+  while (
+    foodNameListIndex < foodNameList.length &&
+    searchTextListIndex < searchTextList.length
+  ) {
     const curWord = searchTextList[searchTextListIndex];
     // increase foodNameListIndex if word doesn't match
     while (
@@ -102,9 +106,10 @@ export const SatisfySearchBarRequirement = (
     }
     // next search text word
     searchTextListIndex++;
+    foodNameListIndex++;
   }
 
-  return true;
+  return searchTextListIndex == searchTextList.length;
 };
 
 export default SearchBar;
