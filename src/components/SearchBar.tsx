@@ -1,7 +1,7 @@
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
-import { Button } from "@chakra-ui/react";
+import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import PriceInputModal from "./PriceInputModal";
 
 interface Props {
   fullFoodList: string[];
@@ -9,14 +9,14 @@ interface Props {
 }
 
 const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
-  const ref = useRef<HTMLInputElement>(null);
+  const searchTextRef = useRef<HTMLInputElement>(null);
 
   const [foodList, setFoodList] = useState<string[]>([]);
 
   // set food list to only have foods that satisfy the search text
   const handleSearch = () => {
-    if (ref.current) {
-      const searchText = ref.current.value;
+    if (searchTextRef.current) {
+      const searchText = searchTextRef.current.value;
       if (searchText) {
         setFoodList(
           fullFoodList.filter((food) =>
@@ -32,9 +32,8 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
 
   const handleClick = (foodName: string) => {
     addToOrder(foodName);
-
     // reset search text and food list
-    if (ref.current) ref.current.value = "";
+    if (searchTextRef.current) searchTextRef.current.value = "";
     setFoodList([]);
   };
 
@@ -48,7 +47,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
         <InputGroup>
           <InputLeftElement children={<BsSearch />} />
           <Input
-            ref={ref}
+            ref={searchTextRef}
             borderRadius={20}
             placeholder="Search Chinese Foods..."
             variant="filled"
@@ -56,6 +55,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           />
         </InputGroup>
       </form>
+      <PriceInputModal />
       {foodList.map((food, index) => (
         <Button
           style={{ width: "100%" }}
@@ -75,6 +75,7 @@ export const SatisfySearchBarRequirement = (
   foodName: string,
   searchText: string
 ) => {
+  // break text to list of words
   const foodNameList = foodName.toLowerCase().split(" ");
   const searchTextList = searchText.toLowerCase().split(" ");
 
@@ -82,12 +83,25 @@ export const SatisfySearchBarRequirement = (
   if (searchTextList.length > foodNameList.length) return false;
 
   // check each part
-  let index = 0;
-  while (index < searchTextList.length) {
-    const curWord = searchTextList[index];
-    if (!(foodNameList[index].substring(0, curWord.length) === curWord))
-      return false;
-    index++;
+  let foodNameListIndex = 0;
+  let searchTextListIndex = 0;
+  // true when all search text words are matched
+  while (searchTextListIndex < searchTextList.length) {
+    const curWord = searchTextList[searchTextListIndex];
+    // increase foodNameListIndex if word doesn't match
+    while (
+      !(
+        foodNameList[foodNameListIndex].substring(0, curWord.length) === curWord
+      )
+    ) {
+      foodNameListIndex++;
+      // run out of words in food name, so not possible
+      if (foodNameListIndex >= foodNameList.length) {
+        return false;
+      }
+    }
+    // next search text word
+    searchTextListIndex++;
   }
 
   return true;
