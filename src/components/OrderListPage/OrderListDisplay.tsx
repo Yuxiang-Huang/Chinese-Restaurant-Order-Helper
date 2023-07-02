@@ -1,4 +1,4 @@
-import { List, ListItem, HStack, Box, Text } from "@chakra-ui/react";
+import { List, ListItem, HStack, Box, Text, VStack } from "@chakra-ui/react";
 import { Order } from "../../App";
 import OrderTopBar from "./OrderTopBar";
 
@@ -23,7 +23,16 @@ const OrderListDisplay = ({ orderList, archived }: Props) => {
               <HStack justifyContent={"space-between"}>
                 <HStack>
                   <Box margin={3}>{orderItem.name}</Box>
-                  <Text fontSize="xs">{orderItem.mainCustomization}</Text>
+                  <VStack align={"baseline"}>
+                    <Text fontSize="xs">
+                      {orderItem.mainCustomization &&
+                        "Main: " + orderItem.mainCustomization}
+                    </Text>
+                    <Text fontSize="xs">
+                      {orderItem.sideCustomization &&
+                        "Side: " + orderItem.sideCustomization}
+                    </Text>
+                  </VStack>
                 </HStack>
                 <HStack>
                   <Box margin={3}>{"$" + orderItem.price}</Box>
