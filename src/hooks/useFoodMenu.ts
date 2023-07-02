@@ -52,6 +52,8 @@ const useFoodMenu = () => {
     Broccoli: [5.75, 9.75],
     "Mix Veg": [6, 10],
 
+    "Spare Ribs": [8.5, 15],
+
     "Plain Lobster Sauce": [5.5, 10],
     "Shrimp w. Lobster Sauce": [8, 14],
 
@@ -90,15 +92,17 @@ const useFoodMenu = () => {
   // small, large, with type0, with type 2
   const sideDict: { [key: string]: number[] } = {
     "French Fries": [2.75, 5, 2, 1.5],
+    "Fried Green Banana": [3.5, 6.5, 3.25, 3],
+    "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
 
-    "White Rice": [1.75, 3, 2, 0],
-    "Fried Rice": [3.0, 5.5, 2, 0.75],
-    "Vegetable Fried Rice": [4.5, 8, 2.75, 1.5],
-    "Roast Pork Fried Rice": [4.75, 8.5, 2.75, 1.5],
-    "Chicken Fried Rice": [4.75, 8.5, 2.75, 1.5],
-    "Beef Fried Rice": [5.5, 9.5, 3.25, 2],
-    "Shrimp Fried Rice": [5.5, 9.5, 3.25, 2],
-    "House Special Fried Rice": [6.5, 11, 5.5, 5],
+    "White Rice": [1.75, 3, 2, 0, 0],
+    "Fried Rice": [3.0, 5.5, 2, 0.75, 1.25],
+    "Vegetable Fried Rice": [4.5, 8, 2.75, 1.5, 3],
+    "Roast Pork Fried Rice": [4.75, 8.5, 2.75, 1.5, 3],
+    "Chicken Fried Rice": [4.75, 8.5, 2.75, 1.5, 3],
+    "Beef Fried Rice": [5.5, 9.5, 3.25, 2, 3.75],
+    "Shrimp Fried Rice": [5.5, 9.5, 3.25, 2, 3.75],
+    "House Special Fried Rice": [6.5, 11, 5.5, 5, 5],
 
     "Lo Mein": [5, 8, 4, 3.5],
     "Vegetable Lo Mein": [5.5, 9.25, 5.25, 4.5],
@@ -138,13 +142,23 @@ const useFoodMenu = () => {
     if (priceList.length > 1) {
       togetherDict["Small " + mainKey] = priceList[0];
       togetherDict["Large " + mainKey] = priceList[1];
+      Object.keys(sideDict).map((sideKey) => {
+        togetherDict[mainKey + " with " + sideKey] =
+          priceList[0] + sideDict[sideKey][3];
+        if (sideDict[sideKey].length > 4) {
+          togetherDict[mainKey + " with " + sideKey + " (Large)"] =
+            priceList[1] + sideDict[sideKey][4];
+        }
+      });
     } else {
       togetherDict[mainKey] = priceList[0];
+      Object.keys(sideDict).map((sideKey) => {
+        if (sideDict[sideKey].length > 4) {
+          togetherDict[mainKey + " with " + sideKey] =
+            priceList[0] + sideDict[sideKey][4];
+        }
+      });
     }
-    Object.keys(sideDict).map((sideKey) => {
-      togetherDict[mainKey + " with " + sideKey] =
-        mainType2Dict[mainKey][0] + sideDict[sideKey][3];
-    });
   });
 
   Object.keys(sideDict).map((sideKey) => {
