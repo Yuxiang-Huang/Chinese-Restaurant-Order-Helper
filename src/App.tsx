@@ -15,18 +15,17 @@ export interface Order {
 }
 
 const App = () => {
-  //#region Initialization
+  //#region Initialization and Synchronization
   const navigate = useNavigate();
   const storage = window.sessionStorage;
 
   const [orderList, setOrderList] = useState<Order[]>([]);
   const [order, setOrder] = useState<OrderItem[]>([]);
 
+  // order and order list from session storage
   useEffect(() => {
-    // order list from session storage
     let rawValue = storage.getItem("order list");
     if (rawValue) setOrderList(JSON.parse(rawValue));
-    // order from session storage
     rawValue = storage.getItem("order");
     if (rawValue) setOrder(JSON.parse(rawValue));
   }, []);
@@ -44,6 +43,7 @@ const App = () => {
 
   //#endregion
 
+  //#region Order List
   const addToOrderList = (orderItemList: OrderItem[]) => {
     setOrderList([
       ...orderList,
@@ -58,7 +58,9 @@ const App = () => {
     storage.setItem("order", "[]");
     navigate("/OrderList");
   };
+  //#endregion
 
+  //#region Four buttons for each order
   const updateCustomerDescription = (id: string, newDescription: string) => {
     setOrderList(
       produce((draft) => {
@@ -68,9 +70,15 @@ const App = () => {
     );
   };
 
-  const edit = (order: Order) => {
+  const edit = (orderToEdit: Order) => {
+    // navigate to add order page
     navigate("/");
+    // delete this order from order list
+    setOrderList(orderList.filter((order) => order.id !== orderToEdit.id));
+    // set order to this order
+    setOrder(orderToEdit.orderItemList);
   };
+  //#endregion
 
   return (
     <Routes>
@@ -98,6 +106,7 @@ const App = () => {
   );
 };
 
+// calculate the total price of an order
 export const calculateTotalPrice = (order: OrderItem[]) => {
   let total = 0;
   order.map((OrderItem) => (total += OrderItem.price));
