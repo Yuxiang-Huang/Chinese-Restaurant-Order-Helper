@@ -99,6 +99,7 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
           </ListItem>
         ))}
       </List>
+
       <HStack justifyContent={"space-between"}>
         <Button
           colorScheme="green"

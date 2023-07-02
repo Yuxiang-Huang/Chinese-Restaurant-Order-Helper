@@ -36,7 +36,10 @@ const App = () => {
         path="/"
         element={<AddOrderPage addToOrderList={addToOrderList} />}
       />
-      <Route path="/OrderList" element={<OrderListPage />} />
+      <Route
+        path="/OrderList"
+        element={<OrderListPage orderList={orderList} />}
+      />
     </Routes>
   );
 };
