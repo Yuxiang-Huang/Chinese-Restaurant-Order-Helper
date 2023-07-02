@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router";
 import AddOrderPage from "./components/AddOrderPage";
 import OrderListPage from "./components/OrderListPage";
+import "./index.css";
 
 const App = () => {
   return (

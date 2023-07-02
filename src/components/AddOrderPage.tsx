@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 import nextId from "react-id-generator";
 
-import { List, ListItem, Button } from "@chakra-ui/react";
+import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
 
 import SearchBar from "./SearchBar";
 import useFoodMenu, { OrderItem } from "../hooks/useFoodMenu";
 import OrderItemDisplay from "./OrderItemDisplay";
+import { size } from "lodash";
 
 const AddOrderPage = () => {
   //#region Initial Declaration
@@ -95,8 +96,22 @@ const AddOrderPage = () => {
           </ListItem>
         ))}
       </List>
+      <HStack justifyContent={"space-between"}>
+        <Button colorScheme="green" margin={3} marginTop={10}>
+          Add to Order List
+        </Button>
+        <Text margin={3} background={"yellow"} fontSize="xl">
+          {"Total: $" + calculateTotalPrice(order)}
+        </Text>
+      </HStack>
     </>
   );
+};
+
+const calculateTotalPrice = (order: OrderItem[]) => {
+  let total = 0;
+  order.map((OrderItem) => (total += OrderItem.price));
+  return total;
 };
 
 export default AddOrderPage;
