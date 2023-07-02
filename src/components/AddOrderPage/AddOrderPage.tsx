@@ -60,14 +60,22 @@ const AddOrderPage = ({
     );
   };
 
-  const modifyCustomization = (id: string, newCustomization: string) => {
+  const modifyCustomization = (
+    id: string,
+    newCustomization: string,
+    main: boolean
+  ) => {
     setOrder(
       produce((draft) => {
         const orderItemToChange = draft.orderItemList.find(
           (orderItem) => orderItem.id === id
         );
         if (orderItemToChange)
-          orderItemToChange.customization = newCustomization;
+          if (main) {
+            orderItemToChange.mainCustomization = newCustomization;
+          } else {
+            orderItemToChange.sideCustomization = newCustomization;
+          }
       })
     );
   };

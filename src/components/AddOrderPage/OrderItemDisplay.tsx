@@ -5,7 +5,11 @@ import ModalTemplate from "../ModalTemplate";
 interface Props {
   orderItem: OrderItem;
   onDelete: (id: string) => void;
-  modifyCustomization: (id: string, customization: string) => void;
+  modifyCustomization: (
+    id: string,
+    customization: string,
+    main: boolean
+  ) => void;
   modifyPriceString: (id: string, price: number) => void;
 }
 
@@ -28,19 +32,23 @@ const OrderItemDisplay = ({
     <HStack justifyContent={"space-between"}>
       <ModalTemplate
         id={orderItem.id}
-        defaultText={orderItem.customization}
+        defaultText={orderItem.mainCustomization}
         header="Add Customization"
         placeholder="Enter new customization..."
         isOpen={customizationDisclosure.isOpen}
         onClose={customizationDisclosure.onClose}
         onEnter={modifyCustomization}
       />
-      <HStack>
-        <Button onClick={customizationDisclosure.onOpen}>
-          {orderItem.name}
-        </Button>
-        <Text fontSize="xs">{orderItem.customization}</Text>
-      </HStack>
+      {orderItem.name.indexOf("with") === -1 ? (
+        <HStack>
+          <Button onClick={customizationDisclosure.onOpen}>
+            {orderItem.name}
+          </Button>
+          <Text fontSize="xs">{orderItem.mainCustomization}</Text>
+        </HStack>
+      ) : (
+        <Button></Button>
+      )}
       <div>
         <ModalTemplate
           id={orderItem.id}

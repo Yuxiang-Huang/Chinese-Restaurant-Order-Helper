@@ -1,17 +1,9 @@
-import {
-  Button,
-  List,
-  ListItem,
-  HStack,
-  Box,
-  Text,
-  Switch,
-} from "@chakra-ui/react";
+import { Button, HStack, Text, Switch } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Order } from "../../App";
-import OrderTopBar from "./OrderTopBar";
 import { useState } from "react";
+import OrderListDisplay from "./OrderListDisplay";
 
 interface Props {
   orderList: Order[];
@@ -53,69 +45,24 @@ const OrderListPage = ({
           </Text>
         </HStack>
       </HStack>
-
-      <List spacing={3} margin={3}>
-        {orderList.map((order) => (
-          <Box border={"2px"} marginBottom={10} key={order.id}>
-            <OrderTopBar
-              order={order}
-              updateCustomerDescription={updateCustomerDescription}
-              pay={pay}
-              edit={edit}
-              archive={archive}
-              unarchive={unarchive}
-            />
-            {order.orderItemList.map((orderItem) => (
-              <ListItem key={orderItem.id}>
-                <HStack justifyContent={"space-between"}>
-                  <HStack>
-                    <Box margin={3}>{orderItem.name}</Box>
-                    <Text fontSize="xs">{orderItem.customization}</Text>
-                  </HStack>
-                  <HStack>
-                    <Box margin={3}>{"$" + orderItem.price}</Box>
-                  </HStack>
-                </HStack>
-              </ListItem>
-            ))}
-          </Box>
-        ))}
-      </List>
-
-      {archivedMode && (
-        <List spacing={3} margin={3}>
-          {archivedOrderList.map((order) => (
-            <Box
-              border={"2px"}
-              marginBottom={10}
-              key={order.id}
-              background={"gray"}
-            >
-              <OrderTopBar
-                order={order}
-                pay={pay}
-                updateCustomerDescription={updateCustomerDescription}
-                edit={edit}
-                archive={archive}
-                unarchive={unarchive}
-              />
-              {order.orderItemList.map((orderItem) => (
-                <ListItem key={orderItem.id}>
-                  <HStack justifyContent={"space-between"}>
-                    <HStack>
-                      <Box margin={3}>{orderItem.name}</Box>
-                      <Text fontSize="xs">{orderItem.customization}</Text>
-                    </HStack>
-                    <HStack>
-                      <Box margin={3}>{"$" + orderItem.price}</Box>
-                    </HStack>
-                  </HStack>
-                </ListItem>
-              ))}
-            </Box>
-          ))}
-        </List>
-      )}
+      <OrderListDisplay
+        orderList={orderList}
+        archived={false}
+        updateCustomerDescription={updateCustomerDescription}
+        pay={pay}
+        edit={edit}
+        archive={archive}
+        unarchive={unarchive}
+      />
+      <OrderListDisplay
+        orderList={archivedOrderList}
+        archived={true}
+        updateCustomerDescription={updateCustomerDescription}
+        pay={pay}
+        edit={edit}
+        archive={archive}
+        unarchive={unarchive}
+      />
     </>
   );
 };

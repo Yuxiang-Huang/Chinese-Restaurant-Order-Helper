@@ -1,7 +1,8 @@
 export interface OrderItem {
   id: string;
   name: string;
-  customization?: string;
+  mainCustomization?: string;
+  sideCustomization?: string;
   price: number;
 }
 
