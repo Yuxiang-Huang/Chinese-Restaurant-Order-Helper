@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import nextId from "react-id-generator";
 import AddOrderPage from "./components/AddOrderPage/AddOrderPage";
 import OrderListPage from "./components/OrderListPage/OrderListPage";
-import { OrderItem } from "./hooks/useFoodMenu";
+import useFoodMenu, { OrderItem } from "./hooks/useFoodMenu";
 import "./index.css";
 import { produce } from "immer";
+import MenuPage from "./components/MenuPage/MenuPage";
 
 export interface Order {
   id: string;
@@ -31,8 +32,16 @@ const App = () => {
     archived: false,
   });
 
-  // order, order list, and archived order list  from session storage
+  const [fullFoodList, setFullFoodList] = useState<string[]>([]);
+  const [priceDict, setPriceDict] = useState<{ [key: string]: number }>({});
+
   useEffect(() => {
+    // full food list and price dictionary from useFoodMenu (optimized to be called once)
+    const foodMenu = useFoodMenu();
+    setFullFoodList(foodMenu.foodList);
+    setPriceDict(foodMenu.priceDict);
+
+    // order, order list, and archived order list  from session storage
     let rawValue = storage.getItem("order list");
     if (rawValue) setOrderList(JSON.parse(rawValue));
     rawValue = storage.getItem("order");
@@ -128,8 +137,9 @@ const App = () => {
         path="/"
         element={
           <AddOrderPage
-            storage={storage}
             order={order}
+            fullFoodList={fullFoodList}
+            priceDict={priceDict}
             setOrder={setOrder}
             addToOrderList={addToOrderList}
           />
@@ -149,6 +159,7 @@ const App = () => {
           />
         }
       />
+      <Route path="/Menu" element={<MenuPage priceDict={priceDict} />} />
     </Routes>
   );
 };

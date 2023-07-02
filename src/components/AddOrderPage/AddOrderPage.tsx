@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import nextId from "react-id-generator";
 
@@ -6,28 +5,25 @@ import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
 
 import { Order, calculateTotalPrice } from "../../App";
-import useFoodMenu from "../../hooks/useFoodMenu";
 import SearchBar from "./SearchBar";
 import OrderItemDisplay from "./OrderItemDisplay";
 
 interface Props {
-  storage: Storage;
   order: Order;
+  fullFoodList: string[];
+  priceDict: { [key: string]: number };
   setOrder: React.Dispatch<React.SetStateAction<Order>>;
   addToOrderList: (order: Order) => void;
 }
 
-const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
+const AddOrderPage = ({
+  order,
+  fullFoodList,
+  priceDict,
+  setOrder,
+  addToOrderList,
+}: Props) => {
   //#region Initial Declaration
-  const [fullFoodList, setFullFoodList] = useState<string[]>([]);
-  const [priceDict, setPriceDict] = useState<{ [key: string]: number }>({});
-
-  useEffect(() => {
-    // full food list and price dictionary from useFoodMenu (optimized to be called once)
-    const foodMenu = useFoodMenu();
-    setFullFoodList(foodMenu.foodList);
-    setPriceDict(foodMenu.priceDict);
-  }, []);
 
   //#endregion
 
@@ -80,11 +76,18 @@ const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
 
   return (
     <>
-      <Link to="/OrderList">
-        <Button colorScheme="blue" margin={3}>
-          View All Orders
-        </Button>
-      </Link>
+      <HStack justifyContent={"space-between"}>
+        <Link to="/OrderList">
+          <Button colorScheme="blue" margin={3}>
+            View All Orders
+          </Button>
+        </Link>
+        <Link to="/Menu">
+          <Button colorScheme="orange" margin={3}>
+            View Menu
+          </Button>
+        </Link>
+      </HStack>
 
       <SearchBar fullFoodList={fullFoodList} addToOrder={addToOrder} />
 
