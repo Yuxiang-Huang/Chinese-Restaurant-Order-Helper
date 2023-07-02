@@ -1,25 +1,17 @@
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
-import { Order, calculateTotalPrice } from "../../App";
+import { Order, calculateTotalPrice, FunctionsContext } from "../../App";
 import ModalTemplate from "../ModalTemplate";
+import { useContext } from "react";
 
 interface Props {
   order: Order;
-  updateCustomerDescription: (id: string, newDescription: string) => void;
-  pay: (id: string) => void;
-  edit: (order: Order) => void;
-  archive: (order: Order) => void;
-  unarchive: (order: Order) => void;
 }
 
-const OrderTopBar = ({
-  order,
-  updateCustomerDescription,
-  pay,
-  edit,
-  archive,
-  unarchive,
-}: Props) => {
+const OrderTopBar = ({ order }: Props) => {
   const customerDisclosure = useDisclosure();
+
+  const { updateCustomerDescription, edit, pay, archive, unarchive } =
+    useContext(FunctionsContext);
 
   return (
     <>

@@ -8,22 +8,9 @@ import OrderListDisplay from "./OrderListDisplay";
 interface Props {
   orderList: Order[];
   archivedOrderList: Order[];
-  updateCustomerDescription: (id: string, newDescription: string) => void;
-  pay: (id: string) => void;
-  edit: (order: Order) => void;
-  archive: (order: Order) => void;
-  unarchive: (order: Order) => void;
 }
 
-const OrderListPage = ({
-  orderList,
-  archivedOrderList,
-  updateCustomerDescription,
-  pay,
-  edit,
-  archive,
-  unarchive,
-}: Props) => {
+const OrderListPage = ({ orderList, archivedOrderList }: Props) => {
   const [archivedMode, setArchivedMode] = useState(false);
 
   return (
@@ -45,24 +32,10 @@ const OrderListPage = ({
           </Text>
         </HStack>
       </HStack>
-      <OrderListDisplay
-        orderList={orderList}
-        archived={false}
-        updateCustomerDescription={updateCustomerDescription}
-        pay={pay}
-        edit={edit}
-        archive={archive}
-        unarchive={unarchive}
-      />
-      <OrderListDisplay
-        orderList={archivedOrderList}
-        archived={true}
-        updateCustomerDescription={updateCustomerDescription}
-        pay={pay}
-        edit={edit}
-        archive={archive}
-        unarchive={unarchive}
-      />
+      <OrderListDisplay orderList={orderList} archived={false} />
+      {archivedMode && (
+        <OrderListDisplay orderList={archivedOrderList} archived={true} />
+      )}
     </>
   );
 };

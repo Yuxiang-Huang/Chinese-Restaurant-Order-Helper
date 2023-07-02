@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { Routes, Route } from "react-router";
 import { useNavigate } from "react-router-dom";
 import nextId from "react-id-generator";
@@ -16,6 +16,15 @@ export interface Order {
   paid: boolean;
   archived: boolean;
 }
+
+export const FunctionsContext = createContext({
+  updateCustomerDescription: (id: string, newDescription: string) => {},
+  pay: (id: string) => {},
+  edit: (orderToEdit: Order) => {},
+  archive: (orderToArchive: Order) => {},
+  unarchive: (orderToArchive: Order) => {},
+});
+//  pay: (id: string) => void; edit: (orderToEdit: Order) => void; archive: (orderToArchive: Order) => void; unarchive: (orderToArchive: Order) => void; }' is not assignable to type '() => void'.);
 
 const App = () => {
   //#region Initialization and Synchronization
@@ -129,6 +138,14 @@ const App = () => {
     setOrderList([...orderList, { ...orderToArchive, archived: false }]);
   };
 
+  const functionsNeeded = {
+    updateCustomerDescription,
+    pay,
+    edit,
+    archive,
+    unarchive,
+  };
+
   //#endregion
 
   return (
@@ -148,15 +165,12 @@ const App = () => {
       <Route
         path="/OrderList"
         element={
-          <OrderListPage
-            orderList={orderList}
-            archivedOrderList={archivedOrderList}
-            updateCustomerDescription={updateCustomerDescription}
-            pay={pay}
-            edit={edit}
-            archive={archive}
-            unarchive={unarchive}
-          />
+          <FunctionsContext.Provider value={functionsNeeded}>
+            <OrderListPage
+              orderList={orderList}
+              archivedOrderList={archivedOrderList}
+            />
+          </FunctionsContext.Provider>
         }
       />
       <Route path="/Menu" element={<MenuPage priceDict={priceDict} />} />
