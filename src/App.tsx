@@ -23,7 +23,13 @@ const App = () => {
 
   const [orderList, setOrderList] = useState<Order[]>([]);
   const [archivedOrderList, setArchivedOrderList] = useState<Order[]>([]);
-  const [order, setOrder] = useState<OrderItem[]>([]);
+  const [order, setOrder] = useState<Order>({
+    id: nextId(),
+    customerDescription: "Customer Name",
+    orderItemList: [],
+    paid: false,
+    archived: false,
+  });
 
   // order, order list, and archived order list  from session storage
   useEffect(() => {
@@ -53,20 +59,16 @@ const App = () => {
   //#endregion
 
   //#region Order List
-  const addToOrderList = (orderItemList: OrderItem[]) => {
-    setOrderList([
-      {
-        id: nextId(),
-        customerDescription: "Customer Name",
-        orderItemList: orderItemList,
-        paid: false,
-        archived: false,
-      },
-      ...orderList,
-    ]);
-    //clear order and go to order list page
-    setOrder([]);
-    storage.setItem("order", "[]");
+  const addToOrderList = (order: Order) => {
+    setOrderList([order, ...orderList]);
+    // clear order and go to order list page
+    setOrder({
+      id: nextId(),
+      customerDescription: "Customer Name",
+      orderItemList: [],
+      paid: false,
+      archived: false,
+    });
     navigate("/OrderList");
   };
   //#endregion
@@ -96,7 +98,7 @@ const App = () => {
     // delete this order from order list
     setOrderList(orderList.filter((order) => order.id !== orderToEdit.id));
     // set order to this order
-    setOrder(orderToEdit.orderItemList);
+    setOrder(orderToEdit);
   };
 
   const archive = (orderToArchive: Order) => {

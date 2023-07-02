@@ -5,16 +5,16 @@ import nextId from "react-id-generator";
 import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
 
-import { calculateTotalPrice } from "../App";
-import useFoodMenu, { OrderItem } from "../hooks/useFoodMenu";
+import { Order, calculateTotalPrice } from "../App";
+import useFoodMenu from "../hooks/useFoodMenu";
 import SearchBar from "./SearchBar";
 import OrderItemDisplay from "./OrderItemDisplay";
 
 interface Props {
   storage: Storage;
-  order: OrderItem[];
-  setOrder: React.Dispatch<React.SetStateAction<OrderItem[]>>;
-  addToOrderList: (order: OrderItem[]) => void;
+  order: Order;
+  setOrder: React.Dispatch<React.SetStateAction<Order>>;
+  addToOrderList: (order: Order) => void;
 }
 
 const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
@@ -36,17 +36,27 @@ const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
   // add food to order (called when a food button is clicked)
   const addToOrder = (foodName: string) => {
     const p = priceDict[foodName];
-    setOrder([...order, { id: nextId(), name: foodName, price: p }]);
+    setOrder(
+      produce((draft) => {
+        draft.orderItemList.push({ id: nextId(), name: foodName, price: p });
+      })
+    );
   };
 
   const deleteFromOrder = (id: string) => {
-    setOrder(order.filter((orderItem) => orderItem.id !== id));
+    setOrder(
+      produce((draft) => {
+        draft.orderItemList = draft.orderItemList.filter(
+          (orderItem) => orderItem.id !== id
+        );
+      })
+    );
   };
 
   const modifyPrice = (id: string, newPrice: number) => {
     setOrder(
       produce((draft) => {
-        const orderItemToChange = draft.find(
+        const orderItemToChange = draft.orderItemList.find(
           (orderItem) => orderItem.id === id
         );
         if (orderItemToChange) orderItemToChange.price = newPrice;
@@ -57,7 +67,7 @@ const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
   const modifyCustomization = (id: string, newCustomization: string) => {
     setOrder(
       produce((draft) => {
-        const orderItemToChange = draft.find(
+        const orderItemToChange = draft.orderItemList.find(
           (orderItem) => orderItem.id === id
         );
         if (orderItemToChange)
@@ -79,7 +89,7 @@ const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
       <SearchBar fullFoodList={fullFoodList} addToOrder={addToOrder} />
 
       <List spacing={3} margin={3}>
-        {order.map((orderItem, index) => (
+        {order.orderItemList.map((orderItem, index) => (
           <ListItem key={index}>
             <OrderItemDisplay
               orderItem={orderItem}
@@ -101,7 +111,7 @@ const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
           Add to Order List
         </Button>
         <Text margin={3} background={"yellow"} fontSize="xl">
-          {"Total: $" + calculateTotalPrice(order)}
+          {"Total: $" + calculateTotalPrice(order.orderItemList)}
         </Text>
       </HStack>
     </>
