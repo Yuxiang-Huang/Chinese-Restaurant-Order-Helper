@@ -29,15 +29,61 @@ const useFoodMenu = () => {
     "Chicken Nuggets (8)": 4.5,
   };
 
-  const mainType2Dict: { [key: string]: number[] } = {
-    "Chicken Broccoli": [7.5, 12.75],
-    "Beef Broccoli": [8, 14],
+  const mainType2NoMeatDict: { [key: string]: number[] } = {
+    " w. Broccoli": [7.5, 12.5],
+    " w. Mixed Veg": [7.5, 12.5],
+    " w. Mushrooms": [7.5, 12.5],
+    " w. Oyster Sauce": [7.5, 12.5],
+    " w. Garlic Sauce": [7.5, 12.5],
+    " w. Curry Sauce": [7.5, 12.5],
+    " w. Black bean Sauce": [7.5, 12.5],
+
+    " w. Pepper & Tomato": [8, 13.25],
   };
+
+  const meatTypeDict: { [key: string]: number[] } = {
+    "Roast Pork": [0, 0],
+    Chicken: [0, 0.25],
+    Beef: [0.5, 1.5],
+    Shrimp: [0.5, 1.5],
+  };
+
+  const mainType2Dict: { [key: string]: number[] } = {
+    Broccoli: [5.75, 9.75],
+    "Mix Veg": [6, 10],
+
+    "Plain Lobster Sauce": [5.5, 10],
+    "Shrimp w. Lobster Sauce": [8, 14],
+
+    "Sweet & Sour Pork": [7, 12.25],
+    "Sweet & Sour Chicken": [7, 12.25],
+    "Sweet & Sour Shrimp": [8, 14],
+    "Sweet & Sour Rib Tips": [8, 13.5],
+
+    "Hot & Spicy Pork": [7.5, 12.5],
+    "Hot & Spicy Chicken": [7.5, 12.75],
+    "Hot & Spicy Beef": [8, 14],
+    "Hot & Spicy Shrimp": [8, 14],
+
+    "General Tso's Chicken": [7.5, 13],
+    "Sesame Chicken": [7.75, 13.5],
+    "Orange Chicken": [8, 14],
+  };
+
+  Object.keys(mainType2NoMeatDict).map((mainKey) => {
+    Object.keys(meatTypeDict).map((meatKey) => {
+      mainType2Dict[meatKey + mainKey] = [
+        mainType2NoMeatDict[mainKey][0] + meatTypeDict[meatKey][0],
+        mainType2NoMeatDict[mainKey][1] + meatTypeDict[meatKey][1],
+      ];
+    });
+  });
 
   // small, large, with type0, with type 2
   const sideDict: { [key: string]: number[] } = {
     "French Fries": [2.75, 5, 2, 1.5],
 
+    "White Rice": [1.75, 3, 2, 0],
     "Fried Rice": [3.0, 5.5, 2, 0.75],
     "Vegetable Fried Rice": [4.5, 8, 2.75, 1.5],
     "Roast Pork Fried Rice": [4.75, 8.5, 2.75, 1.5],
@@ -71,7 +117,11 @@ const useFoodMenu = () => {
       togetherDict[mainKey + " with " + sideKey] =
         mainType1Dict[mainKey] +
         sideDict[sideKey][2] +
-        (sideKey === "Fried Rice" || sideKey === "French Fries" ? -0.25 : 0);
+        (sideKey === "Fried Rice" ||
+        sideKey === "French Fries" ||
+        sideKey === "White Rice"
+          ? -0.25
+          : 0);
     });
   });
 
@@ -99,6 +149,11 @@ const useFoodMenu = () => {
     "Fried Dumplings (8)": 7,
     "Steamed Dumplings (8)": 7,
     "Apple Stick (8)": 2.5,
+
+    "Pork Chop Sandwich (2)": 5.75,
+    "Whiting Fish Chop Sandwich (2)": 6,
+    "Chicken Leg Sandwich (2)": 5.75,
+    "Boneless Chicken Sandwich (2)": 6.25,
   };
 
   const soupDict: { [key: string]: number[] } = {
