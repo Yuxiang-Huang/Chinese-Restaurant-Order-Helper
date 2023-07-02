@@ -12,6 +12,7 @@ export interface Order {
   id: string;
   customerDescription: string;
   orderItemList: OrderItem[];
+  paid: boolean;
   archived: boolean;
 }
 
@@ -58,6 +59,7 @@ const App = () => {
         id: nextId(),
         customerDescription: "Customer Name",
         orderItemList: orderItemList,
+        paid: false,
         archived: false,
       },
       ...orderList,
@@ -75,6 +77,15 @@ const App = () => {
       produce((draft) => {
         const orderToChange = draft.find((orderItem) => orderItem.id === id);
         if (orderToChange) orderToChange.customerDescription = newDescription;
+      })
+    );
+  };
+
+  const pay = (id: string) => {
+    setOrderList(
+      produce((draft) => {
+        const orderToChange = draft.find((orderItem) => orderItem.id === id);
+        if (orderToChange) orderToChange.paid = !orderToChange.paid;
       })
     );
   };
@@ -129,6 +140,7 @@ const App = () => {
             orderList={orderList}
             archivedOrderList={archivedOrderList}
             updateCustomerDescription={updateCustomerDescription}
+            pay={pay}
             edit={edit}
             archive={archive}
             unarchive={unarchive}

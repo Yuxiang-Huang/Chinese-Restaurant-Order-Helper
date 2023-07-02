@@ -8,6 +8,7 @@ interface Props {
   orderList: Order[];
   archivedOrderList: Order[];
   updateCustomerDescription: (id: string, newDescription: string) => void;
+  pay: (id: string) => void;
   edit: (order: Order) => void;
   archive: (order: Order) => void;
   unarchive: (order: Order) => void;
@@ -17,6 +18,7 @@ const OrderListPage = ({
   orderList,
   archivedOrderList,
   updateCustomerDescription,
+  pay,
   edit,
   archive,
   unarchive,
@@ -34,6 +36,7 @@ const OrderListPage = ({
             <OrderTopBar
               order={order}
               updateCustomerDescription={updateCustomerDescription}
+              pay={pay}
               edit={edit}
               archive={archive}
               unarchive={unarchive}
@@ -65,6 +68,7 @@ const OrderListPage = ({
           >
             <OrderTopBar
               order={order}
+              pay={pay}
               updateCustomerDescription={updateCustomerDescription}
               edit={edit}
               archive={archive}

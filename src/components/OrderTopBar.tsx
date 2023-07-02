@@ -5,6 +5,7 @@ import ModalTemplate from "./ModalTemplate";
 interface Props {
   order: Order;
   updateCustomerDescription: (id: string, newDescription: string) => void;
+  pay: (id: string) => void;
   edit: (order: Order) => void;
   archive: (order: Order) => void;
   unarchive: (order: Order) => void;
@@ -13,6 +14,7 @@ interface Props {
 const OrderTopBar = ({
   order,
   updateCustomerDescription,
+  pay,
   edit,
   archive,
   unarchive,
@@ -42,8 +44,11 @@ const OrderTopBar = ({
           background={"yellow"}
           fontSize="xl"
           isDisabled={order.archived}
+          onClick={() => pay(order.id)}
         >
-          {"Pay: $" + calculateTotalPrice(order.orderItemList)}
+          {order.paid
+            ? "Paid"
+            : "Pay: $" + calculateTotalPrice(order.orderItemList)}
         </Button>
       </HStack>
 
