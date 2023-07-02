@@ -1,6 +1,6 @@
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
-import { Order, calculateTotalPrice } from "../App";
-import ModalTemplate from "./ModalTemplate";
+import { Order, calculateTotalPrice } from "../../App";
+import ModalTemplate from "../ModalTemplate";
 
 interface Props {
   order: Order;

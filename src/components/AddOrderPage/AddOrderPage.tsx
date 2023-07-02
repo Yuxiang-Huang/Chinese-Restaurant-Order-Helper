@@ -5,8 +5,8 @@ import nextId from "react-id-generator";
 import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
 
-import { Order, calculateTotalPrice } from "../App";
-import useFoodMenu from "../hooks/useFoodMenu";
+import { Order, calculateTotalPrice } from "../../App";
+import useFoodMenu from "../../hooks/useFoodMenu";
 import SearchBar from "./SearchBar";
 import OrderItemDisplay from "./OrderItemDisplay";
 

@@ -1,7 +1,7 @@
 import { Button, List, ListItem, HStack, Box, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Order } from "../App";
+import { Order } from "../../App";
 import OrderTopBar from "./OrderTopBar";
 
 interface Props {

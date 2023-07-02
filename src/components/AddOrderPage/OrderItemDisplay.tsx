@@ -1,6 +1,6 @@
 import { Button, HStack, useDisclosure, Text } from "@chakra-ui/react";
-import { OrderItem } from "../hooks/useFoodMenu";
-import ModalTemplate from "./ModalTemplate";
+import { OrderItem } from "../../hooks/useFoodMenu";
+import ModalTemplate from "../ModalTemplate";
 
 interface Props {
   orderItem: OrderItem;
