@@ -10,26 +10,28 @@ import {
   FormControl,
   Button,
   Input,
-  useDisclosure,
 } from "@chakra-ui/react";
 
-const PriceInputModal = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface Props {
+  header: string;
+  placeholder: string;
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+const ModalTemplate = ({ header, placeholder, isOpen, onClose }: Props) => {
   const priceRef = useRef(null);
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
       <Modal initialFocusRef={priceRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Unknown Price</ModalHeader>
+          <ModalHeader>{header}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <Input ref={priceRef} placeholder="Enter price of food..." />
+              <Input ref={priceRef} placeholder={placeholder} />
             </FormControl>
           </ModalBody>
 
@@ -44,4 +46,4 @@ const PriceInputModal = () => {
   );
 };
 
-export default PriceInputModal;
+export default ModalTemplate;

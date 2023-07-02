@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import PriceInputModal from "./PriceInputModal";
+// import ModalTemplate from "../hooks/ModalTemplate";
 
 interface Props {
   fullFoodList: string[];

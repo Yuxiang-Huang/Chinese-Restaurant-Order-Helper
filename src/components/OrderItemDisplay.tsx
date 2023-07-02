@@ -1,5 +1,6 @@
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { OrderItem } from "../hooks/useFoodMenu";
+import ModalTemplate from "./ModalTemplate";
 
 interface Props {
   orderItem: OrderItem;
@@ -7,11 +8,21 @@ interface Props {
 }
 
 const OrderItemDisplay = ({ orderItem, onDelete }: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <HStack justifyContent={"space-between"}>
       <Button>{orderItem.name}</Button>
       <div>
-        <Button margin={3}>{"$" + orderItem.price}</Button>
+        <ModalTemplate
+          header="Change Price"
+          placeholder="Enter new price..."
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+        <Button onClick={onOpen} margin={3}>
+          {"$" + orderItem.price}
+        </Button>
         <Button onClick={() => onDelete(orderItem.id)} colorScheme={"red"}>
           Delete
         </Button>
