@@ -1,6 +1,7 @@
 export interface OrderItem {
     id: string,
     name: string,
+    customization?: string,
     price: number
 }
 

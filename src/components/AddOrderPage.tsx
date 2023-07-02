@@ -54,6 +54,18 @@ const AddOrderPage = () => {
     );
   };
 
+  const modifyCustomization = (id: string, newCustomization: string) => {
+    setOrder(
+      produce((draft) => {
+        const orderItemToChange = draft.find(
+          (orderItem) => orderItem.id === id
+        );
+        if (orderItemToChange)
+          orderItemToChange.customization = newCustomization;
+      })
+    );
+  };
+
   // sync order wth session storage
   useEffect(() => {
     if (order.length > 0) storage.setItem("order", JSON.stringify(order));
@@ -77,6 +89,7 @@ const AddOrderPage = () => {
             <OrderItemDisplay
               orderItem={orderItem}
               onDelete={deleteFromOrder}
+              modifyCustomizationParent={modifyCustomization}
               modifyPriceParent={modifyPrice}
             />
           </ListItem>
