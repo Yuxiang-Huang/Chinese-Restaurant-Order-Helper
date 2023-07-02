@@ -22,7 +22,7 @@ const OrderListPage = ({ orderList, updateCustomerDescription }: Props) => {
           <Box border={"2px"} marginBottom={10} key={order.id}>
             <OrderTopBar
               order={order}
-              updateCustomerDescriptionParent={updateCustomerDescription}
+              updateCustomerDescription={updateCustomerDescription}
             />
             {order.orderItemList.map((orderItem) => (
               <ListItem key={orderItem.id}>

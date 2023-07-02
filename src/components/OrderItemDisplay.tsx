@@ -5,32 +5,29 @@ import ModalTemplate from "./ModalTemplate";
 interface Props {
   orderItem: OrderItem;
   onDelete: (id: string) => void;
-  modifyCustomizationParent: (id: string, customization: string) => void;
-  modifyPriceParent: (id: string, price: number) => void;
+  modifyCustomization: (id: string, customization: string) => void;
+  modifyPriceString: (id: string, price: number) => void;
 }
 
 const OrderItemDisplay = ({
   orderItem,
   onDelete,
-  modifyCustomizationParent,
-  modifyPriceParent,
+  modifyCustomization,
+  modifyPriceString,
 }: Props) => {
   const customizationDisclosure = useDisclosure();
   const priceDisclosure = useDisclosure();
 
-  const modifyPrice = (price: string) => {
+  const modifyPrice = (id: string, price: string) => {
     // convert to float
     const newPrice = parseFloat(price);
-    if (!isNaN(newPrice)) modifyPriceParent(orderItem.id, newPrice);
-  };
-
-  const modifyCustomization = (customization: string) => {
-    modifyCustomizationParent(orderItem.id, customization);
+    if (!isNaN(newPrice)) modifyPriceString(id, newPrice);
   };
 
   return (
     <HStack justifyContent={"space-between"}>
       <ModalTemplate
+        id={orderItem.id}
         header="Add Customization"
         placeholder="Enter new customization..."
         isOpen={customizationDisclosure.isOpen}
@@ -45,6 +42,7 @@ const OrderItemDisplay = ({
       </HStack>
       <div>
         <ModalTemplate
+          id={orderItem.id}
           header="Change Price"
           placeholder="Enter new price..."
           isOpen={priceDisclosure.isOpen}

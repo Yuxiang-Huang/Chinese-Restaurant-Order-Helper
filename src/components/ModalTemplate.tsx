@@ -13,14 +13,16 @@ import {
 } from "@chakra-ui/react";
 
 interface Props {
+  id: string;
   header: string;
   placeholder: string;
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (str: string) => void;
+  onEnter: (id: string, str: string) => void;
 }
 
 const ModalTemplate = ({
+  id,
   header,
   placeholder,
   isOpen,
@@ -47,7 +49,7 @@ const ModalTemplate = ({
               colorScheme="blue"
               mr={3}
               onClick={() => {
-                onEnter(ref.current === null ? "" : ref.current.value);
+                onEnter(id, ref.current === null ? "" : ref.current.value);
                 onClose();
               }}
             >

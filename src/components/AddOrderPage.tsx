@@ -103,8 +103,8 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
             <OrderItemDisplay
               orderItem={orderItem}
               onDelete={deleteFromOrder}
-              modifyCustomizationParent={modifyCustomization}
-              modifyPriceParent={modifyPrice}
+              modifyCustomization={modifyCustomization}
+              modifyPriceString={modifyPrice}
             />
           </ListItem>
         ))}

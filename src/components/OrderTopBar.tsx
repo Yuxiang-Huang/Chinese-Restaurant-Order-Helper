@@ -4,19 +4,16 @@ import ModalTemplate from "./ModalTemplate";
 
 interface Props {
   order: Order;
-  updateCustomerDescriptionParent: (id: string, newDescription: string) => void;
+  updateCustomerDescription: (id: string, newDescription: string) => void;
 }
 
-const OrderTopBar = ({ order, updateCustomerDescriptionParent }: Props) => {
+const OrderTopBar = ({ order, updateCustomerDescription }: Props) => {
   const customerDisclosure = useDisclosure();
-
-  const updateCustomerDescription = (newDescription: string) => {
-    updateCustomerDescriptionParent(order.id, newDescription);
-  };
 
   return (
     <HStack justifyContent={"space-between"}>
       <ModalTemplate
+        id={order.id}
         header="Customer"
         placeholder="Enter customer description"
         isOpen={customerDisclosure.isOpen}
