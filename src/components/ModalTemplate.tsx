@@ -17,26 +17,41 @@ interface Props {
   placeholder: string;
   isOpen: boolean;
   onClose: () => void;
+  onEnter: (price: number) => void;
 }
 
-const ModalTemplate = ({ header, placeholder, isOpen, onClose }: Props) => {
-  const priceRef = useRef(null);
+const ModalTemplate = ({
+  header,
+  placeholder,
+  isOpen,
+  onClose,
+  onEnter,
+}: Props) => {
+  const ref = useRef<HTMLInputElement>(null);
 
   return (
     <>
-      <Modal initialFocusRef={priceRef} isOpen={isOpen} onClose={onClose}>
+      <Modal initialFocusRef={ref} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{header}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <Input ref={priceRef} placeholder={placeholder} />
+              <Input ref={ref} placeholder={placeholder} />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() =>
+                onEnter(
+                  ref.current === null ? -1 : parseFloat(ref.current.value)
+                )
+              }
+            >
               Enter
             </Button>
           </ModalFooter>

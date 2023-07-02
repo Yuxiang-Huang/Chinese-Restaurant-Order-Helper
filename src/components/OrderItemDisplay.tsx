@@ -5,10 +5,15 @@ import ModalTemplate from "./ModalTemplate";
 interface Props {
   orderItem: OrderItem;
   onDelete: (id: string) => void;
+  modifyPrice: (id: string, price: number) => void;
 }
 
-const OrderItemDisplay = ({ orderItem, onDelete }: Props) => {
+const OrderItemDisplay = ({ orderItem, onDelete, modifyPrice }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const onEnter = (price: number) => {
+    modifyPrice(orderItem.id, price);
+  };
 
   return (
     <HStack justifyContent={"space-between"}>
@@ -19,6 +24,7 @@ const OrderItemDisplay = ({ orderItem, onDelete }: Props) => {
           placeholder="Enter new price..."
           isOpen={isOpen}
           onClose={onClose}
+          onEnter={onEnter}
         />
         <Button onClick={onOpen} margin={3}>
           {"$" + orderItem.price}

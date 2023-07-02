@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import nextId from "react-id-generator";
 
 import { List, ListItem, Button } from "@chakra-ui/react";
-// import { produce } from "immer";
+import { produce } from "immer";
 
 import SearchBar from "./SearchBar";
 import useFoodMenu, { OrderItem } from "../hooks/useFoodMenu";
@@ -43,6 +43,17 @@ const AddOrderPage = () => {
     setOrder(order.filter((orderItem) => orderItem.id !== id));
   };
 
+  const modifyPrice = (id: string, newPrice: number) => {
+    setOrder(
+      produce((draft) => {
+        const orderItemToChange = draft.find(
+          (orderItem) => orderItem.id === id
+        );
+        if (orderItemToChange) orderItemToChange.price = newPrice;
+      })
+    );
+  };
+
   // sync order wth session storage
   useEffect(() => {
     if (order.length > 0) storage.setItem("order", JSON.stringify(order));
@@ -66,6 +77,7 @@ const AddOrderPage = () => {
             <OrderItemDisplay
               orderItem={orderItem}
               onDelete={deleteFromOrder}
+              modifyPrice={modifyPrice}
             />
           </ListItem>
         ))}
