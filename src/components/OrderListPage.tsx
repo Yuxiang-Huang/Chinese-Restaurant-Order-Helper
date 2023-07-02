@@ -6,14 +6,18 @@ import OrderTopBar from "./OrderTopBar";
 
 interface Props {
   orderList: Order[];
+  archivedOrderList: Order[];
   updateCustomerDescription: (id: string, newDescription: string) => void;
   edit: (order: Order) => void;
+  archive: (order: Order) => void;
 }
 
 const OrderListPage = ({
   orderList,
+  archivedOrderList,
   updateCustomerDescription,
   edit,
+  archive,
 }: Props) => {
   return (
     <>
@@ -29,6 +33,38 @@ const OrderListPage = ({
               order={order}
               updateCustomerDescription={updateCustomerDescription}
               edit={edit}
+              archive={archive}
+            />
+            {order.orderItemList.map((orderItem) => (
+              <ListItem key={orderItem.id}>
+                <HStack justifyContent={"space-between"}>
+                  <HStack>
+                    <Box margin={3}>{orderItem.name}</Box>
+                    <Text fontSize="xs">{orderItem.customization}</Text>
+                  </HStack>
+                  <HStack>
+                    <Box margin={3}>{"$" + orderItem.price}</Box>
+                  </HStack>
+                </HStack>
+              </ListItem>
+            ))}
+          </Box>
+        ))}
+      </List>
+
+      <List spacing={3} margin={3}>
+        {archivedOrderList.map((order) => (
+          <Box
+            border={"2px"}
+            marginBottom={10}
+            key={order.id}
+            background={"gray"}
+          >
+            <OrderTopBar
+              order={order}
+              updateCustomerDescription={updateCustomerDescription}
+              edit={edit}
+              archive={archive}
             />
             {order.orderItemList.map((orderItem) => (
               <ListItem key={orderItem.id}>

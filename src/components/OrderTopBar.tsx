@@ -6,9 +6,15 @@ interface Props {
   order: Order;
   updateCustomerDescription: (id: string, newDescription: string) => void;
   edit: (order: Order) => void;
+  archive: (order: Order) => void;
 }
 
-const OrderTopBar = ({ order, updateCustomerDescription, edit }: Props) => {
+const OrderTopBar = ({
+  order,
+  updateCustomerDescription,
+  edit,
+  archive,
+}: Props) => {
   const customerDisclosure = useDisclosure();
 
   return (
@@ -34,7 +40,7 @@ const OrderTopBar = ({ order, updateCustomerDescription, edit }: Props) => {
         <Button margin={3} colorScheme={"green"} onClick={() => edit(order)}>
           Edit
         </Button>
-        <Button margin={3} colorScheme="red">
+        <Button margin={3} colorScheme="red" onClick={() => archive(order)}>
           Archive
         </Button>
       </HStack>

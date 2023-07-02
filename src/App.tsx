@@ -12,6 +12,7 @@ export interface Order {
   id: string;
   customerDescription: string;
   orderItemList: OrderItem[];
+  archived: boolean;
 }
 
 const App = () => {
@@ -20,14 +21,17 @@ const App = () => {
   const storage = window.sessionStorage;
 
   const [orderList, setOrderList] = useState<Order[]>([]);
+  const [archivedOrderList, setArchivedOrderList] = useState<Order[]>([]);
   const [order, setOrder] = useState<OrderItem[]>([]);
 
-  // order and order list from session storage
+  // order, order list, and archived order list  from session storage
   useEffect(() => {
     let rawValue = storage.getItem("order list");
     if (rawValue) setOrderList(JSON.parse(rawValue));
     rawValue = storage.getItem("order");
     if (rawValue) setOrder(JSON.parse(rawValue));
+    rawValue = storage.getItem("archived order list");
+    if (rawValue) setArchivedOrderList(JSON.parse(rawValue));
   }, []);
 
   // sync order list wth session storage
@@ -41,6 +45,12 @@ const App = () => {
     if (order.length > 0) storage.setItem("order", JSON.stringify(order));
   }, [order]);
 
+  // sync archived order list wth session storage
+  useEffect(() => {
+    if (archivedOrderList.length > 0)
+      storage.setItem("archived order list", JSON.stringify(archivedOrderList));
+  }, [order]);
+
   //#endregion
 
   //#region Order List
@@ -51,6 +61,7 @@ const App = () => {
         id: nextId(),
         customerDescription: "Customer Name",
         orderItemList: orderItemList,
+        archived: false,
       },
     ]);
     //clear order and go to order list page
@@ -78,6 +89,16 @@ const App = () => {
     // set order to this order
     setOrder(orderToEdit.orderItemList);
   };
+
+  const archive = (orderToEdit: Order) => {
+    // delete this order from order list
+    setOrderList(orderList.filter((order) => order.id !== orderToEdit.id));
+    // set this order to be archieved
+    orderToEdit.archived = true;
+    // add this order to archive order list
+    setArchivedOrderList([...archivedOrderList, orderToEdit]);
+  };
+
   //#endregion
 
   return (
@@ -97,8 +118,10 @@ const App = () => {
         element={
           <OrderListPage
             orderList={orderList}
+            archivedOrderList={archivedOrderList}
             updateCustomerDescription={updateCustomerDescription}
             edit={edit}
+            archive={archive}
           />
         }
       />
