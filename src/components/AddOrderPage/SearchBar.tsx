@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
+import { useDrag } from "@use-gesture/react";
 import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-// import ModalTemplate from "../hooks/ModalTemplate";
 
 interface Props {
   fullFoodList: string[];
@@ -11,6 +11,19 @@ interface Props {
 const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
   const searchTextRef = useRef<HTMLInputElement>(null);
   const [highlightedFoodName, setHighlightedFoodName] = useState("");
+  const [dragging, setDragging] = useState(false);
+
+  const [startingIndex, setStartingIndex] = useState(0);
+
+  const bind = useDrag(({ down, movement: [my] }) => {
+    const yChange = down ? my : 0;
+    if (yChange > 0) {
+      setStartingIndex(Math.min(startingIndex + 1, foodList.length - 5));
+    } else if (yChange < 0) {
+      setStartingIndex(Math.max(0, startingIndex - 1));
+    }
+    setDragging(true);
+  });
 
   //#region food list
   const [foodList, setFoodList] = useState<string[]>([]);
@@ -38,6 +51,10 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
         setFoodList([]);
       }
 
+      // reset starting index
+      setStartingIndex(0);
+
+      // set highlight
       if (
         !(
           SatisfySearchBarRequirement(
@@ -66,7 +83,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
   //#endregion
 
   return (
-    <>
+    <div {...bind()} style={{ touchAction: "none" }}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -92,12 +109,14 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           />
         </InputGroup>
       </form>
-      {foodList.slice(0, 5).map((food, index) => (
+      {foodList.slice(startingIndex, startingIndex + 5).map((food, index) => (
         <Button
           style={{ width: "100%" }}
           justifyContent={"space-between"}
           key={index}
-          onClick={(event) => handleClick(event.currentTarget.innerHTML)}
+          onClick={(event) =>
+            !dragging && handleClick(event.currentTarget.innerHTML)
+          }
           _hover={{ bg: "Highlight" }}
           background={
             food === highlightedFoodName ||
@@ -112,7 +131,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           {food}
         </Button>
       ))}
-    </>
+    </div>
   );
 };
 
