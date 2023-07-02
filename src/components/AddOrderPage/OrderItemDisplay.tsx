@@ -45,7 +45,7 @@ const OrderItemDisplay = ({
   };
 
   return (
-    <Box border={"2px"} margin={1}>
+    <Box border={"2px"} margin={1} marginTop={5}>
       <HStack justifyContent={"space-between"} margin={2}>
         <ModalTemplate
           id={orderItem.id}
