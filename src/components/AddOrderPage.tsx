@@ -9,9 +9,12 @@ import { produce } from "immer";
 import SearchBar from "./SearchBar";
 import useFoodMenu, { OrderItem } from "../hooks/useFoodMenu";
 import OrderItemDisplay from "./OrderItemDisplay";
-import { size } from "lodash";
 
-const AddOrderPage = () => {
+interface Props {
+  addToOrderList: (order: OrderItem[]) => void;
+}
+
+const AddOrderPage = ({ addToOrderList }: Props) => {
   //#region Initial Declaration
   const storage = window.sessionStorage;
 
@@ -97,7 +100,12 @@ const AddOrderPage = () => {
         ))}
       </List>
       <HStack justifyContent={"space-between"}>
-        <Button colorScheme="green" margin={3} marginTop={10}>
+        <Button
+          colorScheme="green"
+          margin={3}
+          marginTop={10}
+          onClick={() => addToOrderList(order)}
+        >
           Add to Order List
         </Button>
         <Text margin={3} background={"yellow"} fontSize="xl">
