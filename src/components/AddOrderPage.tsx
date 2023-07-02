@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import nextId from "react-id-generator";
 
 import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
 
-import SearchBar from "./SearchBar";
+import { calculateTotalPrice } from "../App";
 import useFoodMenu, { OrderItem } from "../hooks/useFoodMenu";
+import SearchBar from "./SearchBar";
 import OrderItemDisplay from "./OrderItemDisplay";
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 
 const AddOrderPage = ({ addToOrderList }: Props) => {
   //#region Initial Declaration
+  const navigate = useNavigate();
   const storage = window.sessionStorage;
 
   const [fullFoodList, setFullFoodList] = useState<string[]>([]);
@@ -72,7 +74,7 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
 
   // sync order wth session storage
   useEffect(() => {
-    storage.setItem("order", JSON.stringify(order));
+    if (order.length > 0) storage.setItem("order", JSON.stringify(order));
   }, [order]);
 
   //#endregion
@@ -81,6 +83,8 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
     addToOrderList(orderItemList);
     // clear order and go to order list page
     setOrder([]);
+    storage.setItem("order", "[]");
+    navigate("/OrderList");
   };
 
   return (
@@ -121,12 +125,6 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
       </HStack>
     </>
   );
-};
-
-const calculateTotalPrice = (order: OrderItem[]) => {
-  let total = 0;
-  order.map((OrderItem) => (total += OrderItem.price));
-  return total;
 };
 
 export default AddOrderPage;

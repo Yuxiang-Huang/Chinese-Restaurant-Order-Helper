@@ -49,4 +49,10 @@ const App = () => {
   );
 };
 
+export const calculateTotalPrice = (order: OrderItem[]) => {
+  let total = 0;
+  order.map((OrderItem) => (total += OrderItem.price));
+  return total;
+};
+
 export default App;
