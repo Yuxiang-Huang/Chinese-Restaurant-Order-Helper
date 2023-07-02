@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router";
+import nextId from "react-id-generator";
 import AddOrderPage from "./components/AddOrderPage";
 import OrderListPage from "./components/OrderListPage";
 import { OrderItem } from "./hooks/useFoodMenu";
 import "./index.css";
 
 export interface Order {
+  id: string;
   orderItemList: OrderItem[];
 }
 
@@ -27,7 +29,10 @@ const App = () => {
   }, [orderList]);
 
   const addToOrderList = (orderItemList: OrderItem[]) => {
-    setOrderList([...orderList, { orderItemList: orderItemList }]);
+    setOrderList([
+      ...orderList,
+      { id: nextId(), orderItemList: orderItemList },
+    ]);
   };
 
   return (

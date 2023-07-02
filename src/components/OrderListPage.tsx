@@ -17,9 +17,9 @@ const OrderListPage = ({ orderList }: Props) => {
       </Link>
       <List spacing={3} margin={3}>
         {orderList.map((order) => (
-          <Box border={"2px"} marginBottom={10}>
-            {order.orderItemList.map((orderItem, index) => (
-              <ListItem key={index}>
+          <Box border={"2px"} marginBottom={10} key={order.id}>
+            {order.orderItemList.map((orderItem) => (
+              <ListItem key={orderItem.id}>
                 <HStack justifyContent={"space-between"}>
                   <HStack>
                     <Box>{orderItem.name}</Box>
@@ -27,7 +27,6 @@ const OrderListPage = ({ orderList }: Props) => {
                   </HStack>
                   <HStack>
                     <Box margin={3}>{"$" + orderItem.price}</Box>
-                    <Button colorScheme="red">Edit</Button>
                   </HStack>
                 </HStack>
               </ListItem>

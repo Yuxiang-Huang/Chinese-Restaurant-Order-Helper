@@ -72,10 +72,16 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
 
   // sync order wth session storage
   useEffect(() => {
-    if (order.length > 0) storage.setItem("order", JSON.stringify(order));
+    storage.setItem("order", JSON.stringify(order));
   }, [order]);
 
   //#endregion
+
+  const handlAddToOrderList = (orderItemList: OrderItem[]) => {
+    addToOrderList(orderItemList);
+    // clear order and go to order list page
+    setOrder([]);
+  };
 
   return (
     <>
@@ -105,7 +111,7 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
           colorScheme="green"
           margin={3}
           marginTop={10}
-          onClick={() => addToOrderList(order)}
+          onClick={() => handlAddToOrderList(order)}
         >
           Add to Order List
         </Button>
