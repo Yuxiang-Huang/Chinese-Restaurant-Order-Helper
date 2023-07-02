@@ -21,8 +21,16 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
       const searchText = searchTextRef.current.value;
       if (searchText) {
         setFoodList(
-          fullFoodList.filter((food) =>
-            SatisfySearchBarRequirement(food, searchText)
+          fullFoodList.filter(
+            (foodName) =>
+              SatisfySearchBarRequirement(
+                foodName.toLowerCase().split(" "),
+                searchText.toLowerCase().split(" ")
+              ) ||
+              SatisfySearchBarRequirement(
+                foodName.toLowerCase().split(" "),
+                searchText.toLowerCase().split("")
+              )
           )
         );
       } else {
@@ -95,13 +103,9 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
 
 // use to check if a food name satisfy the search requirement
 export const SatisfySearchBarRequirement = (
-  foodName: string,
-  searchText: string
+  foodNameList: string[],
+  searchTextList: string[]
 ) => {
-  // break text to list of words
-  const foodNameList = foodName.toLowerCase().split(" ");
-  const searchTextList = searchText.toLowerCase().split(" ");
-
   // has less words than needed
   if (searchTextList.length > foodNameList.length) return false;
 

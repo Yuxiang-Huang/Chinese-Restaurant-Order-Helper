@@ -9,10 +9,24 @@ export interface OrderItem {
 const useFoodMenu = () => {
   const mainType0Dict: { [key: string]: number } = {
     "Fried Chicken Wings": 6,
+    "Fried Half Chicken": 6.5,
+    "Chicken Wings w. Garlic Sauce": 6,
+    "Bar-B-Q Wing": 6.5,
+    "Honey Wing": 6.5,
+    "Fried Whiting Fish (4)": 5.5,
   };
 
   const mainType1Dict: { [key: string]: number } = {
-    "Fried Scallops": 4.5,
+    "Fried Scallops (8)": 4.5,
+    "Chicken Gizzards": 4.75,
+    "Chicken Liver": 4.75,
+    "Fried Boneless Chicken": 5.75,
+    "Boneless Spare Ribs": 6.75,
+    "Spare Rib Tips": 5.25,
+    "Fried Pork Chop (2)": 5.25,
+    "Fried Crab Sticks (8)": 4.5,
+    "Fried Shrimp (20)": 5.75,
+    "Chicken Nuggets (8)": 4.5,
   };
 
   const mainType2Dict: { [key: string]: number[] } = {
@@ -20,9 +34,25 @@ const useFoodMenu = () => {
     "Beef Broccoli": [8, 14],
   };
 
+  // small, large, with type0, with type 2
   const sideDict: { [key: string]: number[] } = {
-    "Fried Rice": [3.0, 5.5, 2, 1.75, 0.75],
-    "Chicken Fried Rice": [4.75, 8.5, 2.75, 2.75, 1.5],
+    "French Fries": [2.75, 5, 2, 1.5],
+
+    "Fried Rice": [3.0, 5.5, 2, 0.75],
+    "Vegetable Fried Rice": [4.5, 8, 2.75, 1.5],
+    "Roast Pork Fried Rice": [4.75, 8.5, 2.75, 1.5],
+    "Chicken Fried Rice": [4.75, 8.5, 2.75, 1.5],
+    "Beef Fried Rice": [5.5, 9.5, 3.25, 2],
+    "Shrimp Fried Rice": [5.5, 9.5, 3.25, 2],
+    "House Special Fried Rice": [6.5, 11, 5.5, 5],
+
+    "Lo Mein": [5, 8, 4, 3.5],
+    "Vegetable Lo Mein": [5.5, 9.25, 5.25, 4.5],
+    "Roast Pork Lo Mein": [5.75, 10, 5.25, 4.5],
+    "Chicken Lo Mein": [5.75, 10, 5.25, 4.5],
+    "Beef Lo Mein": [6.5, 10.75, 6, 5.25],
+    "Shrimp Lo Mein": [6.5, 10.75, 6, 5.25],
+    "House Special Lo Mein": [7.5, 12, 7, 6],
   };
 
   const togetherDict: { [key: string]: number } = {};
@@ -39,22 +69,65 @@ const useFoodMenu = () => {
     togetherDict[mainKey] = mainType1Dict[mainKey];
     Object.keys(sideDict).map((sideKey) => {
       togetherDict[mainKey + " with " + sideKey] =
-        mainType1Dict[mainKey] + sideDict[sideKey][3];
+        mainType1Dict[mainKey] +
+        sideDict[sideKey][2] +
+        (sideKey === "Fried Rice" || sideKey === "French Fries" ? -0.25 : 0);
     });
   });
 
   Object.keys(mainType2Dict).map((mainKey) => {
-    togetherDict["Small" + mainKey] = mainType2Dict[mainKey][0];
-    togetherDict["Large" + mainKey] = mainType2Dict[mainKey][1];
+    togetherDict["Small " + mainKey] = mainType2Dict[mainKey][0];
+    togetherDict["Large " + mainKey] = mainType2Dict[mainKey][1];
     Object.keys(sideDict).map((sideKey) => {
       togetherDict[mainKey + " with " + sideKey] =
-        mainType2Dict[mainKey][0] + sideDict[sideKey][4];
+        mainType2Dict[mainKey][0] + sideDict[sideKey][3];
     });
+  });
+
+  Object.keys(sideDict).map((sideKey) => {
+    togetherDict["Small " + sideKey] = sideDict[sideKey][0];
+    togetherDict["Large " + sideKey] = sideDict[sideKey][1];
+  });
+
+  const indivDict: { [key: string]: number } = {
+    "Shrimp Egg Roll": 1.5,
+    "Egg Roll": 1.5,
+    "Spring Roll": 2.25,
+    "Fried Wonton (6)": 2.75,
+    "Fried Wonton (12)": 4.75,
+    "Onion Rings (10)": 2.5,
+    "Fried Dumplings (8)": 7,
+    "Steamed Dumplings (8)": 7,
+    "Apple Stick (8)": 2.5,
+  };
+
+  const soupDict: { [key: string]: number[] } = {
+    "Wonton Mix Egg Drop Soup": [3.75, 6],
+    "Wonton Soup": [2.75, 4.75],
+    "Egg Drop Soup": [2.75, 4.75],
+    "Chicken w. Noodles Soup": [2.75, 4.75],
+    "Chicken w. Rice Soup": [2.75, 4.75],
+    "House Special Wonton Soup": [7.5],
+    "Roast Pork Yat Gaw Mein": [6.5],
+    "Chicken Yat Gaw Mein": [6.5],
+    "Beef Yat Gaw Mein": [6.75],
+    "Shrimp Yat Gaw Mein": [6.75],
+    "House Special Yat Gaw Mein": [7.5],
+    "Hot & Sour Soup": [3.5, 6],
+  };
+
+  Object.keys(soupDict).map((soupKey) => {
+    if (soupDict[soupKey].length > 1) {
+      indivDict["Small " + soupKey] = soupDict[soupKey][0];
+      indivDict["Large " + soupKey] = soupDict[soupKey][1];
+    } else {
+      indivDict["Large " + soupKey] = soupDict[soupKey][0];
+    }
   });
 
   const comboDict: { [key: string]: number } = {
     "Chicken Chow Mein Combo": 8.25,
-    "Pork Chow Mein Combo": 8.25,
+    "Roast Pork Chow Mein Combo": 8.25,
     "Shrimp Chow Mein Combo": 8.5,
     "Beef Chow Mein Combo": 8.5,
     "Spare Ribs Combo": 11.0,
@@ -75,7 +148,7 @@ const useFoodMenu = () => {
     "Shrimp Egg Foo Young Combo": 10.0,
   };
 
-  const priceDict = { ...togetherDict, ...comboDict };
+  const priceDict = { ...togetherDict, ...indivDict, ...comboDict };
 
   const foodList = Object.keys(priceDict);
 
