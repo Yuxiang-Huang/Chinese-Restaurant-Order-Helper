@@ -69,7 +69,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           />
         </InputGroup>
       </form>
-      {foodList.map((food, index) => (
+      {foodList.slice(0, 5).map((food, index) => (
         <Button
           style={{ width: "100%" }}
           justifyContent={"space-between"}
