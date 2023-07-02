@@ -5,13 +5,16 @@ import AddOrderPage from "./components/AddOrderPage";
 import OrderListPage from "./components/OrderListPage";
 import { OrderItem } from "./hooks/useFoodMenu";
 import "./index.css";
+import { produce } from "immer";
 
 export interface Order {
   id: string;
+  customerDescription: string;
   orderItemList: OrderItem[];
 }
 
 const App = () => {
+  //#region Order List
   const storage = window.sessionStorage;
 
   const [orderList, setOrderList] = useState<Order[]>([]);
@@ -31,9 +34,23 @@ const App = () => {
   const addToOrderList = (orderItemList: OrderItem[]) => {
     setOrderList([
       ...orderList,
-      { id: nextId(), orderItemList: orderItemList },
+      {
+        id: nextId(),
+        customerDescription: "Customer Name",
+        orderItemList: orderItemList,
+      },
     ]);
   };
+
+  const updateCustomerDescription = (id: string, newDescription: string) => {
+    setOrderList(
+      produce((draft) => {
+        const orderToChange = draft.find((orderItem) => orderItem.id === id);
+        if (orderToChange) orderToChange.customerDescription = newDescription;
+      })
+    );
+  };
+  //#endregion
 
   return (
     <Routes>
@@ -43,7 +60,12 @@ const App = () => {
       />
       <Route
         path="/OrderList"
-        element={<OrderListPage orderList={orderList} />}
+        element={
+          <OrderListPage
+            orderList={orderList}
+            updateCustomerDescription={updateCustomerDescription}
+          />
+        }
       />
     </Routes>
   );

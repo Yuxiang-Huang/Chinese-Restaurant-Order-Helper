@@ -1,13 +1,15 @@
 import { Button, List, ListItem, HStack, Box, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Order, calculateTotalPrice } from "../App";
+import { Order } from "../App";
+import OrderTopBar from "./OrderTopBar";
 
 interface Props {
   orderList: Order[];
+  updateCustomerDescription: (id: string, newDescription: string) => void;
 }
 
-const OrderListPage = ({ orderList }: Props) => {
+const OrderListPage = ({ orderList, updateCustomerDescription }: Props) => {
   return (
     <>
       <Link to="/">
@@ -18,12 +20,10 @@ const OrderListPage = ({ orderList }: Props) => {
       <List spacing={3} margin={3}>
         {orderList.map((order) => (
           <Box border={"2px"} marginBottom={10} key={order.id}>
-            <HStack justifyContent={"space-between"}>
-              <Button margin={3}>Customer Name</Button>
-              <Button margin={3} background={"yellow"} fontSize="xl">
-                {"Pay: $" + calculateTotalPrice(order.orderItemList)}
-              </Button>
-            </HStack>
+            <OrderTopBar
+              order={order}
+              updateCustomerDescriptionParent={updateCustomerDescription}
+            />
             {order.orderItemList.map((orderItem) => (
               <ListItem key={orderItem.id}>
                 <HStack justifyContent={"space-between"}>
