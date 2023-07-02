@@ -68,6 +68,14 @@ const useFoodMenu = () => {
     "General Tso's Chicken": [7.5, 13],
     "Sesame Chicken": [7.75, 13.5],
     "Orange Chicken": [8, 14],
+
+    "Vegetable Egg Foo Young": [8.5],
+    "Roast Pork Egg Foo Young": [8.75],
+    "Chicken Egg Foo Young": [8.75],
+    "Beef Egg Foo Young": [9.5],
+    "Shrimp Egg Foo Young": [9.5],
+    "Lobster Egg Foo Young": [11],
+    "Crab Meat Egg Foo Young": [9],
   };
 
   Object.keys(mainType2NoMeatDict).map((mainKey) => {
@@ -126,8 +134,13 @@ const useFoodMenu = () => {
   });
 
   Object.keys(mainType2Dict).map((mainKey) => {
-    togetherDict["Small " + mainKey] = mainType2Dict[mainKey][0];
-    togetherDict["Large " + mainKey] = mainType2Dict[mainKey][1];
+    const priceList = mainType2Dict[mainKey];
+    if (priceList.length > 1) {
+      togetherDict["Small " + mainKey] = priceList[0];
+      togetherDict["Large " + mainKey] = priceList[1];
+    } else {
+      togetherDict[mainKey] = priceList[0];
+    }
     Object.keys(sideDict).map((sideKey) => {
       togetherDict[mainKey + " with " + sideKey] =
         mainType2Dict[mainKey][0] + sideDict[sideKey][3];
@@ -154,6 +167,24 @@ const useFoodMenu = () => {
     "Whiting Fish Chop Sandwich (2)": 6,
     "Chicken Leg Sandwich (2)": 5.75,
     "Boneless Chicken Sandwich (2)": 6.25,
+
+    "Small Vegetable Chow Mei Fun": 6,
+    "Large Vegetable Chow Mei Fun": 10,
+
+    "Small Roast Pork Chow Mei Fun": 6.25,
+    "Large Roast Pork Chow Mei Fun": 10.5,
+
+    "Small Chicken Chow Mei Fun": 6.25,
+    "Large Chicken Chow Mei Fun": 10.5,
+
+    "Small Beef Chow Mei Fun": 7,
+    "Large Beef Chow Mei Fun": 11,
+
+    "Small Shrimp Chow Mei Fun": 7,
+    "Large Shrimp Chow Mei Fun": 11,
+
+    "Small House Special Chow Mei Fun": 7.75,
+    "Large House Special Chow Mei Fun": 12,
   };
 
   const soupDict: { [key: string]: number[] } = {
