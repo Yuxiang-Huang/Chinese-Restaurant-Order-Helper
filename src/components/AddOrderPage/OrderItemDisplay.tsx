@@ -19,7 +19,8 @@ const OrderItemDisplay = ({
   modifyCustomization,
   modifyPriceString,
 }: Props) => {
-  const customizationDisclosure = useDisclosure();
+  const mainCustomizationDisclosure = useDisclosure();
+  const sideCustomizationDisclosure = useDisclosure();
   const priceDisclosure = useDisclosure();
 
   const modifyPrice = (id: string, price: string) => {
@@ -28,26 +29,53 @@ const OrderItemDisplay = ({
     if (!isNaN(newPrice)) modifyPriceString(id, newPrice);
   };
 
+  const modifyMainCustomization = (id: string, customization: string) => {
+    modifyCustomization(id, customization, true);
+  };
+
+  const modifySideCustomization = (id: string, customization: string) => {
+    modifyCustomization(id, customization, false);
+  };
+
   return (
     <HStack justifyContent={"space-between"}>
       <ModalTemplate
         id={orderItem.id}
         defaultText={orderItem.mainCustomization}
-        header="Add Customization"
-        placeholder="Enter new customization..."
-        isOpen={customizationDisclosure.isOpen}
-        onClose={customizationDisclosure.onClose}
-        onEnter={modifyCustomization}
+        header="Modify Main Customization"
+        placeholder="Enter customization..."
+        isOpen={mainCustomizationDisclosure.isOpen}
+        onClose={mainCustomizationDisclosure.onClose}
+        onEnter={modifyMainCustomization}
+      />
+      <ModalTemplate
+        id={orderItem.id}
+        defaultText={orderItem.sideCustomization}
+        header="Modify Side Customization"
+        placeholder="Enter customization..."
+        isOpen={sideCustomizationDisclosure.isOpen}
+        onClose={sideCustomizationDisclosure.onClose}
+        onEnter={modifySideCustomization}
       />
       {orderItem.name.indexOf("with") === -1 ? (
         <HStack>
-          <Button onClick={customizationDisclosure.onOpen}>
+          <Button onClick={mainCustomizationDisclosure.onOpen}>
             {orderItem.name}
           </Button>
           <Text fontSize="xs">{orderItem.mainCustomization}</Text>
         </HStack>
       ) : (
-        <Button></Button>
+        <HStack>
+          <Button onClick={mainCustomizationDisclosure.onOpen}>
+            {orderItem.name.substring(0, orderItem.name.indexOf("with"))}
+          </Button>
+          <Text fontSize="xs">{orderItem.mainCustomization}</Text>
+
+          <Button onClick={sideCustomizationDisclosure.onOpen}>
+            {orderItem.name.substring(orderItem.name.indexOf("with") + 5)}
+          </Button>
+          <Text fontSize="xs">{orderItem.sideCustomization}</Text>
+        </HStack>
       )}
       <div>
         <ModalTemplate
