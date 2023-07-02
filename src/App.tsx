@@ -157,7 +157,7 @@ const App = () => {
 export const calculateTotalPrice = (order: OrderItem[]) => {
   let total = 0;
   order.map((OrderItem) => (total += OrderItem.price));
-  return total;
+  return Number(total).toFixed(2);
 };
 
 export default App;

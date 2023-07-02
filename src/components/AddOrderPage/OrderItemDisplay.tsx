@@ -51,7 +51,7 @@ const OrderItemDisplay = ({
           onEnter={modifyPrice}
         />
         <Button onClick={priceDisclosure.onOpen} margin={3}>
-          {"$" + orderItem.price}
+          {"$" + Number(orderItem.price).toFixed(2)}
         </Button>
         <Button onClick={() => onDelete(orderItem.id)} colorScheme={"red"}>
           Delete

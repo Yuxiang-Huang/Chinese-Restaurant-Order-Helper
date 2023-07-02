@@ -6,11 +6,20 @@ export interface OrderItem {
 }
 
 const useFoodMenu = () => {
-    const priceDict: { [key: string]: number } =
+    const mainDict: { [key: string]: number } =
     {
-        "Chicken Broccoli": 5,
-        "Beef Broccoli": 5
+        "Chicken Broccoli": 7.5,
+        "Beef Broccoli": 8
     }
+
+    const comboDict: {[key: string]: number} = {
+        "Chicken Chow Mein Combo": 8.25,
+        "Pork Chow Mein Combo": 8.25,
+        "Shrimp Chow Mein Combo": 8.50,
+        "Beef Chow Mein Combo": 8.50,
+    }
+
+    const priceDict = {...mainDict, ...comboDict}
 
     const foodList = Object.keys(priceDict)
 
