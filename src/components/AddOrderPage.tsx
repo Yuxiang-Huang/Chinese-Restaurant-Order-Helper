@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import nextId from "react-id-generator";
 
 import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
@@ -13,26 +12,20 @@ import OrderItemDisplay from "./OrderItemDisplay";
 
 interface Props {
   addToOrderList: (order: OrderItem[]) => void;
+  order: OrderItem[];
+  setOrder: React.Dispatch<React.SetStateAction<OrderItem[]>>;
 }
 
-const AddOrderPage = ({ addToOrderList }: Props) => {
+const AddOrderPage = ({ addToOrderList, order, setOrder }: Props) => {
   //#region Initial Declaration
-  const navigate = useNavigate();
-  const storage = window.sessionStorage;
-
   const [fullFoodList, setFullFoodList] = useState<string[]>([]);
   const [priceDict, setPriceDict] = useState<{ [key: string]: number }>({});
-  const [order, setOrder] = useState<OrderItem[]>([]);
 
   useEffect(() => {
     // full food list and price dictionary from useFoodMenu (optimized to be called once)
     const foodMenu = useFoodMenu();
     setFullFoodList(foodMenu.foodList);
     setPriceDict(foodMenu.priceDict);
-
-    // order from session storage
-    const rawValue = storage.getItem("order");
-    if (rawValue) setOrder(JSON.parse(rawValue));
   }, []);
 
   //#endregion
@@ -72,20 +65,7 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
     );
   };
 
-  // sync order wth session storage
-  useEffect(() => {
-    if (order.length > 0) storage.setItem("order", JSON.stringify(order));
-  }, [order]);
-
   //#endregion
-
-  const handlAddToOrderList = (orderItemList: OrderItem[]) => {
-    addToOrderList(orderItemList);
-    // clear order and go to order list page
-    setOrder([]);
-    storage.setItem("order", "[]");
-    navigate("/OrderList");
-  };
 
   return (
     <>
@@ -115,7 +95,7 @@ const AddOrderPage = ({ addToOrderList }: Props) => {
           colorScheme="green"
           margin={3}
           marginTop={10}
-          onClick={() => handlAddToOrderList(order)}
+          onClick={() => addToOrderList(order)}
         >
           Add to Order List
         </Button>

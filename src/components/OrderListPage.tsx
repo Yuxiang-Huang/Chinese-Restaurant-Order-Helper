@@ -7,9 +7,14 @@ import OrderTopBar from "./OrderTopBar";
 interface Props {
   orderList: Order[];
   updateCustomerDescription: (id: string, newDescription: string) => void;
+  edit: (order: Order) => void;
 }
 
-const OrderListPage = ({ orderList, updateCustomerDescription }: Props) => {
+const OrderListPage = ({
+  orderList,
+  updateCustomerDescription,
+  edit,
+}: Props) => {
   return (
     <>
       <Link to="/">
@@ -23,6 +28,7 @@ const OrderListPage = ({ orderList, updateCustomerDescription }: Props) => {
             <OrderTopBar
               order={order}
               updateCustomerDescription={updateCustomerDescription}
+              edit={edit}
             />
             {order.orderItemList.map((orderItem) => (
               <ListItem key={orderItem.id}>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router";
+import { useNavigate } from "react-router-dom";
 import nextId from "react-id-generator";
 import AddOrderPage from "./components/AddOrderPage";
 import OrderListPage from "./components/OrderListPage";
@@ -14,15 +15,20 @@ export interface Order {
 }
 
 const App = () => {
-  //#region Order List
+  //#region Initialization
+  const navigate = useNavigate();
   const storage = window.sessionStorage;
 
   const [orderList, setOrderList] = useState<Order[]>([]);
+  const [order, setOrder] = useState<OrderItem[]>([]);
 
   useEffect(() => {
     // order list from session storage
-    const rawValue = storage.getItem("order list");
+    let rawValue = storage.getItem("order list");
     if (rawValue) setOrderList(JSON.parse(rawValue));
+    // order from session storage
+    rawValue = storage.getItem("order");
+    if (rawValue) setOrder(JSON.parse(rawValue));
   }, []);
 
   // sync order list wth session storage
@@ -30,6 +36,13 @@ const App = () => {
     if (orderList.length > 0)
       storage.setItem("order list", JSON.stringify(orderList));
   }, [orderList]);
+
+  // sync order wth session storage
+  useEffect(() => {
+    if (order.length > 0) storage.setItem("order", JSON.stringify(order));
+  }, [order]);
+
+  //#endregion
 
   const addToOrderList = (orderItemList: OrderItem[]) => {
     setOrderList([
@@ -40,6 +53,10 @@ const App = () => {
         orderItemList: orderItemList,
       },
     ]);
+    //clear order and go to order list page
+    setOrder([]);
+    storage.setItem("order", "[]");
+    navigate("/OrderList");
   };
 
   const updateCustomerDescription = (id: string, newDescription: string) => {
@@ -50,13 +67,22 @@ const App = () => {
       })
     );
   };
-  //#endregion
+
+  const edit = (order: Order) => {
+    navigate("/");
+  };
 
   return (
     <Routes>
       <Route
         path="/"
-        element={<AddOrderPage addToOrderList={addToOrderList} />}
+        element={
+          <AddOrderPage
+            addToOrderList={addToOrderList}
+            order={order}
+            setOrder={setOrder}
+          />
+        }
       />
       <Route
         path="/OrderList"
@@ -64,6 +90,7 @@ const App = () => {
           <OrderListPage
             orderList={orderList}
             updateCustomerDescription={updateCustomerDescription}
+            edit={edit}
           />
         }
       />
