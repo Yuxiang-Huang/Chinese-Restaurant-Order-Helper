@@ -68,9 +68,9 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
         </InputGroup>
       </form>
       {/* <PriceInputModal /> */}
-      <Button margin={3} colorScheme="green">
+      {/* <Button margin={3} colorScheme="green">
         Add
-      </Button>
+      </Button> */}
       {foodList.map((food, index) => (
         <Button
           style={{ width: "100%" }}

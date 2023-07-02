@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import { Link } from "react-router-dom";
+
+import nextId from "react-id-generator";
 
 import { List, ListItem, Button } from "@chakra-ui/react";
 // import { produce } from "immer";
@@ -34,7 +36,11 @@ const AddOrderPage = () => {
   // add food to order (called when a food button is clicked)
   const addToOrder = (foodName: string) => {
     const p = priceDict[foodName];
-    setOrder([...order, { name: foodName, price: p }]);
+    setOrder([...order, { id: nextId(), name: foodName, price: p }]);
+  };
+
+  const deleteFromOrder = (id: string) => {
+    setOrder(order.filter((orderItem) => orderItem.id !== id));
   };
 
   // sync order wth session storage
@@ -53,10 +59,14 @@ const AddOrderPage = () => {
       </Link>
 
       <SearchBar fullFoodList={fullFoodList} addToOrder={addToOrder} />
+
       <List spacing={3} margin={3}>
         {order.map((orderItem, index) => (
           <ListItem key={index}>
-            <OrderItemDisplay orderItem={orderItem} />
+            <OrderItemDisplay
+              orderItem={orderItem}
+              onDelete={deleteFromOrder}
+            />
           </ListItem>
         ))}
       </List>
