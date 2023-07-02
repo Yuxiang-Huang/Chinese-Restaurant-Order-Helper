@@ -35,7 +35,9 @@ const OrderListDisplay = ({ orderList, archived }: Props) => {
                   </VStack>
                 </HStack>
                 <HStack>
-                  <Box margin={3}>{"$" + orderItem.price}</Box>
+                  <Box margin={3}>
+                    {"$" + Number(orderItem.price).toFixed(2)}
+                  </Box>
                 </HStack>
               </HStack>
             </ListItem>

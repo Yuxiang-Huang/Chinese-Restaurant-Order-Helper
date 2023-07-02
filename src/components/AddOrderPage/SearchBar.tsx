@@ -37,6 +37,21 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
         // empty if no string
         setFoodList([]);
       }
+
+      if (
+        !(
+          SatisfySearchBarRequirement(
+            highlightedFoodName.toLowerCase().split(" "),
+            searchText.toLowerCase().split(" ")
+          ) ||
+          SatisfySearchBarRequirement(
+            highlightedFoodName.toLowerCase().split(" "),
+            searchText.toLowerCase().split("")
+          )
+        )
+      ) {
+        setHighlightedFoodName("");
+      }
     }
   };
 
