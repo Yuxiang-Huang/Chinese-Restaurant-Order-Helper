@@ -17,7 +17,7 @@ interface Props {
   placeholder: string;
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (price: number) => void;
+  onEnter: (str: string) => void;
 }
 
 const ModalTemplate = ({
@@ -46,11 +46,10 @@ const ModalTemplate = ({
             <Button
               colorScheme="blue"
               mr={3}
-              onClick={() =>
-                onEnter(
-                  ref.current === null ? -1 : parseFloat(ref.current.value)
-                )
-              }
+              onClick={() => {
+                onEnter(ref.current === null ? "" : ref.current.value);
+                onClose();
+              }}
             >
               Enter
             </Button>

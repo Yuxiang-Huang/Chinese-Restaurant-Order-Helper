@@ -77,7 +77,7 @@ const AddOrderPage = () => {
             <OrderItemDisplay
               orderItem={orderItem}
               onDelete={deleteFromOrder}
-              modifyPrice={modifyPrice}
+              modifyPriceParent={modifyPrice}
             />
           </ListItem>
         ))}

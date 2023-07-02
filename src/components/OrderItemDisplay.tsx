@@ -5,14 +5,20 @@ import ModalTemplate from "./ModalTemplate";
 interface Props {
   orderItem: OrderItem;
   onDelete: (id: string) => void;
-  modifyPrice: (id: string, price: number) => void;
+  modifyPriceParent: (id: string, price: number) => void;
 }
 
-const OrderItemDisplay = ({ orderItem, onDelete, modifyPrice }: Props) => {
+const OrderItemDisplay = ({
+  orderItem,
+  onDelete,
+  modifyPriceParent,
+}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onEnter = (price: number) => {
-    modifyPrice(orderItem.id, price);
+  const modifyPrice = (price: string) => {
+    // convert to float
+    const newPrice = parseFloat(price);
+    if (!isNaN(newPrice)) modifyPriceParent(orderItem.id, newPrice);
   };
 
   return (
@@ -24,7 +30,7 @@ const OrderItemDisplay = ({ orderItem, onDelete, modifyPrice }: Props) => {
           placeholder="Enter new price..."
           isOpen={isOpen}
           onClose={onClose}
-          onEnter={onEnter}
+          onEnter={modifyPrice}
         />
         <Button onClick={onOpen} margin={3}>
           {"$" + orderItem.price}
