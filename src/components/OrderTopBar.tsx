@@ -28,20 +28,34 @@ const OrderTopBar = ({
           onClose={customerDisclosure.onClose}
           onEnter={updateCustomerDescription}
         />
-        <Button margin={3} onClick={customerDisclosure.onOpen}>
+        <Button
+          margin={3}
+          onClick={customerDisclosure.onOpen}
+          isDisabled={order.archived}
+        >
           {order.customerDescription}
         </Button>
-        <Button margin={3} background={"yellow"} fontSize="xl">
+        <Button
+          margin={3}
+          background={"yellow"}
+          fontSize="xl"
+          isDisabled={order.archived}
+        >
           {"Pay: $" + calculateTotalPrice(order.orderItemList)}
         </Button>
       </HStack>
 
       <HStack justifyContent={"space-between"}>
-        <Button margin={3} colorScheme={"green"} onClick={() => edit(order)}>
+        <Button
+          margin={3}
+          colorScheme={"green"}
+          onClick={() => edit(order)}
+          isDisabled={order.archived}
+        >
           Edit
         </Button>
         <Button margin={3} colorScheme="red" onClick={() => archive(order)}>
-          Archive
+          {order.archived ? "Unarchive" : "Archive"}
         </Button>
       </HStack>
     </>

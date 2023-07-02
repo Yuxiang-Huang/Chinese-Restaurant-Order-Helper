@@ -36,20 +36,18 @@ const App = () => {
 
   // sync order list wth session storage
   useEffect(() => {
-    if (orderList.length > 0)
-      storage.setItem("order list", JSON.stringify(orderList));
+    storage.setItem("order list", JSON.stringify(orderList));
   }, [orderList]);
 
   // sync order wth session storage
   useEffect(() => {
-    if (order.length > 0) storage.setItem("order", JSON.stringify(order));
+    storage.setItem("order", JSON.stringify(order));
   }, [order]);
 
   // sync archived order list wth session storage
   useEffect(() => {
-    if (archivedOrderList.length > 0)
-      storage.setItem("archived order list", JSON.stringify(archivedOrderList));
-  }, [order]);
+    storage.setItem("archived order list", JSON.stringify(archivedOrderList));
+  }, [archivedOrderList]);
 
   //#endregion
 
@@ -93,10 +91,11 @@ const App = () => {
   const archive = (orderToEdit: Order) => {
     // delete this order from order list
     setOrderList(orderList.filter((order) => order.id !== orderToEdit.id));
-    // set this order to be archieved
-    orderToEdit.archived = true;
-    // add this order to archive order list
-    setArchivedOrderList([...archivedOrderList, orderToEdit]);
+    // add this archived order to archived order list
+    setArchivedOrderList([
+      ...archivedOrderList,
+      { ...orderToEdit, archived: true },
+    ]);
   };
 
   //#endregion
@@ -107,9 +106,10 @@ const App = () => {
         path="/"
         element={
           <AddOrderPage
-            addToOrderList={addToOrderList}
+            storage={storage}
             order={order}
             setOrder={setOrder}
+            addToOrderList={addToOrderList}
           />
         }
       />

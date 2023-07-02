@@ -11,12 +11,13 @@ import SearchBar from "./SearchBar";
 import OrderItemDisplay from "./OrderItemDisplay";
 
 interface Props {
-  addToOrderList: (order: OrderItem[]) => void;
+  storage: Storage;
   order: OrderItem[];
   setOrder: React.Dispatch<React.SetStateAction<OrderItem[]>>;
+  addToOrderList: (order: OrderItem[]) => void;
 }
 
-const AddOrderPage = ({ addToOrderList, order, setOrder }: Props) => {
+const AddOrderPage = ({ order, setOrder, addToOrderList }: Props) => {
   //#region Initial Declaration
   const [fullFoodList, setFullFoodList] = useState<string[]>([]);
   const [priceDict, setPriceDict] = useState<{ [key: string]: number }>({});
