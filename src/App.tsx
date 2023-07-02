@@ -18,13 +18,22 @@ export interface Order {
 }
 
 export const FunctionsContext = createContext({
-  updateCustomerDescription: (id: string, newDescription: string) => {},
-  pay: (id: string) => {},
-  edit: (orderToEdit: Order) => {},
-  archive: (orderToArchive: Order) => {},
-  unarchive: (orderToArchive: Order) => {},
+  updateCustomerDescription: (id: string, newDescription: string) => {
+    console.log(id, newDescription);
+  },
+  pay: (id: string) => {
+    console.log(id);
+  },
+  edit: (orderToEdit: Order) => {
+    console.log(orderToEdit);
+  },
+  archive: (orderToArchive: Order) => {
+    console.log(orderToArchive);
+  },
+  unarchive: (orderToArchive: Order) => {
+    console.log(orderToArchive);
+  },
 });
-//  pay: (id: string) => void; edit: (orderToEdit: Order) => void; archive: (orderToArchive: Order) => void; unarchive: (orderToArchive: Order) => void; }' is not assignable to type '() => void'.);
 
 const App = () => {
   //#region Initialization and Synchronization

@@ -99,7 +99,7 @@ const AddOrderPage = ({
 
       <SearchBar fullFoodList={fullFoodList} addToOrder={addToOrder} />
 
-      <List spacing={3} margin={3}>
+      <List spacing={3}>
         {order.orderItemList.map((orderItem, index) => (
           <ListItem key={index}>
             <OrderItemDisplay
