@@ -10,6 +10,7 @@ interface Props {
   updateCustomerDescription: (id: string, newDescription: string) => void;
   edit: (order: Order) => void;
   archive: (order: Order) => void;
+  unarchive: (order: Order) => void;
 }
 
 const OrderListPage = ({
@@ -18,6 +19,7 @@ const OrderListPage = ({
   updateCustomerDescription,
   edit,
   archive,
+  unarchive,
 }: Props) => {
   return (
     <>
@@ -34,6 +36,7 @@ const OrderListPage = ({
               updateCustomerDescription={updateCustomerDescription}
               edit={edit}
               archive={archive}
+              unarchive={unarchive}
             />
             {order.orderItemList.map((orderItem) => (
               <ListItem key={orderItem.id}>
@@ -65,6 +68,7 @@ const OrderListPage = ({
               updateCustomerDescription={updateCustomerDescription}
               edit={edit}
               archive={archive}
+              unarchive={unarchive}
             />
             {order.orderItemList.map((orderItem) => (
               <ListItem key={orderItem.id}>

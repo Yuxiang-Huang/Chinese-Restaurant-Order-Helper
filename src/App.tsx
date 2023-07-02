@@ -54,13 +54,13 @@ const App = () => {
   //#region Order List
   const addToOrderList = (orderItemList: OrderItem[]) => {
     setOrderList([
-      ...orderList,
       {
         id: nextId(),
         customerDescription: "Customer Name",
         orderItemList: orderItemList,
         archived: false,
       },
+      ...orderList,
     ]);
     //clear order and go to order list page
     setOrder([]);
@@ -88,14 +88,23 @@ const App = () => {
     setOrder(orderToEdit.orderItemList);
   };
 
-  const archive = (orderToEdit: Order) => {
+  const archive = (orderToArchive: Order) => {
     // delete this order from order list
-    setOrderList(orderList.filter((order) => order.id !== orderToEdit.id));
+    setOrderList(orderList.filter((order) => order.id !== orderToArchive.id));
     // add this archived order to archived order list
     setArchivedOrderList([
+      { ...orderToArchive, archived: true },
       ...archivedOrderList,
-      { ...orderToEdit, archived: true },
     ]);
+  };
+
+  const unarchive = (orderToArchive: Order) => {
+    // delete this order from archived order list
+    setArchivedOrderList(
+      archivedOrderList.filter((order) => order.id !== orderToArchive.id)
+    );
+    // add this unarchived order to order list
+    setOrderList([...orderList, { ...orderToArchive, archived: false }]);
   };
 
   //#endregion
@@ -122,6 +131,7 @@ const App = () => {
             updateCustomerDescription={updateCustomerDescription}
             edit={edit}
             archive={archive}
+            unarchive={unarchive}
           />
         }
       />

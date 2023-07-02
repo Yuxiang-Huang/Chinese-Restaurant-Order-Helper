@@ -7,6 +7,7 @@ interface Props {
   updateCustomerDescription: (id: string, newDescription: string) => void;
   edit: (order: Order) => void;
   archive: (order: Order) => void;
+  unarchive: (order: Order) => void;
 }
 
 const OrderTopBar = ({
@@ -14,6 +15,7 @@ const OrderTopBar = ({
   updateCustomerDescription,
   edit,
   archive,
+  unarchive,
 }: Props) => {
   const customerDisclosure = useDisclosure();
 
@@ -54,7 +56,11 @@ const OrderTopBar = ({
         >
           Edit
         </Button>
-        <Button margin={3} colorScheme="red" onClick={() => archive(order)}>
+        <Button
+          margin={3}
+          colorScheme="red"
+          onClick={() => (order.archived ? unarchive(order) : archive(order))}
+        >
           {order.archived ? "Unarchive" : "Archive"}
         </Button>
       </HStack>
