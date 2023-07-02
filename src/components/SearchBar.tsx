@@ -50,6 +50,8 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           if (highlightedFoodName === "") {
             if (foodList.length > 0) {
               handleClick(foodList[0]);
+            } else if (searchTextRef.current) {
+              handleClick(searchTextRef.current.value);
             }
           } else {
             handleClick(highlightedFoodName);

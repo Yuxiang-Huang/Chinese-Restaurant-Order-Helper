@@ -26,6 +26,7 @@ const OrderTopBar = ({
       <HStack justifyContent={"space-between"}>
         <ModalTemplate
           id={order.id}
+          defaultText={order.customerDescription}
           header="Customer"
           placeholder="Enter customer description"
           isOpen={customerDisclosure.isOpen}

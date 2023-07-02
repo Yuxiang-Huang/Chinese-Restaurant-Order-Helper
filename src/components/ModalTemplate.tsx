@@ -14,6 +14,7 @@ import {
 
 interface Props {
   id: string;
+  defaultText?: string;
   header: string;
   placeholder: string;
   isOpen: boolean;
@@ -23,6 +24,7 @@ interface Props {
 
 const ModalTemplate = ({
   id,
+  defaultText,
   header,
   placeholder,
   isOpen,
@@ -40,7 +42,11 @@ const ModalTemplate = ({
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <Input ref={ref} placeholder={placeholder} />
+              <Input
+                ref={ref}
+                placeholder={placeholder}
+                defaultValue={defaultText}
+              />
             </FormControl>
           </ModalBody>
 

@@ -28,6 +28,7 @@ const OrderItemDisplay = ({
     <HStack justifyContent={"space-between"}>
       <ModalTemplate
         id={orderItem.id}
+        defaultText={orderItem.customization}
         header="Add Customization"
         placeholder="Enter new customization..."
         isOpen={customizationDisclosure.isOpen}
