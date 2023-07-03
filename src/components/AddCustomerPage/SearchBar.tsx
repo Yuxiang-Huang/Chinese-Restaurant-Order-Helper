@@ -7,7 +7,10 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { AiOutlinePlus } from "react-icons/ai";
+import ModalTemplate from "../ModalTemplate";
 
 interface Props {
   fullFoodList: string[];
@@ -86,32 +89,55 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
     setFoodList([]);
   };
 
+  //#endregion
+
+  const hotKeyDisclosure = useDisclosure();
+  const [hotKeyList, setHotKeyList] = useState<string[]>([
+    "Broccoli",
+    "with Fried Rice",
+    "with Lo Mein",
+  ]);
+
   const handleHotKeyClick = (textToAdd: string) => {
     if (searchTextRef.current)
       searchTextRef.current.value = searchTextRef.current?.value + textToAdd;
     handleSearch();
   };
 
-  //#endregion
+  const addHotKey = (id: string, str: string) => {
+    id;
+    setHotKeyList([...hotKeyList, str]);
+  };
 
   return (
     <div style={{ touchAction: "none" }}>
+      <ModalTemplate
+        id="-1"
+        defaultText=""
+        header="Add Hot Key"
+        placeholder="Enter new hot key..."
+        isOpen={hotKeyDisclosure.isOpen}
+        onClose={hotKeyDisclosure.onClose}
+        onEnter={addHotKey}
+      />
       <HStack margin={3}>
         <Button
-          onClick={(event) => handleHotKeyClick(event.currentTarget.innerHTML)}
+          colorScheme="purple"
+          margin={3}
+          onClick={hotKeyDisclosure.onOpen}
         >
-          Broccoli
+          <AiOutlinePlus />
         </Button>
-        <Button
-          onClick={(event) => handleHotKeyClick(event.currentTarget.innerHTML)}
-        >
-          with Fried Rice
-        </Button>
-        <Button
-          onClick={(event) => handleHotKeyClick(event.currentTarget.innerHTML)}
-        >
-          with Lo Mein
-        </Button>
+        {hotKeyList.map((hotKey, index) => (
+          <Button
+            key={index}
+            onClick={(event) =>
+              handleHotKeyClick(event.currentTarget.innerHTML)
+            }
+          >
+            {hotKey}
+          </Button>
+        ))}
       </HStack>
 
       <form
