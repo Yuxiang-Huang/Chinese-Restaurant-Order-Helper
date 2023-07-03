@@ -5,6 +5,10 @@ import {
   Text,
   Box,
   VStack,
+  useNumberInput,
+  Input,
+  Spacer,
+  Flex,
 } from "@chakra-ui/react";
 import { Order } from "../../hooks/useFoodMenu";
 import ModalTemplate from "../ModalTemplate";
@@ -26,27 +30,38 @@ const OrderDisplay = ({
   modifyCustomization,
   modifyPriceString,
 }: Props) => {
-  const mainCustomizationDisclosure = useDisclosure();
-  const sideCustomizationDisclosure = useDisclosure();
   const priceDisclosure = useDisclosure();
-
   const modifyPrice = (id: string, price: string) => {
     // convert to float
     const newPrice = parseFloat(price);
     if (!isNaN(newPrice)) modifyPriceString(id, newPrice);
   };
 
+  const mainCustomizationDisclosure = useDisclosure();
   const modifyMainCustomization = (id: string, customization: string) => {
     modifyCustomization(id, customization, true);
   };
 
+  const sideCustomizationDisclosure = useDisclosure();
   const modifySideCustomization = (id: string, customization: string) => {
     modifyCustomization(id, customization, false);
   };
 
+  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
+    useNumberInput({
+      step: 1,
+      defaultValue: 1,
+      min: 0,
+      precision: 0,
+    });
+
+  const inc = getIncrementButtonProps();
+  const dec = getDecrementButtonProps();
+  const input = getInputProps();
+
   return (
     <Box border={"2px"} margin={1} marginTop={5}>
-      <HStack justifyContent={"space-between"} margin={2}>
+      <Flex margin={2}>
         <ModalTemplate
           id={order.id}
           defaultText={order.mainCustomization}
@@ -67,12 +82,12 @@ const OrderDisplay = ({
         />
 
         {order.name.indexOf("with") === -1 ? (
-          <HStack>
+          <Flex>
             <Button onClick={mainCustomizationDisclosure.onOpen}>
               {order.name}
             </Button>
             <Text fontSize="xs">{order.mainCustomization}</Text>
-          </HStack>
+          </Flex>
         ) : (
           <VStack align={"baseline"}>
             <HStack>
@@ -91,7 +106,9 @@ const OrderDisplay = ({
           </VStack>
         )}
 
-        <div>
+        <Spacer />
+
+        <HStack>
           <ModalTemplate
             id={order.id}
             header="Change Price"
@@ -103,11 +120,13 @@ const OrderDisplay = ({
           <Button onClick={priceDisclosure.onOpen} marginRight={3}>
             {"$" + Number(order.price).toFixed(2)}
           </Button>
-          <Button onClick={() => onDelete(order.id)} colorScheme={"red"}>
-            Delete
-          </Button>
-        </div>
-      </HStack>
+          <HStack>
+            <Button {...dec}>-</Button>
+            <Input {...input} width={"12"} />
+            <Button {...inc}>+</Button>
+          </HStack>
+        </HStack>
+      </Flex>
     </Box>
   );
 };
