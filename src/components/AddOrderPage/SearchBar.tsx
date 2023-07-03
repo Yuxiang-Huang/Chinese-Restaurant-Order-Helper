@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
-import { useDrag } from "@use-gesture/react";
+// import { useDrag } from "@use-gesture/react";
 import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 
 interface Props {
@@ -11,19 +11,19 @@ interface Props {
 const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
   const searchTextRef = useRef<HTMLInputElement>(null);
   const [highlightedFoodName, setHighlightedFoodName] = useState("");
-  const [dragging, setDragging] = useState(false);
+  // const [dragging, setDragging] = useState(false);
 
   const [startingIndex, setStartingIndex] = useState(0);
 
-  const bind = useDrag(({ down, movement: [my] }) => {
-    const yChange = down ? my : 0;
-    if (yChange > 0) {
-      setStartingIndex(Math.min(startingIndex + 1, foodList.length - 5));
-    } else if (yChange < 0) {
-      setStartingIndex(Math.max(0, startingIndex - 1));
-    }
-    setDragging(true);
-  });
+  // const bind = useDrag(({ down, movement: [my] }) => {
+  //   const yChange = down ? my : 0;
+  //   if (yChange > 0) {
+  //     setStartingIndex(Math.min(startingIndex + 1, foodList.length - 5));
+  //   } else if (yChange < 0) {
+  //     setStartingIndex(Math.max(0, startingIndex - 1));
+  //   }
+  //   setDragging(true);
+  // });
 
   //#region food list
   const [foodList, setFoodList] = useState<string[]>([]);
@@ -83,7 +83,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
   //#endregion
 
   return (
-    <div {...bind()} style={{ touchAction: "none" }}>
+    <div style={{ touchAction: "none" }}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -115,9 +115,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           style={{ width: "100%" }}
           border={"1px"}
           justifyContent={"space-between"}
-          onClick={(event) =>
-            !dragging && handleClick(event.currentTarget.innerHTML)
-          }
+          onClick={(event) => handleClick(event.currentTarget.innerHTML)}
           _hover={{ bg: "Highlight" }}
           background={
             food === highlightedFoodName ||

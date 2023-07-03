@@ -7,6 +7,7 @@ export interface OrderItem {
 }
 
 const useFoodMenu = () => {
+  //#region main food
   const mainType0Dict: { [key: string]: number } = {
     "Fried Chicken Wings": 6,
     "Fried Half Chicken": 6.5,
@@ -52,7 +53,7 @@ const useFoodMenu = () => {
     Broccoli: [5.75, 9.75],
     "Mix Veg": [6, 10],
 
-    "Spare Ribs": [8.5, 15],
+    "Long Spare Ribs": [8.5, 15],
 
     "Plain Lobster Sauce": [5.5, 10],
     "Shrimp w. Lobster Sauce": [8, 14],
@@ -80,6 +81,7 @@ const useFoodMenu = () => {
     "Crab Meat Egg Foo Young": [9],
   };
 
+  // create full main type 2 dict by mixing meat types with mainType2NoMeat
   Object.keys(mainType2NoMeatDict).map((mainKey) => {
     Object.keys(meatTypeDict).map((meatKey) => {
       mainType2Dict[meatKey + mainKey] = [
@@ -88,6 +90,7 @@ const useFoodMenu = () => {
       ];
     });
   });
+  //#endregion
 
   // small, large, with type0, with type 2
   const sideDict: { [key: string]: number[] } = {
@@ -113,6 +116,7 @@ const useFoodMenu = () => {
     "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
   };
 
+  //#region mixing main with side
   const togetherDict: { [key: string]: number } = {};
 
   Object.keys(mainType0Dict).map((mainKey) => {
@@ -140,17 +144,20 @@ const useFoodMenu = () => {
   Object.keys(mainType2Dict).map((mainKey) => {
     const priceList = mainType2Dict[mainKey];
     if (priceList.length > 1) {
+      // small, large by itself option
       togetherDict["Small " + mainKey] = priceList[0];
       togetherDict["Large " + mainKey] = priceList[1];
+      // small, large with side option
       Object.keys(sideDict).map((sideKey) => {
         togetherDict[mainKey + " with " + sideKey] =
           priceList[0] + sideDict[sideKey][3];
         if (sideDict[sideKey].length > 4) {
-          togetherDict[mainKey + " with " + sideKey + " (Large)"] =
+          togetherDict[mainKey + " (Large) with " + sideKey] =
             priceList[1] + sideDict[sideKey][4];
         }
       });
     } else {
+      // no small option
       togetherDict[mainKey] = priceList[0];
       Object.keys(sideDict).map((sideKey) => {
         if (sideDict[sideKey].length > 4) {
@@ -160,12 +167,15 @@ const useFoodMenu = () => {
       });
     }
   });
+  //#endregion
 
+  // sides by itself
   Object.keys(sideDict).map((sideKey) => {
     togetherDict["Small " + sideKey] = sideDict[sideKey][0];
     togetherDict["Large " + sideKey] = sideDict[sideKey][1];
   });
 
+  // individual food
   const indivDict: { [key: string]: number } = {
     "Shrimp Egg Roll": 1.5,
     "Egg Roll": 1.5,
@@ -194,8 +204,17 @@ const useFoodMenu = () => {
     "Large Shrimp Chow Mei Fun": 11,
     "Small House Special Chow Mei Fun": 7.75,
     "Large House Special Chow Mei Fun": 12,
+
+    "Can Soda": 1.25,
+    "Small Ice Tea": 1.25,
+    "Large Ice Tea": 2,
+    "Small Lemonade": 1.25,
+    "Large Lemonade": 2,
+    "Bottle Soda": 1.5,
+    "Bottle Water": 1,
   };
 
+  //#region soup, which can be large or small
   const soupDict: { [key: string]: number[] } = {
     "Wonton Mix Egg Drop Soup": [3.75, 6],
     "Wonton Soup": [2.75, 4.75],
@@ -242,11 +261,11 @@ const useFoodMenu = () => {
     "Beef Egg Foo Young Combo": 10.0,
     "Shrimp Egg Foo Young Combo": 10.0,
   };
+  //#endregion
 
+  // combine everything and output
   const priceDict = { ...togetherDict, ...indivDict, ...comboDict };
-
   const foodList = Object.keys(priceDict);
-
   return { foodList, priceDict };
 };
 
