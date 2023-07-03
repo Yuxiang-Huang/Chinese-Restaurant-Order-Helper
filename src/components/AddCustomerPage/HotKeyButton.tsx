@@ -4,9 +4,10 @@ import { useState } from "react";
 interface Props {
   hotKey: string;
   handleHotKeyClick: (str: string) => void;
+  removeHotKey: (str: string) => void;
 }
 
-const HotKeyButton = ({ hotKey, handleHotKeyClick }: Props) => {
+const HotKeyButton = ({ hotKey, handleHotKeyClick, removeHotKey }: Props) => {
   const [showCloseButton, setShowCloseButton] = useState(false);
   const [pressTimer, setPressTimer] = useState(0);
 
@@ -35,9 +36,9 @@ const HotKeyButton = ({ hotKey, handleHotKeyClick }: Props) => {
           top="35%"
           right={-3}
           transform="translateY(-100%)"
-          background={"gray"}
+          background={"lightgray"}
           size={"sm"}
-          // onClick={handleDelete}
+          onClick={() => removeHotKey(hotKey)}
         ></CloseButton>
       )}
     </Box>

@@ -106,9 +106,13 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
     handleSearch();
   };
 
-  const addHotKey = (id: string, str: string) => {
+  const addHotKey = (id: string, keyToAdd: string) => {
     id;
-    setHotKeyList([...hotKeyList, str]);
+    setHotKeyList([...hotKeyList, keyToAdd]);
+  };
+
+  const removeHotKey = (keyToRemove: string) => {
+    setHotKeyList(hotKeyList.filter((hotKey) => hotKey !== keyToRemove));
   };
 
   return (
@@ -134,6 +138,7 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
           <HotKeyButton
             hotKey={hotKey}
             handleHotKeyClick={handleHotKeyClick}
+            removeHotKey={removeHotKey}
             key={index}
           />
         ))}
