@@ -3,22 +3,22 @@ import { Customer } from "../../App";
 import CustomerTopBar from "./CustomerTopBar";
 
 interface Props {
-  orderList: Customer[];
+  customerList: Customer[];
   archived: boolean;
 }
 
-const CustomerListDisplay = ({ orderList, archived }: Props) => {
+const CustomerListDisplay = ({ customerList, archived }: Props) => {
   return (
     <List spacing={3} margin={3}>
-      {orderList.map((order) => (
+      {customerList.map((customer) => (
         <Box
           border={"2px"}
           marginBottom={10}
-          key={order.id}
+          key={customer.id}
           background={archived ? "gray" : "white"}
         >
-          <CustomerTopBar order={order} />
-          {order.orderList.map((order) => (
+          <CustomerTopBar customer={customer} />
+          {customer.orderList.map((order) => (
             <ListItem key={order.id}>
               <HStack justifyContent={"space-between"}>
                 <HStack>

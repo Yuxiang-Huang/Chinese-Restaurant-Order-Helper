@@ -6,11 +6,11 @@ import { useState } from "react";
 import CustomerListDisplay from "./CustomerDisplay";
 
 interface Props {
-  orderList: Customer[];
+  customerList: Customer[];
   archivedCustomerList: Customer[];
 }
 
-const CustomerListPage = ({ orderList, archivedCustomerList }: Props) => {
+const CustomerListPage = ({ customerList, archivedCustomerList }: Props) => {
   const [archivedMode, setArchivedMode] = useState(false);
 
   return (
@@ -32,9 +32,12 @@ const CustomerListPage = ({ orderList, archivedCustomerList }: Props) => {
           </Text>
         </HStack>
       </HStack>
-      <CustomerListDisplay orderList={orderList} archived={false} />
+      <CustomerListDisplay customerList={customerList} archived={false} />
       {archivedMode && (
-        <CustomerListDisplay orderList={archivedCustomerList} archived={true} />
+        <CustomerListDisplay
+          customerList={archivedCustomerList}
+          archived={true}
+        />
       )}
     </>
   );

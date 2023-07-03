@@ -21,8 +21,8 @@ export const FunctionsContext = createContext({
   updateCustomerDescription: (id: string, newDescription: string) => {
     console.log(id, newDescription);
   },
-  pay: (id: string) => {
-    console.log(id);
+  pay: (customerToPay: Customer) => {
+    console.log(customerToPay);
   },
   edit: (customerToEdit: Customer) => {
     console.log(customerToEdit);
@@ -40,7 +40,7 @@ const App = () => {
   const navigate = useNavigate();
   const storage = window.sessionStorage;
 
-  const [orderList, setCustomerList] = useState<Customer[]>([]);
+  const [customerList, setCustomerList] = useState<Customer[]>([]);
   const [archivedCustomerList, setArchivedCustomerList] = useState<Customer[]>(
     []
   );
@@ -77,8 +77,8 @@ const App = () => {
 
   // sync customer list wth session storage
   useEffect(() => {
-    storage.setItem("Customer List", JSON.stringify(orderList));
-  }, [orderList]);
+    storage.setItem("Customer List", JSON.stringify(customerList));
+  }, [customerList]);
 
   // sync archived customer list wth session storage
   useEffect(() => {
@@ -92,7 +92,7 @@ const App = () => {
 
   //#region Customer List
   const addToCustomerList = (newCustomer: Customer) => {
-    setCustomerList([newCustomer, ...orderList]);
+    setCustomerList([newCustomer, ...customerList]);
     // clear customer and go to customer list page
     setCurCustomer({
       id: nextId(),
@@ -115,13 +115,26 @@ const App = () => {
     );
   };
 
-  const pay = (id: string) => {
-    setCustomerList(
-      produce((draft) => {
-        const customerToChange = draft.find((customer) => customer.id === id);
-        if (customerToChange) customerToChange.paid = !customerToChange.paid;
-      })
-    );
+  const pay = (customerToPay: Customer) => {
+    if (customerToPay.archived) {
+      setArchivedCustomerList(
+        produce((draft) => {
+          const customerToChange = draft.find(
+            (customer) => customer.id === customerToPay.id
+          );
+          if (customerToChange) customerToChange.paid = !customerToChange.paid;
+        })
+      );
+    } else {
+      setCustomerList(
+        produce((draft) => {
+          const customerToChange = draft.find(
+            (customer) => customer.id === customerToPay.id
+          );
+          if (customerToChange) customerToChange.paid = !customerToChange.paid;
+        })
+      );
+    }
   };
 
   const edit = (customerToEdit: Customer) => {
@@ -129,7 +142,7 @@ const App = () => {
     navigate("/");
     // delete this customer from customer list
     setCustomerList(
-      orderList.filter((customer) => customer.id !== customerToEdit.id)
+      customerList.filter((customer) => customer.id !== customerToEdit.id)
     );
     // set customer to this customer
     setCurCustomer(customerToEdit);
@@ -138,7 +151,7 @@ const App = () => {
   const archive = (customerToArchive: Customer) => {
     // delete this customer from customer list
     setCustomerList(
-      orderList.filter((customer) => customer.id !== customerToArchive.id)
+      customerList.filter((customer) => customer.id !== customerToArchive.id)
     );
     // add this archived customer to archived customer list
     setArchivedCustomerList([
@@ -155,7 +168,10 @@ const App = () => {
       )
     );
     // add this unarchived customer to customer list
-    setCustomerList([...orderList, { ...customerToArchive, archived: false }]);
+    setCustomerList([
+      ...customerList,
+      { ...customerToArchive, archived: false },
+    ]);
   };
 
   const functionsNeeded = {
@@ -187,7 +203,7 @@ const App = () => {
         element={
           <FunctionsContext.Provider value={functionsNeeded}>
             <CustomerListPage
-              orderList={orderList}
+              customerList={customerList}
               archivedCustomerList={archivedCustomerList}
             />
           </FunctionsContext.Provider>

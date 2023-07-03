@@ -4,10 +4,10 @@ import ModalTemplate from "../ModalTemplate";
 import { useContext } from "react";
 
 interface Props {
-  order: Customer;
+  customer: Customer;
 }
 
-const CustomerTopBar = ({ order }: Props) => {
+const CustomerTopBar = ({ customer }: Props) => {
   const customerDisclosure = useDisclosure();
 
   const { updateCustomerDescription, edit, pay, archive, unarchive } =
@@ -17,8 +17,8 @@ const CustomerTopBar = ({ order }: Props) => {
     <>
       <HStack justifyContent={"space-between"}>
         <ModalTemplate
-          id={order.id}
-          defaultText={order.description}
+          id={customer.id}
+          defaultText={customer.description}
           header="Customer"
           placeholder="Enter customer description"
           isOpen={customerDisclosure.isOpen}
@@ -28,19 +28,19 @@ const CustomerTopBar = ({ order }: Props) => {
         <Button
           margin={3}
           onClick={customerDisclosure.onOpen}
-          isDisabled={order.archived}
+          isDisabled={customer.archived}
         >
-          {order.description}
+          {customer.description}
         </Button>
         <Button
           margin={3}
           background={"yellow"}
           fontSize="xl"
-          onClick={() => pay(order.id)}
+          onClick={() => pay(customer)}
         >
-          {order.paid
+          {customer.paid
             ? "Paid"
-            : "Pay: $" + calculateTotalPrice(order.orderList)}
+            : "Pay: $" + calculateTotalPrice(customer.orderList)}
         </Button>
       </HStack>
 
@@ -48,17 +48,19 @@ const CustomerTopBar = ({ order }: Props) => {
         <Button
           margin={3}
           colorScheme={"green"}
-          onClick={() => edit(order)}
-          isDisabled={order.archived}
+          onClick={() => edit(customer)}
+          isDisabled={customer.archived}
         >
           Edit
         </Button>
         <Button
           margin={3}
           colorScheme="red"
-          onClick={() => (order.archived ? unarchive(order) : archive(order))}
+          onClick={() =>
+            customer.archived ? unarchive(customer) : archive(customer)
+          }
         >
-          {order.archived ? "Unarchive" : "Archive"}
+          {customer.archived ? "Unarchive" : "Archive"}
         </Button>
       </HStack>
     </>
