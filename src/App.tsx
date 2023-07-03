@@ -12,7 +12,7 @@ import MenuPage from "./components/MenuPage/MenuPage";
 export interface Customer {
   id: string;
   description: string;
-  customerList: Customer[];
+  orderList: Order[];
   paid: boolean;
   archived: boolean;
 }
@@ -40,14 +40,14 @@ const App = () => {
   const navigate = useNavigate();
   const storage = window.sessionStorage;
 
-  const [customerList, setCustomerList] = useState<Customer[]>([]);
+  const [orderList, setCustomerList] = useState<Customer[]>([]);
   const [archivedCustomerList, setArchivedCustomerList] = useState<Customer[]>(
     []
   );
   const [curCustomer, setCurCustomer] = useState<Customer>({
     id: nextId(),
     description: "Called?: ",
-    customerList: [],
+    orderList: [],
     paid: false,
     archived: false,
   });
@@ -77,8 +77,8 @@ const App = () => {
 
   // sync customer list wth session storage
   useEffect(() => {
-    storage.setItem("Customer List", JSON.stringify(customerList));
-  }, [customerList]);
+    storage.setItem("Customer List", JSON.stringify(orderList));
+  }, [orderList]);
 
   // sync archived customer list wth session storage
   useEffect(() => {
@@ -92,12 +92,12 @@ const App = () => {
 
   //#region Customer List
   const addToCustomerList = (newCustomer: Customer) => {
-    setCustomerList([newCustomer, ...customerList]);
+    setCustomerList([newCustomer, ...orderList]);
     // clear customer and go to customer list page
     setCurCustomer({
       id: nextId(),
       description: "Called?: ",
-      customerList: [],
+      orderList: [],
       paid: false,
       archived: false,
     });
@@ -129,7 +129,7 @@ const App = () => {
     navigate("/");
     // delete this customer from customer list
     setCustomerList(
-      customerList.filter((customer) => customer.id !== customerToEdit.id)
+      orderList.filter((customer) => customer.id !== customerToEdit.id)
     );
     // set customer to this customer
     setCurCustomer(customerToEdit);
@@ -138,7 +138,7 @@ const App = () => {
   const archive = (customerToArchive: Customer) => {
     // delete this customer from customer list
     setCustomerList(
-      customerList.filter((customer) => customer.id !== customerToArchive.id)
+      orderList.filter((customer) => customer.id !== customerToArchive.id)
     );
     // add this archived customer to archived customer list
     setArchivedCustomerList([
@@ -155,10 +155,7 @@ const App = () => {
       )
     );
     // add this unarchived customer to customer list
-    setCustomerList([
-      ...customerList,
-      { ...customerToArchive, archived: false },
-    ]);
+    setCustomerList([...orderList, { ...customerToArchive, archived: false }]);
   };
 
   const functionsNeeded = {
@@ -190,7 +187,7 @@ const App = () => {
         element={
           <FunctionsContext.Provider value={functionsNeeded}>
             <CustomerListPage
-              customerList={customerList}
+              orderList={orderList}
               archivedCustomerList={archivedCustomerList}
             />
           </FunctionsContext.Provider>
@@ -201,7 +198,7 @@ const App = () => {
   );
 };
 
-// calculate the total price of an customer
+// calculate the total price of an order list
 export const calculateTotalPrice = (orderList: Order[]) => {
   let total = 0;
   orderList.map((order) => (total += order.price));

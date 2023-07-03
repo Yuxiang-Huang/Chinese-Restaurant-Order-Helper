@@ -4,78 +4,73 @@ import nextId from "react-id-generator";
 import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
 
-import { Order, calculateTotalPrice } from "../../App";
+import { Customer, calculateTotalPrice } from "../../App";
 import SearchBar from "./SearchBar";
-import OrderItemDisplay from "./OrderItemDisplay";
+import OrderDisplay from "./OrderDisplay";
 
 interface Props {
-  order: Order;
+  customer: Customer;
   fullFoodList: string[];
   priceDict: { [key: string]: number };
-  setOrder: React.Dispatch<React.SetStateAction<Order>>;
-  addToOrderList: (order: Order) => void;
+  setCurCustomer: React.Dispatch<React.SetStateAction<Customer>>;
+  addToCustomerList: (customer: Customer) => void;
 }
 
 const AddCustomerPage = ({
-  order,
+  customer,
   fullFoodList,
   priceDict,
-  setOrder,
-  addToOrderList,
+  setCurCustomer,
+  addToCustomerList,
 }: Props) => {
-  //#region Initial Declaration
+  //#region Customer
 
-  //#endregion
-
-  //#region Order
-
-  // add food to order (called when a food button is clicked)
-  const addToOrder = (foodName: string) => {
+  // add an order to customer (called when a food button is clicked)
+  const addToCustomer = (foodName: string) => {
     const p = priceDict[foodName];
-    setOrder(
+    setCurCustomer(
       produce((draft) => {
-        draft.orderItemList.push({ id: nextId(), name: foodName, price: p });
+        draft.orderList.push({ id: nextId(), name: foodName, price: p });
       })
     );
   };
 
-  const deleteFromOrder = (id: string) => {
-    setOrder(
+  // delete an order from the order list of an customer
+  const deleteFromCustomer = (id: string) => {
+    setCurCustomer(
       produce((draft) => {
-        draft.orderItemList = draft.orderItemList.filter(
-          (orderItem) => orderItem.id !== id
-        );
+        draft.orderList = draft.orderList.filter((order) => order.id !== id);
       })
     );
   };
 
+  // modify the price of an order from the order list of an customer
   const modifyPrice = (id: string, newPrice: number) => {
-    setOrder(
+    setCurCustomer(
       produce((draft) => {
-        const orderItemToChange = draft.orderItemList.find(
-          (orderItem) => orderItem.id === id
-        );
-        if (orderItemToChange) orderItemToChange.price = newPrice;
+        const orderToChange = draft.orderList.find((order) => order.id === id);
+        if (orderToChange) orderToChange.price = newPrice;
       })
     );
   };
 
+  // modify the customization of an order from the order list of an customer
   const modifyCustomization = (
     id: string,
     newCustomization: string,
     main: boolean
   ) => {
-    setOrder(
+    setCurCustomer(
       produce((draft) => {
-        const orderItemToChange = draft.orderItemList.find(
-          (orderItem) => orderItem.id === id
-        );
-        if (orderItemToChange)
+        const orderToChange = draft.orderList.find((order) => order.id === id);
+        if (orderToChange) {
+          // main or side depending on the boolean
           if (main) {
-            orderItemToChange.mainCustomization = newCustomization;
+            orderToChange.mainCustomization = newCustomization;
           } else {
-            orderItemToChange.sideCustomization = newCustomization;
+            orderToChange.sideCustomization = newCustomization;
           }
+        }
       })
     );
   };
@@ -85,9 +80,9 @@ const AddCustomerPage = ({
   return (
     <>
       <HStack justifyContent={"space-between"}>
-        <Link to="/OrderList">
+        <Link to="/CustomerList">
           <Button colorScheme="blue" margin={3}>
-            View All Orders
+            View All Customers
           </Button>
         </Link>
         <Link to="/Menu">
@@ -97,14 +92,14 @@ const AddCustomerPage = ({
         </Link>
       </HStack>
 
-      <SearchBar fullFoodList={fullFoodList} addToOrder={addToOrder} />
+      <SearchBar fullFoodList={fullFoodList} addToCustomer={addToCustomer} />
 
       <List>
-        {order.orderItemList.map((orderItem, index) => (
+        {customer.orderList.map((order, index) => (
           <ListItem key={index}>
-            <OrderItemDisplay
-              orderItem={orderItem}
-              onDelete={deleteFromOrder}
+            <OrderDisplay
+              order={order}
+              onDelete={deleteFromCustomer}
               modifyCustomization={modifyCustomization}
               modifyPriceString={modifyPrice}
             />
@@ -117,12 +112,12 @@ const AddCustomerPage = ({
           colorScheme="green"
           margin={3}
           marginTop={10}
-          onClick={() => addToOrderList(order)}
+          onClick={() => addToCustomerList(customer)}
         >
-          Add to Order List
+          Add to Customer List
         </Button>
         <Text margin={3} background={"yellow"} fontSize="xl">
-          {"Total: $" + calculateTotalPrice(order.orderItemList)}
+          {"Total: $" + calculateTotalPrice(customer.orderList)}
         </Text>
       </HStack>
     </>
