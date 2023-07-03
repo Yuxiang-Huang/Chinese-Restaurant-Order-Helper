@@ -8,6 +8,9 @@ import {
   InputGroup,
   InputLeftElement,
   useDisclosure,
+  Text,
+  CloseButton,
+  Box,
 } from "@chakra-ui/react";
 import { AiOutlinePlus } from "react-icons/ai";
 import ModalTemplate from "../ModalTemplate";
@@ -35,6 +38,9 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
   // });
 
   //#region food list
+
+  const [showCloseButton, setShowCloseButton] = useState(false);
+
   const [foodList, setFoodList] = useState<string[]>([]);
 
   // set food list to only have foods that satisfy the search text
@@ -120,7 +126,7 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
         onClose={hotKeyDisclosure.onClose}
         onEnter={addHotKey}
       />
-      <HStack margin={3}>
+      <HStack margin={3} spacing={"4"} wrap={"wrap"}>
         <Button
           colorScheme="purple"
           margin={3}
@@ -129,14 +135,24 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
           <AiOutlinePlus />
         </Button>
         {hotKeyList.map((hotKey, index) => (
-          <Button
-            key={index}
-            onClick={(event) =>
-              handleHotKeyClick(event.currentTarget.innerHTML)
-            }
-          >
-            {hotKey}
-          </Button>
+          <Box position="relative" display="inline-block" key={index}>
+            <Button
+              onClick={(event) =>
+                handleHotKeyClick(event.currentTarget.innerHTML)
+              }
+            >
+              {hotKey}
+            </Button>
+            <CloseButton
+              position="absolute"
+              top="20%"
+              right={-3}
+              transform="translateY(-100%)"
+              background={"gray"}
+              size={"sm"}
+              // onClick={handleDelete}
+            ></CloseButton>
+          </Box>
         ))}
       </HStack>
 
