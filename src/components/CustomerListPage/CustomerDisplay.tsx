@@ -1,13 +1,13 @@
 import { List, ListItem, HStack, Box, Text, VStack } from "@chakra-ui/react";
-import { Order } from "../../App";
-import OrderTopBar from "./OrderTopBar";
+import { Customer } from "../../App";
+import CustomerTopBar from "./CustomerTopBar";
 
 interface Props {
-  orderList: Order[];
+  orderList: Customer[];
   archived: boolean;
 }
 
-const OrderListDisplay = ({ orderList, archived }: Props) => {
+const CustomerListDisplay = ({ orderList, archived }: Props) => {
   return (
     <List spacing={3} margin={3}>
       {orderList.map((order) => (
@@ -17,27 +17,25 @@ const OrderListDisplay = ({ orderList, archived }: Props) => {
           key={order.id}
           background={archived ? "gray" : "white"}
         >
-          <OrderTopBar order={order} />
-          {order.orderItemList.map((orderItem) => (
-            <ListItem key={orderItem.id}>
+          <CustomerTopBar order={order} />
+          {order.orderList.map((order) => (
+            <ListItem key={order.id}>
               <HStack justifyContent={"space-between"}>
                 <HStack>
-                  <Box margin={3}>{orderItem.name}</Box>
+                  <Box margin={3}>{order.name}</Box>
                   <VStack align={"baseline"}>
                     <Text fontSize="xs">
-                      {orderItem.mainCustomization &&
-                        "Main: " + orderItem.mainCustomization}
+                      {order.mainCustomization &&
+                        "Main: " + order.mainCustomization}
                     </Text>
                     <Text fontSize="xs">
-                      {orderItem.sideCustomization &&
-                        "Side: " + orderItem.sideCustomization}
+                      {order.sideCustomization &&
+                        "Side: " + order.sideCustomization}
                     </Text>
                   </VStack>
                 </HStack>
                 <HStack>
-                  <Box margin={3}>
-                    {"$" + Number(orderItem.price).toFixed(2)}
-                  </Box>
+                  <Box margin={3}>{"$" + Number(order.price).toFixed(2)}</Box>
                 </HStack>
               </HStack>
             </ListItem>
@@ -48,4 +46,4 @@ const OrderListDisplay = ({ orderList, archived }: Props) => {
   );
 };
 
-export default OrderListDisplay;
+export default CustomerListDisplay;

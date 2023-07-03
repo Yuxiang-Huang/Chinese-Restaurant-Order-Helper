@@ -4,10 +4,10 @@ import ModalTemplate from "../ModalTemplate";
 import { useContext } from "react";
 
 interface Props {
-  order: Order;
+  order: Customer;
 }
 
-const OrderTopBar = ({ order }: Props) => {
+const CustomerTopBar = ({ order }: Props) => {
   const customerDisclosure = useDisclosure();
 
   const { updateCustomerDescription, edit, pay, archive, unarchive } =
@@ -18,7 +18,7 @@ const OrderTopBar = ({ order }: Props) => {
       <HStack justifyContent={"space-between"}>
         <ModalTemplate
           id={order.id}
-          defaultText={order.customerDescription}
+          defaultText={order.description}
           header="Customer"
           placeholder="Enter customer description"
           isOpen={customerDisclosure.isOpen}
@@ -30,7 +30,7 @@ const OrderTopBar = ({ order }: Props) => {
           onClick={customerDisclosure.onOpen}
           isDisabled={order.archived}
         >
-          {order.customerDescription}
+          {order.description}
         </Button>
         <Button
           margin={3}
@@ -40,7 +40,7 @@ const OrderTopBar = ({ order }: Props) => {
         >
           {order.paid
             ? "Paid"
-            : "Pay: $" + calculateTotalPrice(order.orderItemList)}
+            : "Pay: $" + calculateTotalPrice(order.orderList)}
         </Button>
       </HStack>
 
@@ -65,4 +65,4 @@ const OrderTopBar = ({ order }: Props) => {
   );
 };
 
-export default OrderTopBar;
+export default CustomerTopBar;

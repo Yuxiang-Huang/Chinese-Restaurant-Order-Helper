@@ -1,16 +1,16 @@
 import { Button, HStack, Text, Switch } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Order } from "../../App";
+import { Customer } from "../../App";
 import { useState } from "react";
-import OrderListDisplay from "./OrderListDisplay";
+import CustomerListDisplay from "./CustomerDisplay";
 
 interface Props {
-  orderList: Order[];
-  archivedOrderList: Order[];
+  orderList: Customer[];
+  archivedCustomerList: Customer[];
 }
 
-const OrderListPage = ({ orderList, archivedOrderList }: Props) => {
+const CustomerListPage = ({ orderList, archivedCustomerList }: Props) => {
   const [archivedMode, setArchivedMode] = useState(false);
 
   return (
@@ -32,12 +32,12 @@ const OrderListPage = ({ orderList, archivedOrderList }: Props) => {
           </Text>
         </HStack>
       </HStack>
-      <OrderListDisplay orderList={orderList} archived={false} />
+      <CustomerListDisplay orderList={orderList} archived={false} />
       {archivedMode && (
-        <OrderListDisplay orderList={archivedOrderList} archived={true} />
+        <CustomerListDisplay orderList={archivedCustomerList} archived={true} />
       )}
     </>
   );
 };
 
-export default OrderListPage;
+export default CustomerListPage;
