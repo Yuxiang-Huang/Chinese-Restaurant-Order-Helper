@@ -8,12 +8,10 @@ import {
   InputGroup,
   InputLeftElement,
   useDisclosure,
-  Text,
-  CloseButton,
-  Box,
 } from "@chakra-ui/react";
 import { AiOutlinePlus } from "react-icons/ai";
 import ModalTemplate from "../ModalTemplate";
+import HotKeyButton from "./HotKeyButton";
 
 interface Props {
   fullFoodList: string[];
@@ -38,8 +36,6 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
   // });
 
   //#region food list
-
-  const [showCloseButton, setShowCloseButton] = useState(false);
 
   const [foodList, setFoodList] = useState<string[]>([]);
 
@@ -135,24 +131,11 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
           <AiOutlinePlus />
         </Button>
         {hotKeyList.map((hotKey, index) => (
-          <Box position="relative" display="inline-block" key={index}>
-            <Button
-              onClick={(event) =>
-                handleHotKeyClick(event.currentTarget.innerHTML)
-              }
-            >
-              {hotKey}
-            </Button>
-            <CloseButton
-              position="absolute"
-              top="20%"
-              right={-3}
-              transform="translateY(-100%)"
-              background={"gray"}
-              size={"sm"}
-              // onClick={handleDelete}
-            ></CloseButton>
-          </Box>
+          <HotKeyButton
+            hotKey={hotKey}
+            handleHotKeyClick={handleHotKeyClick}
+            key={index}
+          />
         ))}
       </HStack>
 
