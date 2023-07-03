@@ -10,7 +10,7 @@ const useFoodMenu = () => {
   const mainType0Dict: { [key: string]: number } = {
     "Fried Chicken Wings": 6,
     "Fried Half Chicken": 6.5,
-    "Chicken Wings w. Garlic Sauce": 6,
+    "Chicken Wings w. Garlic Sauce": 6.5,
     "Bar-B-Q Wing": 6.5,
     "Honey Wing": 6.5,
     "Fried Whiting Fish (4)": 5.5,
@@ -91,10 +91,6 @@ const useFoodMenu = () => {
 
   // small, large, with type0, with type 2
   const sideDict: { [key: string]: number[] } = {
-    "French Fries": [2.75, 5, 2, 1.5],
-    "Fried Green Banana": [3.5, 6.5, 3.25, 3],
-    "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
-
     "White Rice": [1.75, 3, 2, 0, 0],
     "Fried Rice": [3.0, 5.5, 2, 0.75, 1.25],
     "Vegetable Fried Rice": [4.5, 8, 2.75, 1.5, 3],
@@ -111,6 +107,10 @@ const useFoodMenu = () => {
     "Beef Lo Mein": [6.5, 10.75, 6, 5.25],
     "Shrimp Lo Mein": [6.5, 10.75, 6, 5.25],
     "House Special Lo Mein": [7.5, 12, 7, 6],
+
+    "French Fries": [2.75, 5, 2, 1.5],
+    "Fried Green Banana": [3.5, 6.5, 3.25, 3],
+    "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
   };
 
   const togetherDict: { [key: string]: number } = {};
@@ -184,19 +184,14 @@ const useFoodMenu = () => {
 
     "Small Vegetable Chow Mei Fun": 6,
     "Large Vegetable Chow Mei Fun": 10,
-
     "Small Roast Pork Chow Mei Fun": 6.25,
     "Large Roast Pork Chow Mei Fun": 10.5,
-
     "Small Chicken Chow Mei Fun": 6.25,
     "Large Chicken Chow Mei Fun": 10.5,
-
     "Small Beef Chow Mei Fun": 7,
     "Large Beef Chow Mei Fun": 11,
-
     "Small Shrimp Chow Mei Fun": 7,
     "Large Shrimp Chow Mei Fun": 11,
-
     "Small House Special Chow Mei Fun": 7.75,
     "Large House Special Chow Mei Fun": 12,
   };

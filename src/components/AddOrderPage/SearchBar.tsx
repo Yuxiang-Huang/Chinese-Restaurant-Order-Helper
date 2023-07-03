@@ -109,11 +109,12 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
           />
         </InputGroup>
       </form>
-      {foodList.slice(startingIndex, startingIndex + 5).map((food, index) => (
+      {foodList.slice(startingIndex, startingIndex + 7).map((food, index) => (
         <Button
-          style={{ width: "100%" }}
-          justifyContent={"space-between"}
           key={index}
+          style={{ width: "100%" }}
+          border={"1px"}
+          justifyContent={"space-between"}
           onClick={(event) =>
             !dragging && handleClick(event.currentTarget.innerHTML)
           }
