@@ -1,7 +1,7 @@
 import { Button, HStack, Text, Switch } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Customer } from "../../App";
+import { Customer, calculateTotalPrice } from "../../App";
 import { useState } from "react";
 import CustomerListDisplay from "./CustomerDisplay";
 
@@ -21,6 +21,13 @@ const CustomerListPage = ({ customerList, archivedCustomerList }: Props) => {
             <AiOutlinePlus />
           </Button>
         </Link>
+        {archivedMode && (
+          <Text background={"yellow"} fontSize="2xl">
+            <b>
+              {"$" + calculateTotalRevenue(customerList, archivedCustomerList)}
+            </b>
+          </Text>
+        )}
         <HStack>
           <Switch
             colorScheme="green"
@@ -41,6 +48,20 @@ const CustomerListPage = ({ customerList, archivedCustomerList }: Props) => {
       )}
     </>
   );
+};
+
+const calculateTotalRevenue = (
+  customerList: Customer[],
+  archivedCustomerList: Customer[]
+) => {
+  let total = 0;
+  customerList.map(
+    (customer) => (total += parseFloat(calculateTotalPrice(customer.orderList)))
+  );
+  archivedCustomerList.map(
+    (customer) => (total += parseFloat(calculateTotalPrice(customer.orderList)))
+  );
+  return Number(total).toFixed(2);
 };
 
 export default CustomerListPage;
