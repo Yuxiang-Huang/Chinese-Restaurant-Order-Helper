@@ -16,7 +16,7 @@ interface Props {
   addToOrderList: (order: Order) => void;
 }
 
-const AddOrderPage = ({
+const AddCustomerPage = ({
   order,
   fullFoodList,
   priceDict,
@@ -129,4 +129,4 @@ const AddOrderPage = ({
   );
 };
 
-export default AddOrderPage;
+export default AddCustomerPage;

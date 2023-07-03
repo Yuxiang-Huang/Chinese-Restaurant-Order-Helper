@@ -1,5 +1,5 @@
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
-import { Order, calculateTotalPrice, FunctionsContext } from "../../App";
+import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
 import ModalTemplate from "../ModalTemplate";
 import { useContext } from "react";
 
@@ -36,7 +36,6 @@ const OrderTopBar = ({ order }: Props) => {
           margin={3}
           background={"yellow"}
           fontSize="xl"
-          isDisabled={order.archived}
           onClick={() => pay(order.id)}
         >
           {order.paid

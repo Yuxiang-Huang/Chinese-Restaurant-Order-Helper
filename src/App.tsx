@@ -2,17 +2,17 @@ import { useEffect, useState, createContext } from "react";
 import { Routes, Route } from "react-router";
 import { useNavigate } from "react-router-dom";
 import nextId from "react-id-generator";
-import AddOrderPage from "./components/AddOrderPage/AddOrderPage";
-import OrderListPage from "./components/OrderListPage/OrderListPage";
-import useFoodMenu, { OrderItem } from "./hooks/useFoodMenu";
+import AddCustomerPage from "./components/AddCustomerPage/AddCustomerPage";
+import CustomerListPage from "./components/CustomerListPage/CustomerListPage";
+import useFoodMenu, { Order } from "./hooks/useFoodMenu";
 import "./index.css";
 import { produce } from "immer";
 import MenuPage from "./components/MenuPage/MenuPage";
 
-export interface Order {
+export interface Customer {
   id: string;
-  customerDescription: string;
-  orderItemList: OrderItem[];
+  description: string;
+  customerList: Customer[];
   paid: boolean;
   archived: boolean;
 }
@@ -24,14 +24,14 @@ export const FunctionsContext = createContext({
   pay: (id: string) => {
     console.log(id);
   },
-  edit: (orderToEdit: Order) => {
-    console.log(orderToEdit);
+  edit: (customerToEdit: Customer) => {
+    console.log(customerToEdit);
   },
-  archive: (orderToArchive: Order) => {
-    console.log(orderToArchive);
+  archive: (customerToArchive: Customer) => {
+    console.log(customerToArchive);
   },
-  unarchive: (orderToArchive: Order) => {
-    console.log(orderToArchive);
+  unarchive: (customerToArchive: Customer) => {
+    console.log(customerToArchive);
   },
 });
 
@@ -40,12 +40,14 @@ const App = () => {
   const navigate = useNavigate();
   const storage = window.sessionStorage;
 
-  const [orderList, setOrderList] = useState<Order[]>([]);
-  const [archivedOrderList, setArchivedOrderList] = useState<Order[]>([]);
-  const [order, setOrder] = useState<Order>({
+  const [customerList, setCustomerList] = useState<Customer[]>([]);
+  const [archivedCustomerList, setArchivedCustomerList] = useState<Customer[]>(
+    []
+  );
+  const [curCustomer, setCurCustomer] = useState<Customer>({
     id: nextId(),
-    customerDescription: "Customer Name",
-    orderItemList: [],
+    description: "Called?: ",
+    customerList: [],
     paid: false,
     archived: false,
   });
@@ -59,92 +61,104 @@ const App = () => {
     setFullFoodList(foodMenu.foodList);
     setPriceDict(foodMenu.priceDict);
 
-    // order, order list, and archived order list  from session storage
-    let rawValue = storage.getItem("order list");
-    if (rawValue) setOrderList(JSON.parse(rawValue));
-    rawValue = storage.getItem("order");
-    if (rawValue) setOrder(JSON.parse(rawValue));
-    rawValue = storage.getItem("archived order list");
-    if (rawValue) setArchivedOrderList(JSON.parse(rawValue));
+    // customer, customer list, and archived customer list  from session storage
+    let rawValue = storage.getItem("Current Customer");
+    if (rawValue) setCurCustomer(JSON.parse(rawValue));
+    rawValue = storage.getItem("Customer List");
+    if (rawValue) setCustomerList(JSON.parse(rawValue));
+    rawValue = storage.getItem("Archived Customer List");
+    if (rawValue) setArchivedCustomerList(JSON.parse(rawValue));
   }, []);
 
-  // sync order list wth session storage
+  // sync customer wth session storage
   useEffect(() => {
-    storage.setItem("order list", JSON.stringify(orderList));
-  }, [orderList]);
+    storage.setItem("Current Customer", JSON.stringify(curCustomer));
+  }, [curCustomer]);
 
-  // sync order wth session storage
+  // sync customer list wth session storage
   useEffect(() => {
-    storage.setItem("order", JSON.stringify(order));
-  }, [order]);
+    storage.setItem("Customer List", JSON.stringify(customerList));
+  }, [customerList]);
 
-  // sync archived order list wth session storage
+  // sync archived customer list wth session storage
   useEffect(() => {
-    storage.setItem("archived order list", JSON.stringify(archivedOrderList));
-  }, [archivedOrderList]);
+    storage.setItem(
+      "Archived Customer List",
+      JSON.stringify(archivedCustomerList)
+    );
+  }, [archivedCustomerList]);
 
   //#endregion
 
-  //#region Order List
-  const addToOrderList = (order: Order) => {
-    setOrderList([order, ...orderList]);
-    // clear order and go to order list page
-    setOrder({
+  //#region Customer List
+  const addToCustomerList = (newCustomer: Customer) => {
+    setCustomerList([newCustomer, ...customerList]);
+    // clear customer and go to customer list page
+    setCurCustomer({
       id: nextId(),
-      customerDescription: "Customer Name",
-      orderItemList: [],
+      description: "Called?: ",
+      customerList: [],
       paid: false,
       archived: false,
     });
-    navigate("/OrderList");
+    navigate("/CustomerList");
   };
   //#endregion
 
-  //#region Four buttons for each order
+  //#region Four buttons for Each Customer
   const updateCustomerDescription = (id: string, newDescription: string) => {
-    setOrderList(
+    setCustomerList(
       produce((draft) => {
-        const orderToChange = draft.find((orderItem) => orderItem.id === id);
-        if (orderToChange) orderToChange.customerDescription = newDescription;
+        const customerToChange = draft.find((customer) => customer.id === id);
+        if (customerToChange) customerToChange.description = newDescription;
       })
     );
   };
 
   const pay = (id: string) => {
-    setOrderList(
+    setCustomerList(
       produce((draft) => {
-        const orderToChange = draft.find((orderItem) => orderItem.id === id);
-        if (orderToChange) orderToChange.paid = !orderToChange.paid;
+        const customerToChange = draft.find((customer) => customer.id === id);
+        if (customerToChange) customerToChange.paid = !customerToChange.paid;
       })
     );
   };
 
-  const edit = (orderToEdit: Order) => {
-    // navigate to add order page
+  const edit = (customerToEdit: Customer) => {
+    // navigate to add customer page
     navigate("/");
-    // delete this order from order list
-    setOrderList(orderList.filter((order) => order.id !== orderToEdit.id));
-    // set order to this order
-    setOrder(orderToEdit);
+    // delete this customer from customer list
+    setCustomerList(
+      customerList.filter((customer) => customer.id !== customerToEdit.id)
+    );
+    // set customer to this customer
+    setCurCustomer(customerToEdit);
   };
 
-  const archive = (orderToArchive: Order) => {
-    // delete this order from order list
-    setOrderList(orderList.filter((order) => order.id !== orderToArchive.id));
-    // add this archived order to archived order list
-    setArchivedOrderList([
-      { ...orderToArchive, archived: true },
-      ...archivedOrderList,
+  const archive = (customerToArchive: Customer) => {
+    // delete this customer from customer list
+    setCustomerList(
+      customerList.filter((customer) => customer.id !== customerToArchive.id)
+    );
+    // add this archived customer to archived customer list
+    setArchivedCustomerList([
+      { ...customerToArchive, archived: true },
+      ...archivedCustomerList,
     ]);
   };
 
-  const unarchive = (orderToArchive: Order) => {
-    // delete this order from archived order list
-    setArchivedOrderList(
-      archivedOrderList.filter((order) => order.id !== orderToArchive.id)
+  const unarchive = (customerToArchive: Customer) => {
+    // delete this customer from archived customer list
+    setArchivedCustomerList(
+      archivedCustomerList.filter(
+        (customer) => customer.id !== customerToArchive.id
+      )
     );
-    // add this unarchived order to order list
-    setOrderList([...orderList, { ...orderToArchive, archived: false }]);
+    // add this unarchived customer to customer list
+    setCustomerList([
+      ...customerList,
+      { ...customerToArchive, archived: false },
+    ]);
   };
 
   const functionsNeeded = {
@@ -162,22 +176,22 @@ const App = () => {
       <Route
         path="/"
         element={
-          <AddOrderPage
-            order={order}
+          <AddCustomerPage
+            customer={curCustomer}
             fullFoodList={fullFoodList}
             priceDict={priceDict}
-            setOrder={setOrder}
-            addToOrderList={addToOrderList}
+            setCurCustomer={setCurCustomer}
+            addToCustomerList={addToCustomerList}
           />
         }
       />
       <Route
-        path="/OrderList"
+        path="/CustomerList"
         element={
           <FunctionsContext.Provider value={functionsNeeded}>
-            <OrderListPage
-              orderList={orderList}
-              archivedOrderList={archivedOrderList}
+            <CustomerListPage
+              customerList={customerList}
+              archivedCustomerList={archivedCustomerList}
             />
           </FunctionsContext.Provider>
         }
@@ -187,10 +201,10 @@ const App = () => {
   );
 };
 
-// calculate the total price of an order
-export const calculateTotalPrice = (order: OrderItem[]) => {
+// calculate the total price of an customer
+export const calculateTotalPrice = (orderList: Order[]) => {
   let total = 0;
-  order.map((OrderItem) => (total += OrderItem.price));
+  orderList.map((order) => (total += order.price));
   return Number(total).toFixed(2);
 };
 
