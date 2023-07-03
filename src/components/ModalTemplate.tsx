@@ -33,6 +33,14 @@ const ModalTemplate = ({
 }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
 
+  // also submit when user press enter
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      onEnter(id, ref.current === null ? "" : ref.current.value);
+      onClose();
+    }
+  };
+
   return (
     <>
       <Modal initialFocusRef={ref} isOpen={isOpen} onClose={onClose}>
@@ -46,6 +54,7 @@ const ModalTemplate = ({
                 ref={ref}
                 placeholder={placeholder}
                 defaultValue={defaultText}
+                onKeyDown={handleKeyPress}
               />
             </FormControl>
           </ModalBody>
