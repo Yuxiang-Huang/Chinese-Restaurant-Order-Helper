@@ -15,21 +15,22 @@ import ModalTemplate from "../ModalTemplate";
 
 interface Props {
   order: Order;
-  onDelete: (id: string) => void;
   modifyCustomization: (
     id: string,
     customization: string,
     main: boolean
   ) => void;
   modifyPriceString: (id: string, price: number) => void;
+  modifyCount: (valueAsString: string, valueAsNumber: number) => void;
 }
 
 const OrderDisplay = ({
   order,
-  onDelete,
   modifyCustomization,
   modifyPriceString,
+  modifyCount,
 }: Props) => {
+  //#region Disclosures
   const priceDisclosure = useDisclosure();
   const modifyPrice = (id: string, price: string) => {
     // convert to float
@@ -46,6 +47,7 @@ const OrderDisplay = ({
   const modifySideCustomization = (id: string, customization: string) => {
     modifyCustomization(id, customization, false);
   };
+  //#endregion
 
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
@@ -53,6 +55,7 @@ const OrderDisplay = ({
       defaultValue: 1,
       min: 0,
       precision: 0,
+      onChange: modifyCount,
     });
 
   const inc = getIncrementButtonProps();

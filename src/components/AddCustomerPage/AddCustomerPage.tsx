@@ -44,16 +44,6 @@ const AddCustomerPage = ({
     );
   };
 
-  // modify the price of an order from the order list of an customer
-  const modifyPrice = (id: string, newPrice: number) => {
-    setCurCustomer(
-      produce((draft) => {
-        const orderToChange = draft.orderList.find((order) => order.id === id);
-        if (orderToChange) orderToChange.price = newPrice;
-      })
-    );
-  };
-
   // modify the customization of an order from the order list of an customer
   const modifyCustomization = (
     id: string,
@@ -73,6 +63,28 @@ const AddCustomerPage = ({
         }
       })
     );
+  };
+
+  // modify the price of an order from the order list of an customer
+  const modifyPrice = (id: string, newPrice: number) => {
+    setCurCustomer(
+      produce((draft) => {
+        const orderToChange = draft.orderList.find((order) => order.id === id);
+        if (orderToChange) orderToChange.price = newPrice;
+      })
+    );
+  };
+
+  // modify the count of an order from the order list of an customer
+  const modifyCount = (valueAsString: string, valueAsNumber: number) => {
+    valueAsString;
+    valueAsNumber;
+    // setCurCustomer(
+    //   produce((draft) => {
+    //     const orderToChange = draft.orderList.find((order) => order.id === id);
+    //     if (orderToChange) orderToChange.price = newPrice;
+    //   })
+    // );
   };
 
   //#endregion
@@ -99,9 +111,9 @@ const AddCustomerPage = ({
           <ListItem key={index}>
             <OrderDisplay
               order={order}
-              onDelete={deleteFromCustomer}
               modifyCustomization={modifyCustomization}
               modifyPriceString={modifyPrice}
+              modifyCount={modifyCount}
             />
           </ListItem>
         ))}
