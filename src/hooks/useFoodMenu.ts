@@ -5,7 +5,8 @@ export interface Order {
   mainCustomization?: string;
   sideName: string;
   sideCustomization?: string;
-  price: number;
+  totalPrice: number;
+  unitPrice: number;
 }
 
 const useFoodMenu = () => {

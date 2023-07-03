@@ -124,7 +124,7 @@ const OrderDisplay = ({
             onEnter={modifyPrice}
           />
           <Button onClick={priceDisclosure.onOpen} marginRight={3}>
-            {"$" + Number(order.price).toFixed(2)}
+            {"$" + Number(order.totalPrice).toFixed(2)}
           </Button>
           <HStack>
             <Button {...dec}>-</Button>

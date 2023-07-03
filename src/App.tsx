@@ -201,7 +201,7 @@ const App = () => {
 // calculate the total price of an order list
 export const calculateTotalPrice = (orderList: Order[]) => {
   let total = 0;
-  orderList.map((order) => (total += order.price));
+  orderList.map((order) => (total += order.totalPrice));
   return Number(total).toFixed(2);
 };
 

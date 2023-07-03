@@ -48,7 +48,8 @@ const AddCustomerPage = ({
           count: count,
           mainName: mainName,
           sideName: sideName,
-          price: p,
+          totalPrice: p,
+          unitPrice: p,
         });
       })
     );
@@ -89,7 +90,7 @@ const AddCustomerPage = ({
     setCurCustomer(
       produce((draft) => {
         const orderToChange = draft.orderList.find((order) => order.id === id);
-        if (orderToChange) orderToChange.price = newPrice;
+        if (orderToChange) orderToChange.totalPrice = newPrice;
       })
     );
   };
@@ -104,7 +105,11 @@ const AddCustomerPage = ({
     setCurCustomer(
       produce((draft) => {
         const orderToChange = draft.orderList.find((order) => order.id === id);
-        if (orderToChange) orderToChange.count = valueAsNumber;
+        if (orderToChange) {
+          orderToChange.count = valueAsNumber;
+          orderToChange.totalPrice =
+            orderToChange.count * orderToChange.unitPrice;
+        }
       })
     );
   };

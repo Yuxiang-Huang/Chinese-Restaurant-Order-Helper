@@ -22,7 +22,11 @@ const CustomerListDisplay = ({ orderList, archived }: Props) => {
             <ListItem key={order.id}>
               <HStack justifyContent={"space-between"}>
                 <HStack>
-                  <Box margin={3}>{order.name}</Box>
+                  <Box margin={3}>
+                    {order.sideName
+                      ? order.mainName + " with " + order.sideName
+                      : order.mainName}
+                  </Box>
                   <VStack align={"baseline"}>
                     <Text fontSize="xs">
                       {order.mainCustomization &&
@@ -35,7 +39,9 @@ const CustomerListDisplay = ({ orderList, archived }: Props) => {
                   </VStack>
                 </HStack>
                 <HStack>
-                  <Box margin={3}>{"$" + Number(order.price).toFixed(2)}</Box>
+                  <Box margin={3}>
+                    {"$" + Number(order.totalPrice).toFixed(2)}
+                  </Box>
                 </HStack>
               </HStack>
             </ListItem>
