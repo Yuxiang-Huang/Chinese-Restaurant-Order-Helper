@@ -46,7 +46,7 @@ const App = () => {
   );
   const [curCustomer, setCurCustomer] = useState<Customer>({
     id: nextId(),
-    description: "Called?: ",
+    description: "Called? ",
     orderList: [],
     paid: false,
     archived: false,
@@ -96,7 +96,7 @@ const App = () => {
     // clear customer and go to customer list page
     setCurCustomer({
       id: nextId(),
-      description: "Called?: ",
+      description: "Called? ",
       orderList: [],
       paid: false,
       archived: false,
