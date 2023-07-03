@@ -30,7 +30,26 @@ const AddCustomerPage = ({
     const p = priceDict[foodName];
     setCurCustomer(
       produce((draft) => {
-        draft.orderList.push({ id: nextId(), name: foodName, price: p });
+        // default count for chicken wings is 4
+        let count = 1;
+        if (foodName === "Fried Chicken Wings") {
+          count = 4;
+        }
+
+        let mainName = foodName;
+        let sideName = "";
+        if (foodName.indexOf("with") !== -1) {
+          mainName = foodName.substring(0, foodName.indexOf("with"));
+          sideName = foodName.substring(foodName.indexOf("with") + 5);
+        }
+
+        draft.orderList.push({
+          id: nextId(),
+          count: count,
+          mainName: mainName,
+          sideName: sideName,
+          price: p,
+        });
       })
     );
   };
@@ -76,15 +95,18 @@ const AddCustomerPage = ({
   };
 
   // modify the count of an order from the order list of an customer
-  const modifyCount = (valueAsString: string, valueAsNumber: number) => {
+  const modifyCount = (
+    id: string,
+    valueAsString: string,
+    valueAsNumber: number
+  ) => {
     valueAsString;
-    valueAsNumber;
-    // setCurCustomer(
-    //   produce((draft) => {
-    //     const orderToChange = draft.orderList.find((order) => order.id === id);
-    //     if (orderToChange) orderToChange.price = newPrice;
-    //   })
-    // );
+    setCurCustomer(
+      produce((draft) => {
+        const orderToChange = draft.orderList.find((order) => order.id === id);
+        if (orderToChange) orderToChange.count = valueAsNumber;
+      })
+    );
   };
 
   //#endregion

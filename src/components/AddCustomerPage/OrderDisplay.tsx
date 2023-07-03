@@ -21,7 +21,11 @@ interface Props {
     main: boolean
   ) => void;
   modifyPriceString: (id: string, price: number) => void;
-  modifyCount: (valueAsString: string, valueAsNumber: number) => void;
+  modifyCount: (
+    id: string,
+    valueAsString: string,
+    valueAsNumber: number
+  ) => void;
 }
 
 const OrderDisplay = ({
@@ -49,13 +53,20 @@ const OrderDisplay = ({
   };
   //#endregion
 
+  const handleNumberInputChange = (
+    valueAsString: string,
+    valueAsNumber: number
+  ) => {
+    modifyCount(order.id, valueAsString, valueAsNumber);
+  };
+
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
       step: 1,
       defaultValue: 1,
       min: 0,
       precision: 0,
-      onChange: modifyCount,
+      onChange: handleNumberInputChange,
     });
 
   const inc = getIncrementButtonProps();
@@ -84,30 +95,22 @@ const OrderDisplay = ({
           onEnter={modifySideCustomization}
         />
 
-        {order.name.indexOf("with") === -1 ? (
-          <Flex>
+        <VStack align={"baseline"}>
+          <HStack>
             <Button onClick={mainCustomizationDisclosure.onOpen}>
-              {order.name}
+              {order.mainName}
             </Button>
             <Text fontSize="xs">{order.mainCustomization}</Text>
-          </Flex>
-        ) : (
-          <VStack align={"baseline"}>
-            <HStack>
-              <Button onClick={mainCustomizationDisclosure.onOpen}>
-                {order.name.substring(0, order.name.indexOf("with"))}
-              </Button>
-              <Text fontSize="xs">{order.mainCustomization}</Text>
-            </HStack>
-
+          </HStack>
+          {order.sideName && (
             <HStack>
               <Button onClick={sideCustomizationDisclosure.onOpen}>
-                {order.name.substring(order.name.indexOf("with") + 5)}
+                {order.sideName}
               </Button>
               <Text fontSize="xs">{order.sideCustomization}</Text>
             </HStack>
-          </VStack>
-        )}
+          )}
+        </VStack>
 
         <Spacer />
 
