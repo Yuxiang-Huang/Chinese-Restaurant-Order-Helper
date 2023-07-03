@@ -112,8 +112,11 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
       {foodList.slice(startingIndex, startingIndex + 7).map((food, index) => (
         <Button
           key={index}
-          style={{ width: "100%" }}
+          style={{ width: "98%" }}
           border={"1px"}
+          borderColor={"lightgray"}
+          marginLeft={1}
+          marginRight={1}
           justifyContent={"space-between"}
           onClick={(event) => handleClick(event.currentTarget.innerHTML)}
           _hover={{ bg: "Highlight" }}

@@ -63,7 +63,7 @@ const OrderDisplay = ({
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({
       step: 1,
-      defaultValue: 1,
+      defaultValue: order.count,
       min: 0,
       precision: 0,
       onChange: handleNumberInputChange,

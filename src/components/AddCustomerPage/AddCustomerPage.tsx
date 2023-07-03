@@ -39,7 +39,7 @@ const AddCustomerPage = ({
         let mainName = foodName;
         let sideName = "";
         if (foodName.indexOf("with") !== -1) {
-          mainName = foodName.substring(0, foodName.indexOf("with"));
+          mainName = foodName.substring(0, foodName.indexOf("with") - 1);
           sideName = foodName.substring(foodName.indexOf("with") + 5);
         }
 
@@ -102,16 +102,43 @@ const AddCustomerPage = ({
     valueAsNumber: number
   ) => {
     valueAsString;
-    setCurCustomer(
-      produce((draft) => {
-        const orderToChange = draft.orderList.find((order) => order.id === id);
-        if (orderToChange) {
-          orderToChange.count = valueAsNumber;
-          orderToChange.totalPrice =
-            orderToChange.count * orderToChange.unitPrice;
-        }
-      })
-    );
+    if (valueAsNumber === 0) {
+      deleteFromCustomer(id);
+    } else {
+      setCurCustomer(
+        produce((draft) => {
+          const orderToChange = draft.orderList.find(
+            (order) => order.id === id
+          );
+          if (orderToChange) {
+            orderToChange.count = valueAsNumber;
+            // outlier: chicken wings
+            if (
+              orderToChange.mainName === "Fried Chicken Wings" &&
+              !orderToChange.sideName
+            ) {
+              switch (orderToChange.count) {
+                case 1:
+                  orderToChange.totalPrice = 3.75;
+                  break;
+                case 2:
+                  orderToChange.totalPrice = 4.5;
+                  break;
+                case 3:
+                  orderToChange.totalPrice = 5.25;
+                  break;
+                default:
+                  orderToChange.totalPrice = 1.5 * orderToChange.count;
+                  break;
+              }
+            } else {
+              orderToChange.totalPrice =
+                orderToChange.count * orderToChange.unitPrice;
+            }
+          }
+        })
+      );
+    }
   };
 
   //#endregion
