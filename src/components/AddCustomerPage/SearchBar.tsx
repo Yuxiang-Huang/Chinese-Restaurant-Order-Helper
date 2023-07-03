@@ -1,7 +1,13 @@
 import { useState, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 // import { useDrag } from "@use-gesture/react";
-import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import {
+  Button,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 
 interface Props {
   fullFoodList: string[];
@@ -72,29 +78,53 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
     }
   };
 
-  const handleClick = (foodName: string) => {
-    addToCustomer(foodName);
+  const handleAddOrder = (foodName: string) => {
+    addToCustomer(foodName.replace("&amp;", "&"));
     // reset search text and food list
     if (searchTextRef.current) searchTextRef.current.value = "";
     setHighlightedFoodName("");
     setFoodList([]);
   };
 
+  const handleHotKeyClick = (textToAdd: string) => {
+    if (searchTextRef.current)
+      searchTextRef.current.value = searchTextRef.current?.value + textToAdd;
+    handleSearch();
+  };
+
   //#endregion
 
   return (
     <div style={{ touchAction: "none" }}>
+      <HStack margin={3}>
+        <Button
+          onClick={(event) => handleHotKeyClick(event.currentTarget.innerHTML)}
+        >
+          Broccoli
+        </Button>
+        <Button
+          onClick={(event) => handleHotKeyClick(event.currentTarget.innerHTML)}
+        >
+          with Fried Rice
+        </Button>
+        <Button
+          onClick={(event) => handleHotKeyClick(event.currentTarget.innerHTML)}
+        >
+          with Lo Mein
+        </Button>
+      </HStack>
+
       <form
         onSubmit={(event) => {
           event.preventDefault();
           if (highlightedFoodName === "") {
             if (foodList.length > 0) {
-              handleClick(foodList[0]);
+              handleAddOrder(foodList[0]);
             } else if (searchTextRef.current) {
-              handleClick(searchTextRef.current.value);
+              handleAddOrder(searchTextRef.current.value);
             }
           } else {
-            handleClick(highlightedFoodName);
+            handleAddOrder(highlightedFoodName);
           }
         }}
       >
@@ -109,6 +139,7 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
           />
         </InputGroup>
       </form>
+
       {foodList.slice(startingIndex, startingIndex + 7).map((food, index) => (
         <Button
           key={index}
@@ -118,7 +149,7 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
           marginLeft={1}
           marginRight={1}
           justifyContent={"space-between"}
-          onClick={(event) => handleClick(event.currentTarget.innerHTML)}
+          onClick={(event) => handleAddOrder(event.currentTarget.innerHTML)}
           _hover={{ bg: "Highlight" }}
           background={
             food === highlightedFoodName ||
