@@ -6,11 +6,11 @@ import {
   Box,
   VStack,
 } from "@chakra-ui/react";
-import { OrderItem } from "../../hooks/useFoodMenu";
+import { Order } from "../../hooks/useFoodMenu";
 import ModalTemplate from "../ModalTemplate";
 
 interface Props {
-  orderItem: OrderItem;
+  order: Order;
   onDelete: (id: string) => void;
   modifyCustomization: (
     id: string,
@@ -20,8 +20,8 @@ interface Props {
   modifyPriceString: (id: string, price: number) => void;
 }
 
-const OrderItemDisplay = ({
-  orderItem,
+const OrderDisplay = ({
+  order,
   onDelete,
   modifyCustomization,
   modifyPriceString,
@@ -48,8 +48,8 @@ const OrderItemDisplay = ({
     <Box border={"2px"} margin={1} marginTop={5}>
       <HStack justifyContent={"space-between"} margin={2}>
         <ModalTemplate
-          id={orderItem.id}
-          defaultText={orderItem.mainCustomization}
+          id={order.id}
+          defaultText={order.mainCustomization}
           header="Modify Main Customization"
           placeholder="Enter customization..."
           isOpen={mainCustomizationDisclosure.isOpen}
@@ -57,8 +57,8 @@ const OrderItemDisplay = ({
           onEnter={modifyMainCustomization}
         />
         <ModalTemplate
-          id={orderItem.id}
-          defaultText={orderItem.sideCustomization}
+          id={order.id}
+          defaultText={order.sideCustomization}
           header="Modify Side Customization"
           placeholder="Enter customization..."
           isOpen={sideCustomizationDisclosure.isOpen}
@@ -66,34 +66,34 @@ const OrderItemDisplay = ({
           onEnter={modifySideCustomization}
         />
 
-        {orderItem.name.indexOf("with") === -1 ? (
+        {order.name.indexOf("with") === -1 ? (
           <HStack>
             <Button onClick={mainCustomizationDisclosure.onOpen}>
-              {orderItem.name}
+              {order.name}
             </Button>
-            <Text fontSize="xs">{orderItem.mainCustomization}</Text>
+            <Text fontSize="xs">{order.mainCustomization}</Text>
           </HStack>
         ) : (
           <VStack align={"baseline"}>
             <HStack>
               <Button onClick={mainCustomizationDisclosure.onOpen}>
-                {orderItem.name.substring(0, orderItem.name.indexOf("with"))}
+                {order.name.substring(0, order.name.indexOf("with"))}
               </Button>
-              <Text fontSize="xs">{orderItem.mainCustomization}</Text>
+              <Text fontSize="xs">{order.mainCustomization}</Text>
             </HStack>
 
             <HStack>
               <Button onClick={sideCustomizationDisclosure.onOpen}>
-                {orderItem.name.substring(orderItem.name.indexOf("with") + 5)}
+                {order.name.substring(order.name.indexOf("with") + 5)}
               </Button>
-              <Text fontSize="xs">{orderItem.sideCustomization}</Text>
+              <Text fontSize="xs">{order.sideCustomization}</Text>
             </HStack>
           </VStack>
         )}
 
         <div>
           <ModalTemplate
-            id={orderItem.id}
+            id={order.id}
             header="Change Price"
             placeholder="Enter new price..."
             isOpen={priceDisclosure.isOpen}
@@ -101,9 +101,9 @@ const OrderItemDisplay = ({
             onEnter={modifyPrice}
           />
           <Button onClick={priceDisclosure.onOpen} marginRight={3}>
-            {"$" + Number(orderItem.price).toFixed(2)}
+            {"$" + Number(order.price).toFixed(2)}
           </Button>
-          <Button onClick={() => onDelete(orderItem.id)} colorScheme={"red"}>
+          <Button onClick={() => onDelete(order.id)} colorScheme={"red"}>
             Delete
           </Button>
         </div>
@@ -112,4 +112,4 @@ const OrderItemDisplay = ({
   );
 };
 
-export default OrderItemDisplay;
+export default OrderDisplay;

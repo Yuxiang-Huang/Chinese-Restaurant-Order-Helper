@@ -5,10 +5,10 @@ import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 
 interface Props {
   fullFoodList: string[];
-  addToOrder: (str: string) => void;
+  addToCustomer: (str: string) => void;
 }
 
-const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
+const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
   const searchTextRef = useRef<HTMLInputElement>(null);
   const [highlightedFoodName, setHighlightedFoodName] = useState("");
   // const [dragging, setDragging] = useState(false);
@@ -73,7 +73,7 @@ const SearchBar = ({ fullFoodList, addToOrder }: Props) => {
   };
 
   const handleClick = (foodName: string) => {
-    addToOrder(foodName);
+    addToCustomer(foodName);
     // reset search text and food list
     if (searchTextRef.current) searchTextRef.current.value = "";
     setHighlightedFoodName("");
