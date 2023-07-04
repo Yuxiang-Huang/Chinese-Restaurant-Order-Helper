@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -10,18 +10,19 @@ import {
   Button,
 } from "@chakra-ui/react";
 import RadioGroupTemplate from "./RadioGroupTemplate";
+import { Customer } from "../../App";
+import { produce } from "immer";
 
 interface Props {
   id: string;
-  defaultText?: string;
+  customer: Customer;
   header: string;
-  placeholder: string;
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (id: string, str: string) => void;
+  onEnter: (id: string, description: CustomerDescription) => void;
 }
 
-interface CustomerDescription {
+export interface CustomerDescription {
   age: string;
   ethnity: string;
   sex: string;
@@ -31,20 +32,22 @@ interface CustomerDescription {
 
 const CustomerDescriptionModal = ({
   id,
-  defaultText,
+  customer,
   header,
-  placeholder,
   isOpen,
   onClose,
   onEnter,
 }: Props) => {
-  const ref = useRef<HTMLInputElement>(null);
+  const [customerDescription, setCustomerDescription] =
+    useState<CustomerDescription>(customer.description);
 
-  const [value, setValue] = useState("1");
+  const setAge = (newAge: string) => {
+    setCustomerDescription(produce((draft) => (draft.age = newAge)));
+  };
 
   return (
     <>
-      <Modal initialFocusRef={ref} isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{header}</ModalHeader>
@@ -53,15 +56,15 @@ const CustomerDescriptionModal = ({
           <RadioGroupTemplate
             header="Age"
             options={["Teen", "18-26"]}
-            value={value}
-            setValue={setValue}
+            value={customerDescription.age}
+            setValue={setAge}
           />
           <ModalFooter>
             <Button
               colorScheme="blue"
               mr={3}
               onClick={() => {
-                onEnter(id, ref.current === null ? "" : ref.current.value);
+                onEnter(id, customerDescription);
                 onClose();
               }}
             >

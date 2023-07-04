@@ -8,17 +8,21 @@ import useFoodMenu, { Order } from "./hooks/useFoodMenu";
 import "./index.css";
 import { produce } from "immer";
 import MenuPage from "./components/MenuPage/MenuPage";
+import { CustomerDescription } from "./components/Templates/CustomerDescriptionModal";
 
 export interface Customer {
   id: string;
-  description: string;
+  description: CustomerDescription;
   orderList: Order[];
   paid: boolean;
   archived: boolean;
 }
 
 export const FunctionsContext = createContext({
-  updateCustomerDescription: (id: string, newDescription: string) => {
+  updateCustomerDescription: (
+    id: string,
+    newDescription: CustomerDescription
+  ) => {
     console.log(id, newDescription);
   },
   pay: (customerToPay: Customer) => {
@@ -46,7 +50,7 @@ const App = () => {
   );
   const [curCustomer, setCurCustomer] = useState<Customer>({
     id: nextId(),
-    description: "Called? ",
+    description: {} as CustomerDescription,
     orderList: [],
     paid: false,
     archived: false,
@@ -96,7 +100,7 @@ const App = () => {
     // clear customer and go to customer list page
     setCurCustomer({
       id: nextId(),
-      description: "Called? ",
+      description: {} as CustomerDescription,
       orderList: [],
       paid: false,
       archived: false,
@@ -106,7 +110,10 @@ const App = () => {
   //#endregion
 
   //#region Four buttons for Each Customer
-  const updateCustomerDescription = (id: string, newDescription: string) => {
+  const updateCustomerDescription = (
+    id: string,
+    newDescription: CustomerDescription
+  ) => {
     setCustomerList(
       produce((draft) => {
         const customerToChange = draft.find((customer) => customer.id === id);

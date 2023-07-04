@@ -18,9 +18,8 @@ const CustomerTopBar = ({ customer }: Props) => {
       <HStack justifyContent={"space-between"}>
         <CustomerDescriptionModal
           id={customer.id}
-          defaultText={customer.description}
+          customer={customer}
           header="Customer"
-          placeholder="Enter customer description"
           isOpen={customerDisclosure.isOpen}
           onClose={customerDisclosure.onClose}
           onEnter={updateCustomerDescription}
@@ -30,7 +29,7 @@ const CustomerTopBar = ({ customer }: Props) => {
           onClick={customerDisclosure.onOpen}
           isDisabled={customer.archived}
         >
-          {customer.description}
+          {"!!!"}
         </Button>
         <Button
           margin={3}
