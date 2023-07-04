@@ -13,7 +13,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import RadioGroupTemplate from "./RadioGroupTemplate";
+import RadioGroupTemplate from "../Templates/RadioGroupTemplate";
 import { Customer } from "../../App";
 
 interface Props {
@@ -25,7 +25,11 @@ interface Props {
 }
 
 export interface CustomerDescription {
-  [key: string]: string;
+  Age: string;
+  Ethnity: string;
+  Sex: string;
+  Accessory: string;
+  AdditionalText: string;
 }
 
 const CustomerDescriptionModal = ({
@@ -35,7 +39,7 @@ const CustomerDescriptionModal = ({
   onClose,
   onEnter,
 }: Props) => {
-  const customerDescription: { [key: string]: string } = {
+  const customerDescription: CustomerDescription = {
     Age: customer.description.Age,
     Ethnity: customer.description.Ethnity,
     Sex: customer.description.Sex,
@@ -48,11 +52,32 @@ const CustomerDescriptionModal = ({
     Age: ["Teen", "18-35", "35-60", "60+"],
     Ethnity: ["Black", "Hispanic", "White", "Asian"],
     Sex: ["Male", "Female", "?"],
-    Accessory: ["Glasses", "Hat", "N/A"],
   };
 
   const setCustomerDescriptionHelper = (type: string, newData: string) => {
-    customerDescription[type] = newData;
+    switch (type) {
+      case "Age":
+        customerDescription.Age = newData;
+        break;
+      case "Ethnity":
+        customerDescription.Ethnity = newData;
+        break;
+      case "Sex":
+        customerDescription.Sex = newData;
+        break;
+    }
+  };
+
+  const getInitValue = (type: string) => {
+    switch (type) {
+      case "Age":
+        return customerDescription.Age;
+      case "Ethnity":
+        return customerDescription.Ethnity;
+      case "Sex":
+        return customerDescription.Sex;
+    }
+    return "";
   };
 
   return (
@@ -64,13 +89,13 @@ const CustomerDescriptionModal = ({
           <ModalCloseButton />
           <ModalBody>
             <List spacing={5}>
-              {Object.keys(radioGroups).map((rgHeader) => (
+              {Object.keys(radioGroups).map((type) => (
                 <RadioGroupTemplate
-                  header={rgHeader}
-                  options={radioGroups[rgHeader]}
-                  initValue={customerDescription[rgHeader]}
+                  header={type}
+                  options={radioGroups[type]}
+                  initValue={getInitValue(type)}
                   setValue={setCustomerDescriptionHelper}
-                  key={rgHeader}
+                  key={type}
                 />
               ))}
             </List>

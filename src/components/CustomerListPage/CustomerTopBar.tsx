@@ -3,7 +3,7 @@ import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
 import CustomerDescriptionModal, {
   CustomerDescription,
-} from "../Templates/CustomerDescriptionModal";
+} from "./CustomerDescriptionModal";
 
 interface Props {
   customer: Customer;
