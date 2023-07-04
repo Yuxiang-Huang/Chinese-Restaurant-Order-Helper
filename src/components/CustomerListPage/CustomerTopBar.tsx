@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
-import CustomerDescriptionModal from "../Templates/CustomerDescriptionModal";
+import CustomerDescriptionModal, {
+  CustomerDescription,
+} from "../Templates/CustomerDescriptionModal";
 
 interface Props {
   customer: Customer;
@@ -12,6 +14,11 @@ const CustomerTopBar = ({ customer }: Props) => {
 
   const { updateCustomerDescription, edit, pay, archive, unarchive } =
     useContext(FunctionsContext);
+
+  const toString = (description: CustomerDescription) => {
+    let str = description.Age + " " + description.Ethnity;
+    return str;
+  };
 
   return (
     <>
@@ -28,7 +35,7 @@ const CustomerTopBar = ({ customer }: Props) => {
           onClick={customerDisclosure.onOpen}
           isDisabled={customer.archived}
         >
-          {"!!!"}
+          {toString(customer.description)}
         </Button>
         <Button
           margin={3}
