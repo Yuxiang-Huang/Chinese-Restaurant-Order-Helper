@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -46,15 +46,20 @@ const DescriptionModal = ({
   onClose,
   updateCustomerDescription,
 }: Props) => {
-  const customerDescription: CustomerDescription = {
-    Called: customer.description.Called,
-    Present: customer.description.Present,
-    Age: customer.description.Age,
-    Ethnity: customer.description.Ethnity,
-    Sex: customer.description.Sex,
-    Accessory: customer.description.Accessory,
-    AdditionalText: customer.description.AdditionalText,
+  const resetDescription = () => {
+    return {
+      Called: customer.description.Called,
+      Present: customer.description.Present,
+      Age: customer.description.Age,
+      Ethnity: customer.description.Ethnity,
+      Sex: customer.description.Sex,
+      Accessory: customer.description.Accessory,
+      AdditionalText: customer.description.AdditionalText,
+    };
   };
+
+  const [description, setDescription] = useState(resetDescription);
+
   const ref = useRef<HTMLInputElement>(null);
 
   const radioGroups: { [key: string]: string[] } = {
@@ -66,13 +71,13 @@ const DescriptionModal = ({
   const setCustomerDescriptionHelper = (type: string, newData: string) => {
     switch (type) {
       case "Age":
-        customerDescription.Age = newData;
+        setDescription({ ...description, Age: newData });
         break;
       case "Ethnity":
-        customerDescription.Ethnity = newData;
+        setDescription({ ...description, Ethnity: newData });
         break;
       case "Sex":
-        customerDescription.Sex = newData;
+        setDescription({ ...description, Sex: newData });
         break;
     }
   };
@@ -80,11 +85,11 @@ const DescriptionModal = ({
   const getInitValue = (type: string) => {
     switch (type) {
       case "Age":
-        return customerDescription.Age;
+        return description.Age;
       case "Ethnity":
-        return customerDescription.Ethnity;
+        return description.Ethnity;
       case "Sex":
-        return customerDescription.Sex;
+        return description.Sex;
     }
     return "";
   };
@@ -95,31 +100,35 @@ const DescriptionModal = ({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Customer Description</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={() => setDescription(resetDescription)} />
           <ModalBody>
             <Text fontSize={"xl"}>Presence</Text>
             <HStack marginBottom={5} spacing={5}>
               <Checkbox
-                defaultChecked={customerDescription.Called}
+                defaultChecked={description.Called}
                 onChange={(event) => {
-                  customerDescription.Called = event.target.checked;
-                  updateCustomerDescription(customer.id, customerDescription);
+                  setDescription({
+                    ...description,
+                    Called: event.target.checked,
+                  });
                 }}
               >
                 Called?
               </Checkbox>
               <Checkbox
-                defaultChecked={customerDescription.Present}
+                defaultChecked={description.Present}
                 onChange={(event) => {
-                  customerDescription.Present = event.target.checked;
-                  updateCustomerDescription(customer.id, customerDescription);
+                  setDescription({
+                    ...description,
+                    Present: event.target.checked,
+                  });
                 }}
               >
                 Present?
               </Checkbox>
             </HStack>
 
-            {(!customerDescription.Called || customerDescription.Present) && (
+            {(!description.Called || description.Present) && (
               <>
                 <List spacing={5}>
                   {Object.keys(radioGroups).map((type) => (
@@ -140,7 +149,7 @@ const DescriptionModal = ({
                   <Input
                     ref={ref}
                     placeholder={"Enter additional description..."}
-                    defaultValue={customerDescription.AdditionalText}
+                    defaultValue={description.AdditionalText}
                   />
                 </FormControl>
               </>
@@ -150,9 +159,8 @@ const DescriptionModal = ({
             <Button
               colorScheme="blue"
               onClick={() => {
-                if (ref.current)
-                  customerDescription.AdditionalText = ref.current.value;
-                updateCustomerDescription(id, customerDescription);
+                if (ref.current) description.AdditionalText = ref.current.value;
+                updateCustomerDescription(id, description);
                 onClose();
               }}
             >
