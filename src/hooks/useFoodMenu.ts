@@ -97,6 +97,10 @@ const useFoodMenu = () => {
 
   // small, large, with type0, with type 2
   const sideDict: { [key: string]: number[] } = {
+    "French Fries": [2.75, 5, 2, 1.5],
+    "Fried Green Banana": [3.5, 6.5, 3.25, 3],
+    "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
+
     "White Rice": [1.75, 3, 2, 0, 0],
     "Fried Rice": [3.0, 5.5, 2, 0.75, 1.25],
     "Vegetable Fried Rice": [4.5, 8, 2.75, 1.5, 3],
@@ -113,10 +117,6 @@ const useFoodMenu = () => {
     "Beef Lo Mein": [6.5, 10.75, 6, 5.25],
     "Shrimp Lo Mein": [6.5, 10.75, 6, 5.25],
     "House Special Lo Mein": [7.5, 12, 7, 6],
-
-    "French Fries": [2.75, 5, 2, 1.5],
-    "Fried Green Banana": [3.5, 6.5, 3.25, 3],
-    "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
   };
 
   //#region mixing main with side

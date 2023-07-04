@@ -12,6 +12,8 @@ import {
   FormControl,
   Input,
   Text,
+  Checkbox,
+  HStack,
 } from "@chakra-ui/react";
 import RadioGroupTemplate from "../Templates/RadioGroupTemplate";
 import { Customer } from "../../App";
@@ -21,10 +23,15 @@ interface Props {
   customer: Customer;
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (id: string, description: CustomerDescription) => void;
+  updateCustomerDescription: (
+    id: string,
+    description: CustomerDescription
+  ) => void;
 }
 
 export interface CustomerDescription {
+  Called: boolean;
+  Present: boolean;
   Age: string;
   Ethnity: string;
   Sex: string;
@@ -37,9 +44,11 @@ const CustomerDescriptionModal = ({
   customer,
   isOpen,
   onClose,
-  onEnter,
+  updateCustomerDescription,
 }: Props) => {
   const customerDescription: CustomerDescription = {
+    Called: customer.description.Called,
+    Present: customer.description.Present,
     Age: customer.description.Age,
     Ethnity: customer.description.Ethnity,
     Sex: customer.description.Sex,
@@ -88,27 +97,54 @@ const CustomerDescriptionModal = ({
           <ModalHeader>Customer Description</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <List spacing={5}>
-              {Object.keys(radioGroups).map((type) => (
-                <RadioGroupTemplate
-                  header={type}
-                  options={radioGroups[type]}
-                  initValue={getInitValue(type)}
-                  setValue={setCustomerDescriptionHelper}
-                  key={type}
-                />
-              ))}
-            </List>
-            <Text fontSize={"xl"} marginTop={5}>
-              Additional Description
-            </Text>
-            <FormControl>
-              <Input
-                ref={ref}
-                placeholder={"Enter additional description..."}
-                defaultValue={customerDescription.AdditionalText}
-              />
-            </FormControl>
+            <Text fontSize={"xl"}>Presence</Text>
+            <HStack marginBottom={5} spacing={5}>
+              <Checkbox
+                defaultChecked={customerDescription.Called}
+                onChange={(event) => {
+                  customerDescription.Called = event.target.checked;
+                  updateCustomerDescription(customer.id, customerDescription);
+                }}
+              >
+                Called?
+              </Checkbox>
+              <Checkbox
+                defaultChecked={customerDescription.Present}
+                onChange={(event) => {
+                  customerDescription.Present = event.target.checked;
+                  updateCustomerDescription(customer.id, customerDescription);
+                }}
+              >
+                Present?
+              </Checkbox>
+            </HStack>
+
+            {(!customerDescription.Called || customerDescription.Present) && (
+              <>
+                <List spacing={5}>
+                  {Object.keys(radioGroups).map((type) => (
+                    <RadioGroupTemplate
+                      header={type}
+                      options={radioGroups[type]}
+                      initValue={getInitValue(type)}
+                      setValue={setCustomerDescriptionHelper}
+                      key={type}
+                    />
+                  ))}
+                </List>
+
+                <Text fontSize={"xl"} marginTop={5}>
+                  Additional Description
+                </Text>
+                <FormControl>
+                  <Input
+                    ref={ref}
+                    placeholder={"Enter additional description..."}
+                    defaultValue={customerDescription.AdditionalText}
+                  />
+                </FormControl>
+              </>
+            )}
           </ModalBody>
           <ModalFooter>
             <Button
@@ -116,7 +152,7 @@ const CustomerDescriptionModal = ({
               onClick={() => {
                 if (ref.current)
                   customerDescription.AdditionalText = ref.current.value;
-                onEnter(id, customerDescription);
+                updateCustomerDescription(id, customerDescription);
                 onClose();
               }}
             >

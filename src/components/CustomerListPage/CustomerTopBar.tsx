@@ -39,7 +39,7 @@ const CustomerTopBar = ({ customer }: Props) => {
           customer={customer}
           isOpen={customerDisclosure.isOpen}
           onClose={customerDisclosure.onClose}
-          onEnter={updateCustomerDescription}
+          updateCustomerDescription={updateCustomerDescription}
         />
         <Button
           margin={3}
