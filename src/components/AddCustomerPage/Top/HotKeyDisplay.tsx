@@ -1,5 +1,5 @@
 import { AiOutlinePlus } from "react-icons/ai";
-import OneInputModal from "../../Modals/OneInputModal";
+import OneInputModal from "../../Templates/OneInputModal";
 import HotKeyButton from "./HotKeyButton";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";

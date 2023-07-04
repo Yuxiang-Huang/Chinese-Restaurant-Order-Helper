@@ -11,7 +11,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { Order } from "../../../hooks/useFoodMenu";
-import OneInputModal from "../../Modals/OneInputModal";
+import OneInputModal from "../../Templates/OneInputModal";
 
 interface Props {
   order: Order;

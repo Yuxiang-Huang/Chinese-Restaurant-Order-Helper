@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -7,11 +7,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  FormControl,
   Button,
-  Input,
-  Checkbox,
 } from "@chakra-ui/react";
+import RadioGroupTemplate from "./RadioGroupTemplate";
 
 interface Props {
   id: string;
@@ -21,6 +19,14 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onEnter: (id: string, str: string) => void;
+}
+
+interface CustomerDescription {
+  age: string;
+  ethnity: string;
+  sex: string;
+  accessory: string;
+  additionalText: string;
 }
 
 const CustomerDescriptionModal = ({
@@ -34,6 +40,8 @@ const CustomerDescriptionModal = ({
 }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
 
+  const [value, setValue] = useState("1");
+
   return (
     <>
       <Modal initialFocusRef={ref} isOpen={isOpen} onClose={onClose}>
@@ -41,10 +49,13 @@ const CustomerDescriptionModal = ({
         <ModalContent>
           <ModalHeader>{header}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
-            <Checkbox>Checkbox</Checkbox>
-          </ModalBody>
-
+          <ModalBody></ModalBody>
+          <RadioGroupTemplate
+            header="Age"
+            options={["Teen", "18-26"]}
+            value={value}
+            setValue={setValue}
+          />
           <ModalFooter>
             <Button
               colorScheme="blue"

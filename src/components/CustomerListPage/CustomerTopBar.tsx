@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
-import CustomerDescriptionModal from "../Modals/CustomerDescriptionModal";
+import CustomerDescriptionModal from "../Templates/CustomerDescriptionModal";
 
 interface Props {
   customer: Customer;
