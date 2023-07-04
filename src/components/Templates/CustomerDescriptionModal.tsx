@@ -53,7 +53,6 @@ const CustomerDescriptionModal = ({
 
   const setCustomerDescriptionHelper = (type: string, newData: string) => {
     customerDescription[type] = newData;
-    console.log(customerDescription);
   };
 
   return (

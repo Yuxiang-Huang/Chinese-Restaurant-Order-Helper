@@ -14,7 +14,7 @@ const RadioGroupTemplate = ({
   initValue,
   setValue,
 }: Props) => {
-  const [displayValue, setDisplayValue] = useState(initValue);
+  const [displayValue, setDisplayValue] = useState(initValue ? initValue : "");
   const [deselectCase, setDeselectCase] = useState(false);
 
   return (

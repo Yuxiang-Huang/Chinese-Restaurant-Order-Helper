@@ -18,11 +18,15 @@ const CustomerTopBar = ({ customer }: Props) => {
   const toString = (description: CustomerDescription) => {
     let str = "";
 
-    if (description.Age !== undefined) str += description.Age + " ";
-    if (description.Ethnity !== undefined) str += description.Ethnity + " ";
-    if (description.Sex !== undefined) str += description.Sex + " ";
+    if (description.Age) str += description.Age + " ";
+    if (description.Ethnity) str += description.Ethnity + " ";
+    if (description.Sex) str += description.Sex + " ";
+
     if (description.AdditionalText)
-      str += "; " + description.AdditionalText + " ";
+      str =
+        str.substring(0, str.length - 1) + "; " + description.AdditionalText;
+
+    if (str === "") return "Customer Description";
 
     return str;
   };
