@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
+  List,
 } from "@chakra-ui/react";
 import RadioGroupTemplate from "./RadioGroupTemplate";
 import { Customer } from "../../App";
@@ -28,6 +29,7 @@ export interface CustomerDescription {
   sex: string;
   accessory: string;
   additionalText: string;
+  [key: string]: string;
 }
 
 const CustomerDescriptionModal = ({
@@ -41,10 +43,19 @@ const CustomerDescriptionModal = ({
   const [customerDescription, setCustomerDescription] =
     useState<CustomerDescription>(customer.description);
 
-  const setAge = (newAge: string) => {
-    setCustomerDescription(produce((draft) => (draft.age = newAge)));
+  const radioGroups: { [key: string]: string[] } = {
+    Age: ["Teen", "18-30", "30-60", "60+"],
+    Ethnity: ["Black", "Hispanic"],
+    Sex: ["Male", "Female", "?"],
   };
 
+  const setCustomerDescriptionHelper = (type: string, newData: string) => {
+    setCustomerDescription(
+      produce((draft) => {
+        draft[type] = newData;
+      })
+    );
+  };
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -52,17 +63,22 @@ const CustomerDescriptionModal = ({
         <ModalContent>
           <ModalHeader>{header}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody></ModalBody>
-          <RadioGroupTemplate
-            header="Age"
-            options={["Teen", "18-26"]}
-            value={customerDescription.age}
-            setValue={setAge}
-          />
+          <ModalBody>
+            <List spacing={5}>
+              {Object.keys(radioGroups).map((rgHeader) => (
+                <RadioGroupTemplate
+                  header={rgHeader}
+                  options={radioGroups[rgHeader]}
+                  value={customerDescription[rgHeader]}
+                  setValue={setCustomerDescriptionHelper}
+                  key={rgHeader}
+                />
+              ))}
+            </List>
+          </ModalBody>
           <ModalFooter>
             <Button
               colorScheme="blue"
-              mr={3}
               onClick={() => {
                 onEnter(id, customerDescription);
                 onClose();

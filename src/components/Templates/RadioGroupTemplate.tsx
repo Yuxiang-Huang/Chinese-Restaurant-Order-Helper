@@ -4,12 +4,12 @@ interface Props {
   header: string;
   options: string[];
   value: string;
-  setValue: (str: string) => void;
+  setValue: (type: string, newData: string) => void;
 }
 
 const RadioGroupTemplate = ({ header, options, value, setValue }: Props) => {
   return (
-    <RadioGroup onChange={setValue} value={value} marginLeft={6}>
+    <RadioGroup onChange={(event) => setValue(header, event)} value={value}>
       <Text fontSize={"xl"}>{header}</Text>
       <HStack>
         {options.map((option) => (

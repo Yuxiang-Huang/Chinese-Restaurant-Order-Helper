@@ -62,7 +62,6 @@ const OneInputModal = ({
           <ModalFooter>
             <Button
               colorScheme="blue"
-              mr={3}
               onClick={() => {
                 onEnter(id, ref.current === null ? "" : ref.current.value);
                 onClose();
