@@ -19,7 +19,6 @@ const CustomerTopBar = ({ customer }: Props) => {
         <CustomerDescriptionModal
           id={customer.id}
           customer={customer}
-          header="Customer"
           isOpen={customerDisclosure.isOpen}
           onClose={customerDisclosure.onClose}
           onEnter={updateCustomerDescription}

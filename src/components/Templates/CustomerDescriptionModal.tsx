@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -15,12 +15,10 @@ import {
 } from "@chakra-ui/react";
 import RadioGroupTemplate from "./RadioGroupTemplate";
 import { Customer } from "../../App";
-import { produce } from "immer";
 
 interface Props {
   id: string;
   customer: Customer;
-  header: string;
   isOpen: boolean;
   onClose: () => void;
   onEnter: (id: string, description: CustomerDescription) => void;
@@ -33,13 +31,17 @@ export interface CustomerDescription {
 const CustomerDescriptionModal = ({
   id,
   customer,
-  header,
   isOpen,
   onClose,
   onEnter,
 }: Props) => {
-  const [customerDescription, setCustomerDescription] =
-    useState<CustomerDescription>(customer.description);
+  const customerDescription: { [key: string]: string } = {
+    Age: customer.description.Age,
+    Ethnity: customer.description.Ethnity,
+    Sex: customer.description.Sex,
+    Accessory: customer.description.Accessory,
+    AdditionalText: customer.description.AdditionalText,
+  };
   const ref = useRef<HTMLInputElement>(null);
 
   const radioGroups: { [key: string]: string[] } = {
@@ -50,18 +52,15 @@ const CustomerDescriptionModal = ({
   };
 
   const setCustomerDescriptionHelper = (type: string, newData: string) => {
-    setCustomerDescription(
-      produce((draft) => {
-        draft[type] = newData;
-      })
-    );
+    customerDescription[type] = newData;
   };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{header}</ModalHeader>
+          <ModalHeader>Customer Description</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <List spacing={5}>
@@ -82,7 +81,7 @@ const CustomerDescriptionModal = ({
               <Input
                 ref={ref}
                 placeholder={"Enter additional description..."}
-                defaultValue={customerDescription.additionalText}
+                defaultValue={customerDescription.AdditionalText}
               />
             </FormControl>
           </ModalBody>
@@ -90,6 +89,8 @@ const CustomerDescriptionModal = ({
             <Button
               colorScheme="blue"
               onClick={() => {
+                if (ref.current)
+                  customerDescription.AdditionalText = ref.current.value;
                 onEnter(id, customerDescription);
                 onClose();
               }}
