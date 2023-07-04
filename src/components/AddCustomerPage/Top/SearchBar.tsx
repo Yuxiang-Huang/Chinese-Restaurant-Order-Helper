@@ -1,7 +1,14 @@
 import { useState, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 // import { useDrag } from "@use-gesture/react";
-import { Button, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import {
+  Button,
+  CloseButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+} from "@chakra-ui/react";
 import HotKeyDisplay from "./HotKeyDisplay";
 
 interface Props {
@@ -12,8 +19,8 @@ interface Props {
 const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
   const searchTextRef = useRef<HTMLInputElement>(null);
   const [highlightedFoodName, setHighlightedFoodName] = useState("");
-  // const [dragging, setDragging] = useState(false);
 
+  // const [dragging, setDragging] = useState(false);
   const [startingIndex, setStartingIndex] = useState(0);
 
   // const bind = useDrag(({ down, movement: [my] }) => {
@@ -113,6 +120,16 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
             placeholder="Search Chinese Foods..."
             variant="filled"
             onChange={handleSearch}
+          />
+          <InputRightElement
+            children={
+              <CloseButton
+                onClick={() => {
+                  if (searchTextRef.current) searchTextRef.current.value = "";
+                  handleSearch();
+                }}
+              />
+            }
           />
         </InputGroup>
       </form>
