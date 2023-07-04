@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -9,6 +9,9 @@ import {
   ModalCloseButton,
   Button,
   List,
+  FormControl,
+  Input,
+  Text,
 } from "@chakra-ui/react";
 import RadioGroupTemplate from "./RadioGroupTemplate";
 import { Customer } from "../../App";
@@ -24,11 +27,6 @@ interface Props {
 }
 
 export interface CustomerDescription {
-  age: string;
-  ethnity: string;
-  sex: string;
-  accessory: string;
-  additionalText: string;
   [key: string]: string;
 }
 
@@ -42,11 +40,13 @@ const CustomerDescriptionModal = ({
 }: Props) => {
   const [customerDescription, setCustomerDescription] =
     useState<CustomerDescription>(customer.description);
+  const ref = useRef<HTMLInputElement>(null);
 
   const radioGroups: { [key: string]: string[] } = {
-    Age: ["Teen", "18-30", "30-60", "60+"],
-    Ethnity: ["Black", "Hispanic"],
+    Age: ["Teen", "18-35", "35-60", "60+"],
+    Ethnity: ["Black", "Hispanic", "White", "Asian"],
     Sex: ["Male", "Female", "?"],
+    Accessory: ["Glasses", "Hat", "N/A"],
   };
 
   const setCustomerDescriptionHelper = (type: string, newData: string) => {
@@ -75,6 +75,16 @@ const CustomerDescriptionModal = ({
                 />
               ))}
             </List>
+            <Text fontSize={"xl"} marginTop={5}>
+              Additional Description
+            </Text>
+            <FormControl>
+              <Input
+                ref={ref}
+                placeholder={"Enter additional description..."}
+                defaultValue={customerDescription.additionalText}
+              />
+            </FormControl>
           </ModalBody>
           <ModalFooter>
             <Button
