@@ -16,7 +16,14 @@ const CustomerTopBar = ({ customer }: Props) => {
     useContext(FunctionsContext);
 
   const toString = (description: CustomerDescription) => {
-    let str = description.Age + " " + description.Ethnity;
+    let str = "";
+
+    if (description.Age !== undefined) str += description.Age + " ";
+    if (description.Ethnity !== undefined) str += description.Ethnity + " ";
+    if (description.Sex !== undefined) str += description.Sex + " ";
+    if (description.AdditionalText)
+      str += "; " + description.AdditionalText + " ";
+
     return str;
   };
 

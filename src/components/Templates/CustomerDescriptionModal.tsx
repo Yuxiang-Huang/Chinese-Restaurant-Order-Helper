@@ -53,6 +53,7 @@ const CustomerDescriptionModal = ({
 
   const setCustomerDescriptionHelper = (type: string, newData: string) => {
     customerDescription[type] = newData;
+    console.log(customerDescription);
   };
 
   return (
@@ -68,7 +69,7 @@ const CustomerDescriptionModal = ({
                 <RadioGroupTemplate
                   header={rgHeader}
                   options={radioGroups[rgHeader]}
-                  value={customerDescription[rgHeader]}
+                  initValue={customerDescription[rgHeader]}
                   setValue={setCustomerDescriptionHelper}
                   key={rgHeader}
                 />

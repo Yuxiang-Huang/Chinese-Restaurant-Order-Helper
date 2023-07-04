@@ -14,25 +14,30 @@ const RadioGroupTemplate = ({
   initValue,
   setValue,
 }: Props) => {
-  const [selectedValue, setSelectedValue] = useState(initValue);
+  const [displayValue, setDisplayValue] = useState(initValue);
+  const [deselectCase, setDeselectCase] = useState(false);
 
   return (
-    <RadioGroup
-      onChange={(event) => setValue(header, event)}
-      value={selectedValue}
-    >
+    <RadioGroup value={displayValue}>
       <Text fontSize={"xl"}>{header}</Text>
       <HStack>
         {options.map((option) => (
           <Radio
             key={option}
             value={option}
-            onClick={() => {
-              console.log(selectedValue, option);
-              if (option === selectedValue) {
-                setSelectedValue("");
+            onChange={() => {
+              if (deselectCase) {
+                setDeselectCase(false);
               } else {
-                setSelectedValue(option);
+                setDisplayValue(option);
+                setValue(header, option);
+              }
+            }}
+            onClick={() => {
+              if (option === displayValue) {
+                setDisplayValue("");
+                setValue(header, "");
+                setDeselectCase(true);
               }
             }}
           >
