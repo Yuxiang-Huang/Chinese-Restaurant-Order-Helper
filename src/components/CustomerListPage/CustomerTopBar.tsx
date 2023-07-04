@@ -1,7 +1,7 @@
+import { useContext } from "react";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
-import ModalTemplate from "../ModalTemplate";
-import { useContext } from "react";
+import CustomerDescriptionModal from "../Modals/CustomerDescriptionModal";
 
 interface Props {
   customer: Customer;
@@ -16,7 +16,7 @@ const CustomerTopBar = ({ customer }: Props) => {
   return (
     <>
       <HStack justifyContent={"space-between"}>
-        <ModalTemplate
+        <CustomerDescriptionModal
           id={customer.id}
           defaultText={customer.description}
           header="Customer"

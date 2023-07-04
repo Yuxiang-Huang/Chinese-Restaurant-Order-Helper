@@ -11,7 +11,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { Order } from "../../../hooks/useFoodMenu";
-import ModalTemplate from "../../ModalTemplate";
+import OneInputModal from "../../Modals/OneInputModal";
 
 interface Props {
   order: Order;
@@ -76,7 +76,7 @@ const OrderDisplay = ({
   return (
     <Box border={"2px"} margin={1} marginTop={5}>
       <Flex margin={2}>
-        <ModalTemplate
+        <OneInputModal
           id={order.id}
           defaultText={order.mainCustomization}
           header="Modify Main Customization"
@@ -85,7 +85,7 @@ const OrderDisplay = ({
           onClose={mainCustomizationDisclosure.onClose}
           onEnter={modifyMainCustomization}
         />
-        <ModalTemplate
+        <OneInputModal
           id={order.id}
           defaultText={order.sideCustomization}
           header="Modify Side Customization"
@@ -115,7 +115,7 @@ const OrderDisplay = ({
         <Spacer />
 
         <HStack>
-          <ModalTemplate
+          <OneInputModal
             id={order.id}
             header="Change Price"
             placeholder="Enter new price..."

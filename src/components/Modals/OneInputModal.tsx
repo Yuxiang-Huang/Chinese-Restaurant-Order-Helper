@@ -22,7 +22,7 @@ interface Props {
   onEnter: (id: string, str: string) => void;
 }
 
-const ModalTemplate = ({
+const OneInputModal = ({
   id,
   defaultText,
   header,
@@ -68,7 +68,7 @@ const ModalTemplate = ({
                 onClose();
               }}
             >
-              Enter
+              Save
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -77,4 +77,4 @@ const ModalTemplate = ({
   );
 };
 
-export default ModalTemplate;
+export default OneInputModal;

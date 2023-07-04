@@ -1,5 +1,5 @@
 import { AiOutlinePlus } from "react-icons/ai";
-import ModalTemplate from "../../ModalTemplate";
+import OneInputModal from "../../Modals/OneInputModal";
 import HotKeyButton from "./HotKeyButton";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
@@ -34,7 +34,7 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
 
   return (
     <>
-      <ModalTemplate
+      <OneInputModal
         id="-1"
         defaultText=""
         header="Add Hot Key"

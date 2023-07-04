@@ -24,8 +24,6 @@ const AddCustomerPage = ({
   setCurCustomer,
   addToCustomerList,
 }: Props) => {
-  //#region Customer
-
   // add an order to customer (called when a food button is clicked)
   const addToCustomer = (foodName: string) => {
     const p = priceDict[foodName];
@@ -141,8 +139,6 @@ const AddCustomerPage = ({
       );
     }
   };
-
-  //#endregion
 
   return (
     <>
