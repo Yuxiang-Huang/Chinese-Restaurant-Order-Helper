@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
 import nextId from "react-id-generator";
 
-import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
+import { List, ListItem } from "@chakra-ui/react";
 import { produce } from "immer";
 
-import { Customer, calculateTotalPrice } from "../../App";
+import { Customer } from "../../App";
 import SearchBar from "./Top/SearchBar";
 import OrderDisplay from "./Bottom/OrderDisplay";
+import TopBar from "./Top/TopBar";
+import BottomBar from "./Bottom/BottomBar";
 
 interface Props {
   customer: Customer;
@@ -145,21 +146,8 @@ const AddCustomerPage = ({
 
   return (
     <>
-      <HStack justifyContent={"space-between"}>
-        <Link to="/CustomerList">
-          <Button colorScheme="blue" margin={3}>
-            View All Customers
-          </Button>
-        </Link>
-        <Link to="/Menu">
-          <Button colorScheme="orange" margin={3}>
-            View Menu
-          </Button>
-        </Link>
-      </HStack>
-
+      <TopBar />
       <SearchBar fullFoodList={fullFoodList} addToCustomer={addToCustomer} />
-
       <List>
         {customer.orderList.map((order, index) => (
           <ListItem key={index}>
@@ -172,20 +160,7 @@ const AddCustomerPage = ({
           </ListItem>
         ))}
       </List>
-
-      <HStack justifyContent={"space-between"}>
-        <Button
-          colorScheme="green"
-          margin={3}
-          marginTop={10}
-          onClick={() => addToCustomerList(customer)}
-        >
-          Add to Customer List
-        </Button>
-        <Text margin={3} background={"yellow"} fontSize="xl">
-          {"Total: $" + calculateTotalPrice(customer.orderList)}
-        </Text>
-      </HStack>
+      <BottomBar customer={customer} addToCustomerList={addToCustomerList} />
     </>
   );
 };
