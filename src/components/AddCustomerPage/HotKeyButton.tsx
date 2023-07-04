@@ -1,5 +1,5 @@
 import { Button, Box, CloseButton } from "@chakra-ui/react";
-import { useState } from "react";
+// import { useState } from "react";
 
 interface Props {
   hotKey: string;
@@ -8,39 +8,37 @@ interface Props {
 }
 
 const HotKeyButton = ({ hotKey, handleHotKeyClick, removeHotKey }: Props) => {
-  const [showCloseButton, setShowCloseButton] = useState(false);
-  const [pressTimer, setPressTimer] = useState(0);
+  // const [showCloseButton, setShowCloseButton] = useState(false);
+  // const [pressTimer, setPressTimer] = useState(0);
 
-  const handleButtonPress = () => {
-    setPressTimer(setTimeout(() => setShowCloseButton(true), 500));
-  };
+  // const handleButtonPress = () => {
+  //   setPressTimer(setTimeout(() => setShowCloseButton(true), 500));
+  // };
 
-  const handleButtonRelease = () => {
-    clearTimeout(pressTimer);
-  };
+  // const handleButtonRelease = () => {
+  //   clearTimeout(pressTimer);
+  // };
 
   return (
     <Box position="relative" display="inline-block">
       <Button
-        onClick={(event) =>
-          !showCloseButton && handleHotKeyClick(event.currentTarget.innerHTML)
-        }
-        onMouseDown={handleButtonPress}
-        onMouseUp={handleButtonRelease}
+        onClick={(event) => handleHotKeyClick(event.currentTarget.innerHTML)}
+        // onMouseDown={handleButtonPress}
+        // onMouseUp={handleButtonRelease}
       >
         {hotKey}
       </Button>
-      {showCloseButton && (
-        <CloseButton
-          position="absolute"
-          top="35%"
-          right={-3}
-          transform="translateY(-100%)"
-          background={"lightgray"}
-          size={"sm"}
-          onClick={() => removeHotKey(hotKey)}
-        ></CloseButton>
-      )}
+      {/* {showCloseButton && ( */}
+      <CloseButton
+        position="absolute"
+        top="35%"
+        right={-3}
+        transform="translateY(-100%)"
+        background={"lightgray"}
+        size={"sm"}
+        onClick={() => removeHotKey(hotKey)}
+      ></CloseButton>
+      {/* )} */}
     </Box>
   );
 };
