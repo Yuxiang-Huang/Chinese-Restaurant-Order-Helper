@@ -5,8 +5,8 @@ import { List, ListItem, Button, HStack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
 
 import { Customer, calculateTotalPrice } from "../../App";
-import SearchBar from "./SearchBar";
-import OrderDisplay from "./OrderDisplay";
+import SearchBar from "./Top/SearchBar";
+import OrderDisplay from "./Bottom/OrderDisplay";
 
 interface Props {
   customer: Customer;

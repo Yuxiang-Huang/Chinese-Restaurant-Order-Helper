@@ -10,8 +10,8 @@ import {
   Spacer,
   Flex,
 } from "@chakra-ui/react";
-import { Order } from "../../hooks/useFoodMenu";
-import ModalTemplate from "../ModalTemplate";
+import { Order } from "../../../hooks/useFoodMenu";
+import ModalTemplate from "../../ModalTemplate";
 
 interface Props {
   order: Order;
