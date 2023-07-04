@@ -39,7 +39,7 @@ export interface CustomerDescription {
   AdditionalText: string;
 }
 
-const CustomerDescriptionModal = ({
+const DescriptionModal = ({
   id,
   customer,
   isOpen,
@@ -165,4 +165,4 @@ const CustomerDescriptionModal = ({
   );
 };
 
-export default CustomerDescriptionModal;
+export default DescriptionModal;

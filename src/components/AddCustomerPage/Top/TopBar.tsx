@@ -11,7 +11,7 @@ const TopBar = () => {
       </Link>
       <Link to="/Menu">
         <Button colorScheme="orange" margin={3}>
-          View Menu
+          View Menu (Dev Mode)
         </Button>
       </Link>
     </HStack>

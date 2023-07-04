@@ -1,6 +1,6 @@
 import { List, ListItem, HStack, Box, Text, VStack } from "@chakra-ui/react";
 import { Customer } from "../../App";
-import CustomerTopBar from "./CustomerTopBar";
+import TopDisplay from "./TopDisplay";
 
 interface Props {
   customerList: Customer[];
@@ -17,7 +17,7 @@ const CustomerListDisplay = ({ customerList, archived }: Props) => {
           key={customer.id}
           background={archived ? "gray" : "white"}
         >
-          <CustomerTopBar customer={customer} />
+          <TopDisplay customer={customer} />
           {customer.orderList.map((order) => (
             <ListItem key={order.id}>
               <HStack justifyContent={"space-between"}>

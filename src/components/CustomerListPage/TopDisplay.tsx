@@ -1,15 +1,13 @@
 import { useContext } from "react";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
-import CustomerDescriptionModal, {
-  CustomerDescription,
-} from "./CustomerDescriptionModal";
+import DescriptionModal, { CustomerDescription } from "./DescriptionModal";
 
 interface Props {
   customer: Customer;
 }
 
-const CustomerTopBar = ({ customer }: Props) => {
+const TopDisplay = ({ customer }: Props) => {
   const customerDisclosure = useDisclosure();
 
   const { updateCustomerDescription, edit, pay, archive, unarchive } =
@@ -21,12 +19,19 @@ const CustomerTopBar = ({ customer }: Props) => {
     if (description.Age) str += description.Age + " ";
     if (description.Ethnity) str += description.Ethnity + " ";
     if (description.Sex) str += description.Sex + " ";
+    if (description.Accessory) str += description.Accessory + " ";
 
     if (description.AdditionalText)
       str =
         str.substring(0, str.length - 1) + "; " + description.AdditionalText;
 
-    if (str === "") return "Customer Description";
+    if (!str) {
+      if (description.Called)
+        if (description.Present) return "Called and Present";
+        else return "Called";
+      else if (description.Present) return "Present";
+      else return "Customer Description";
+    }
 
     return str;
   };
@@ -34,7 +39,7 @@ const CustomerTopBar = ({ customer }: Props) => {
   return (
     <>
       <HStack justifyContent={"space-between"}>
-        <CustomerDescriptionModal
+        <DescriptionModal
           id={customer.id}
           customer={customer}
           isOpen={customerDisclosure.isOpen}
@@ -83,4 +88,4 @@ const CustomerTopBar = ({ customer }: Props) => {
   );
 };
 
-export default CustomerTopBar;
+export default TopDisplay;

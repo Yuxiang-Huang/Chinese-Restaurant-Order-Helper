@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Customer, calculateTotalPrice } from "../../App";
 import { useState } from "react";
-import CustomerListDisplay from "./CustomerDisplay";
+import CustomerListDisplay from "./CustomerListDisplay";
 
 interface Props {
   customerList: Customer[];

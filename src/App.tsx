@@ -8,7 +8,7 @@ import useFoodMenu, { Order } from "./hooks/useFoodMenu";
 import "./index.css";
 import { produce } from "immer";
 import MenuPage from "./components/MenuPage/MenuPage";
-import { CustomerDescription } from "./components/CustomerListPage/CustomerDescriptionModal";
+import { CustomerDescription } from "./components/CustomerListPage/DescriptionModal";
 
 export interface Customer {
   id: string;
