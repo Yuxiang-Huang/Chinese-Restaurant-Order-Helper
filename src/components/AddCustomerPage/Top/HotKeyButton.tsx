@@ -3,17 +3,25 @@ import { useState } from "react";
 
 interface Props {
   hotKey: string;
+  closeButtonStatus: boolean;
   handleHotKeyClick: (str: string) => void;
   removeHotKey: (str: string) => void;
 }
 
-const HotKeyButton = ({ hotKey, handleHotKeyClick, removeHotKey }: Props) => {
-  // 0 is not show, 1 is show, -1 is preparing for reset
-  const [showCloseButton, setShowCloseButton] = useState(0);
+const HotKeyButton = ({
+  hotKey,
+  closeButtonStatus,
+  handleHotKeyClick,
+  removeHotKey,
+}: Props) => {
+  const [showCloseButton, setShowCloseButton] = useState(closeButtonStatus);
+
+  console.log(showCloseButton, closeButtonStatus);
+
   const [pressTimer, setPressTimer] = useState(0);
 
   const handleButtonPress = () => {
-    setPressTimer(setTimeout(() => setShowCloseButton(1), 500));
+    setPressTimer(setTimeout(() => setShowCloseButton(true), 500));
   };
 
   const handleButtonRelease = () => {
@@ -24,21 +32,15 @@ const HotKeyButton = ({ hotKey, handleHotKeyClick, removeHotKey }: Props) => {
     <Box position="relative" display="inline-block">
       <Button
         onClick={(event) => {
-          if (showCloseButton === 0) {
+          if (!showCloseButton)
             handleHotKeyClick(event.currentTarget.innerHTML);
-          } else if (showCloseButton === 1) {
-            setShowCloseButton(-1);
-          } else if (showCloseButton === -1) {
-            setShowCloseButton(0);
-          }
-          console.log(showCloseButton);
         }}
         onMouseDown={handleButtonPress}
         onMouseUp={handleButtonRelease}
       >
         {hotKey}
       </Button>
-      {showCloseButton !== 0 && (
+      {showCloseButton && (
         <CloseButton
           position="absolute"
           top="35%"
