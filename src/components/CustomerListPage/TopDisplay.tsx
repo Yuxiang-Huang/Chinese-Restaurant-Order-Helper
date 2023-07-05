@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
 import DescriptionModal, { CustomerDescription } from "./DescriptionModal";
+import Accessory, { accessoryToString } from "./Accessory";
 
 interface Props {
   customer: Customer;
@@ -19,7 +20,8 @@ const TopDisplay = ({ customer }: Props) => {
     if (description.Age) str += description.Age + " ";
     if (description.Ethnity) str += description.Ethnity + " ";
     if (description.Sex) str += description.Sex + " ";
-    if (description.Accessory) str += description.Accessory + " ";
+    if (description.Accessory)
+      str += accessoryToString(description.Accessory) + " ";
 
     if (description.AdditionalText)
       str =

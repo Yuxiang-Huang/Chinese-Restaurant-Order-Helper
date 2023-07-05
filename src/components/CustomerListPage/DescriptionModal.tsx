@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import RadioGroupTemplate from "../Templates/RadioGroupTemplate";
 import { Customer } from "../../App";
+import Accessory from "./Accessory";
 
 interface Props {
   id: string;
@@ -35,7 +36,7 @@ export interface CustomerDescription {
   Age: string;
   Ethnity: string;
   Sex: string;
-  Accessory: string;
+  Accessory: boolean[];
   AdditionalText: string;
 }
 
@@ -94,6 +95,10 @@ const DescriptionModal = ({
     return "";
   };
 
+  const setAccessory = (newAccessory: boolean[]) => {
+    setDescription({ ...description, Accessory: newAccessory });
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -141,6 +146,11 @@ const DescriptionModal = ({
                     />
                   ))}
                 </List>
+
+                <Accessory
+                  accessoryState={description.Accessory}
+                  setAccessory={setAccessory}
+                />
 
                 <Text fontSize={"xl"} marginTop={5}>
                   Additional Description

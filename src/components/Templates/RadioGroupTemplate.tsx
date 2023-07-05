@@ -20,7 +20,7 @@ const RadioGroupTemplate = ({
   return (
     <RadioGroup value={displayValue}>
       <Text fontSize={"xl"}>{header}</Text>
-      <HStack>
+      <HStack spacing={5}>
         {options.map((option) => (
           <Radio
             key={option}
