@@ -40,6 +40,10 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
     setHotKeyList(copy);
   };
 
+  const setCloseButtonStatusTrue = (hotKey: string, newStatus: boolean) => {
+    setHotKeyList({ ...hotKeyList, [hotKey]: newStatus });
+  };
+
   return (
     <Box
       onClick={(event) => {
@@ -68,6 +72,7 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
             key={index}
             hotKey={hotKey}
             closeButtonStatus={hotKeyList[hotKey]}
+            setCloseButtonStatus={setCloseButtonStatusTrue}
             handleHotKeyClick={handleHotKeyClick}
             removeHotKey={removeHotKey}
           />

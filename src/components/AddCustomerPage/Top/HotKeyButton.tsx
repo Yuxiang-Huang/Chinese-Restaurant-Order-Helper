@@ -4,6 +4,7 @@ import { useState } from "react";
 interface Props {
   hotKey: string;
   closeButtonStatus: boolean;
+  setCloseButtonStatus: (key: string, newStatus: boolean) => void;
   handleHotKeyClick: (str: string) => void;
   removeHotKey: (str: string) => void;
 }
@@ -11,17 +12,16 @@ interface Props {
 const HotKeyButton = ({
   hotKey,
   closeButtonStatus,
+  setCloseButtonStatus,
   handleHotKeyClick,
   removeHotKey,
 }: Props) => {
-  const [showCloseButton, setShowCloseButton] = useState(closeButtonStatus);
-
-  console.log(showCloseButton, closeButtonStatus);
+  const [buffer, setBuffer] = useState(true);
 
   const [pressTimer, setPressTimer] = useState(0);
 
   const handleButtonPress = () => {
-    setPressTimer(setTimeout(() => setShowCloseButton(true), 500));
+    setPressTimer(setTimeout(() => setCloseButtonStatus(hotKey, true), 500));
   };
 
   const handleButtonRelease = () => {
@@ -32,15 +32,20 @@ const HotKeyButton = ({
     <Box position="relative" display="inline-block">
       <Button
         onClick={(event) => {
-          if (!showCloseButton)
-            handleHotKeyClick(event.currentTarget.innerHTML);
+          if (closeButtonStatus)
+            if (buffer) setBuffer(false);
+            else {
+              setCloseButtonStatus(hotKey, false);
+              setBuffer(true);
+            }
+          else handleHotKeyClick(event.currentTarget.innerHTML);
         }}
         onMouseDown={handleButtonPress}
         onMouseUp={handleButtonRelease}
       >
         {hotKey}
       </Button>
-      {showCloseButton && (
+      {closeButtonStatus && (
         <CloseButton
           position="absolute"
           top="35%"
