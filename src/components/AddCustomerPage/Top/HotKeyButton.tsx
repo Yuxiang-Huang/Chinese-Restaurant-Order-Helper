@@ -4,7 +4,9 @@ import { useState } from "react";
 interface Props {
   hotKey: string;
   closeButtonStatus: boolean;
+  buffer: boolean;
   setCloseButtonStatus: (key: string, newStatus: boolean) => void;
+  setBufferStatus: (key: string, newStatus: boolean) => void;
   handleHotKeyClick: (str: string) => void;
   removeHotKey: (str: string) => void;
 }
@@ -13,11 +15,11 @@ const HotKeyButton = ({
   hotKey,
   closeButtonStatus,
   setCloseButtonStatus,
+  buffer,
+  setBufferStatus,
   handleHotKeyClick,
   removeHotKey,
 }: Props) => {
-  const [buffer, setBuffer] = useState(true);
-
   const [pressTimer, setPressTimer] = useState(0);
 
   const handleButtonPress = () => {
@@ -33,10 +35,10 @@ const HotKeyButton = ({
       <Button
         onClick={(event) => {
           if (closeButtonStatus)
-            if (buffer) setBuffer(false);
+            if (buffer) setBufferStatus(hotKey, false);
             else {
               setCloseButtonStatus(hotKey, false);
-              setBuffer(true);
+              setBufferStatus(hotKey, true);
             }
           else handleHotKeyClick(event.currentTarget.innerHTML);
         }}

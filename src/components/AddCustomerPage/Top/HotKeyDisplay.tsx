@@ -2,7 +2,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import OneInputModal from "../../Templates/OneInputModal";
 import HotKeyButton from "./HotKeyButton";
 import { Box, Button, HStack, useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   searchTextRef: React.RefObject<HTMLInputElement>;
@@ -10,12 +10,38 @@ interface Props {
 }
 
 const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
+  const storage = window.sessionStorage;
+
   const hotKeyDisclosure = useDisclosure();
-  const [hotKeyList, setHotKeyList] = useState<{ [key: string]: boolean }>({
-    Broccoli: false,
-    "with Fried Rice": false,
-    "with Lo Mein": false,
-  });
+
+  const [hotKeyList, setHotKeyList] = useState([
+    "Broccoli",
+    "with Fried Rice",
+    "with Lo Mein",
+  ]);
+
+  const initHotKeyListCloseButton: { [key: string]: boolean } = {};
+  hotKeyList.map((hotKey) => (initHotKeyListCloseButton[hotKey] = false));
+  const [hotKeyListCloseButton, setHotKeyListCloseButton] = useState<{
+    [key: string]: boolean;
+  }>(initHotKeyListCloseButton);
+
+  const initHotKeyListBuffers: { [key: string]: boolean } = {};
+  hotKeyList.map((hotKey) => (initHotKeyListBuffers[hotKey] = true));
+  const [hotKeyListBuffers, setHotKeyListBuffers] = useState<{
+    [key: string]: boolean;
+  }>(initHotKeyListBuffers);
+
+  useEffect(() => {
+    // hot key list from session storage
+    let rawValue = storage.getItem("Hot Key List");
+    if (rawValue) setHotKeyList(JSON.parse(rawValue));
+  }, []);
+
+  // sync hot key list wth session storage
+  useEffect(() => {
+    storage.setItem("Hot Key List", JSON.stringify(hotKeyList));
+  }, [hotKeyList]);
 
   const handleHotKeyClick = (textToAdd: string) => {
     if (searchTextRef.current)
@@ -25,29 +51,51 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
 
   const addHotKey = (id: string, keyToAdd: string) => {
     id;
-    setHotKeyList({ ...hotKeyList, [keyToAdd]: false });
+    setHotKeyList([...hotKeyList, keyToAdd]);
+    setHotKeyListCloseButton({ ...hotKeyListCloseButton, [keyToAdd]: false });
+    setHotKeyListBuffers({ ...hotKeyListBuffers, [keyToAdd]: true });
   };
 
   const removeHotKey = (keyToRemove: string) => {
-    const copy = { ...hotKeyList };
+    setHotKeyList(hotKeyList.filter((hotKey) => hotKey !== keyToRemove));
+
+    let copy = { ...hotKeyListCloseButton };
     delete copy[keyToRemove];
-    setHotKeyList(copy);
+    setHotKeyListCloseButton(copy);
+
+    copy = { ...hotKeyListBuffers };
+    delete copy[keyToRemove];
+    setHotKeyListBuffers(copy);
   };
 
-  const hideCloseButton = () => {
-    const copy = { ...hotKeyList };
+  const hideAllCloseButton = () => {
+    const copy = { ...hotKeyListCloseButton };
     Object.keys(copy).map((key) => (copy[key] = false));
-    setHotKeyList(copy);
+    setHotKeyListCloseButton(copy);
   };
 
-  const setCloseButtonStatusTrue = (hotKey: string, newStatus: boolean) => {
-    setHotKeyList({ ...hotKeyList, [hotKey]: newStatus });
+  const setCloseButtonStatus = (hotKey: string, newStatus: boolean) => {
+    setHotKeyListCloseButton({ ...hotKeyListCloseButton, [hotKey]: newStatus });
+  };
+
+  const setAllBuffersTrue = () => {
+    const copy = { ...hotKeyListBuffers };
+    Object.keys(copy).map((key) => (copy[key] = true));
+    setHotKeyListBuffers(copy);
+  };
+
+  const setBufferStatus = (hotKey: string, newStatus: boolean) => {
+    setHotKeyListBuffers({ ...hotKeyListBuffers, [hotKey]: newStatus });
   };
 
   return (
     <Box
       onClick={(event) => {
-        if (!(event.target instanceof HTMLButtonElement)) hideCloseButton();
+        // reset all close buttons and buffers
+        if (!(event.target instanceof HTMLButtonElement)) {
+          hideAllCloseButton();
+          setAllBuffersTrue();
+        }
       }}
     >
       <OneInputModal
@@ -67,12 +115,14 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
         >
           <AiOutlinePlus />
         </Button>
-        {Object.keys(hotKeyList).map((hotKey, index) => (
+        {hotKeyList.map((hotKey, index) => (
           <HotKeyButton
             key={index}
             hotKey={hotKey}
-            closeButtonStatus={hotKeyList[hotKey]}
-            setCloseButtonStatus={setCloseButtonStatusTrue}
+            closeButtonStatus={hotKeyListCloseButton[hotKey]}
+            setCloseButtonStatus={setCloseButtonStatus}
+            buffer={hotKeyListBuffers[hotKey]}
+            setBufferStatus={setBufferStatus}
             handleHotKeyClick={handleHotKeyClick}
             removeHotKey={removeHotKey}
           />

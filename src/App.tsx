@@ -65,7 +65,7 @@ const App = () => {
     setFullFoodList(foodMenu.foodList);
     setPriceDict(foodMenu.priceDict);
 
-    // customer, customer list, and archived customer list  from session storage
+    // customer, customer list, and archived customer list from session storage
     let rawValue = storage.getItem("Current Customer");
     if (rawValue) setCurCustomer(JSON.parse(rawValue));
     rawValue = storage.getItem("Customer List");
