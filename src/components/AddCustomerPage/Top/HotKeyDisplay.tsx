@@ -13,27 +13,28 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
   const storage = window.sessionStorage;
 
   const hotKeyDisclosure = useDisclosure();
-
   const [hotKeyList, setHotKeyList] = useState([
     "Broccoli",
     "with Fried Rice",
     "with Lo Mein",
   ]);
 
-  const initHotKeyListCloseButton: { [key: string]: boolean } = {};
-  hotKeyList.map((hotKey) => (initHotKeyListCloseButton[hotKey] = false));
-  const [hotKeyListCloseButton, setHotKeyListCloseButton] = useState<{
+  // initialize all close buttons to be off
+  const initCloseButtons: { [key: string]: boolean } = {};
+  hotKeyList.map((hotKey) => (initCloseButtons[hotKey] = false));
+  const [closeButtons, setCloseButtons] = useState<{
     [key: string]: boolean;
-  }>(initHotKeyListCloseButton);
+  }>(initCloseButtons);
 
-  const initHotKeyListBuffers: { [key: string]: boolean } = {};
-  hotKeyList.map((hotKey) => (initHotKeyListBuffers[hotKey] = true));
-  const [hotKeyListBuffers, setHotKeyListBuffers] = useState<{
+  // initialize all buffers (to buffer the click after pressing) to be on
+  const initBuffers: { [key: string]: boolean } = {};
+  hotKeyList.map((hotKey) => (initBuffers[hotKey] = true));
+  const [buffers, setBuffers] = useState<{
     [key: string]: boolean;
-  }>(initHotKeyListBuffers);
+  }>(initBuffers);
 
+  // hot key list from session storage
   useEffect(() => {
-    // hot key list from session storage
     let rawValue = storage.getItem("Hot Key List");
     if (rawValue) setHotKeyList(JSON.parse(rawValue));
   }, []);
@@ -43,49 +44,52 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
     storage.setItem("Hot Key List", JSON.stringify(hotKeyList));
   }, [hotKeyList]);
 
+  // add to search text when a hot key is clicked
   const handleHotKeyClick = (textToAdd: string) => {
     if (searchTextRef.current)
       searchTextRef.current.value = searchTextRef.current?.value + textToAdd;
     handleSearch();
   };
 
+  // add a hot key
   const addHotKey = (id: string, keyToAdd: string) => {
     id;
     setHotKeyList([...hotKeyList, keyToAdd]);
-    setHotKeyListCloseButton({ ...hotKeyListCloseButton, [keyToAdd]: false });
-    setHotKeyListBuffers({ ...hotKeyListBuffers, [keyToAdd]: true });
+    setCloseButtons({ ...closeButtons, [keyToAdd]: false });
+    setBuffers({ ...buffers, [keyToAdd]: true });
   };
 
+  // delete a hot key
   const removeHotKey = (keyToRemove: string) => {
     setHotKeyList(hotKeyList.filter((hotKey) => hotKey !== keyToRemove));
 
-    let copy = { ...hotKeyListCloseButton };
+    let copy = { ...closeButtons };
     delete copy[keyToRemove];
-    setHotKeyListCloseButton(copy);
+    setCloseButtons(copy);
 
-    copy = { ...hotKeyListBuffers };
+    copy = { ...buffers };
     delete copy[keyToRemove];
-    setHotKeyListBuffers(copy);
+    setBuffers(copy);
   };
 
   const hideAllCloseButton = () => {
-    const copy = { ...hotKeyListCloseButton };
+    const copy = { ...closeButtons };
     Object.keys(copy).map((key) => (copy[key] = false));
-    setHotKeyListCloseButton(copy);
+    setCloseButtons(copy);
   };
 
   const setCloseButtonStatus = (hotKey: string, newStatus: boolean) => {
-    setHotKeyListCloseButton({ ...hotKeyListCloseButton, [hotKey]: newStatus });
+    setCloseButtons({ ...closeButtons, [hotKey]: newStatus });
   };
 
   const setAllBuffersTrue = () => {
-    const copy = { ...hotKeyListBuffers };
+    const copy = { ...buffers };
     Object.keys(copy).map((key) => (copy[key] = true));
-    setHotKeyListBuffers(copy);
+    setBuffers(copy);
   };
 
   const setBufferStatus = (hotKey: string, newStatus: boolean) => {
-    setHotKeyListBuffers({ ...hotKeyListBuffers, [hotKey]: newStatus });
+    setBuffers({ ...buffers, [hotKey]: newStatus });
   };
 
   return (
@@ -119,9 +123,9 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
           <HotKeyButton
             key={index}
             hotKey={hotKey}
-            closeButtonStatus={hotKeyListCloseButton[hotKey]}
+            closeButtonStatus={closeButtons[hotKey]}
             setCloseButtonStatus={setCloseButtonStatus}
-            buffer={hotKeyListBuffers[hotKey]}
+            bufferStatus={buffers[hotKey]}
             setBufferStatus={setBufferStatus}
             handleHotKeyClick={handleHotKeyClick}
             removeHotKey={removeHotKey}
