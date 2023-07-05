@@ -169,7 +169,11 @@ const DescriptionModal = ({
             <Button
               colorScheme="blue"
               onClick={() => {
-                if (ref.current) description.AdditionalText = ref.current.value;
+                if (ref.current)
+                  setDescription({
+                    ...description,
+                    AdditionalText: ref.current.value,
+                  });
                 updateCustomerDescription(id, description);
                 onClose();
               }}

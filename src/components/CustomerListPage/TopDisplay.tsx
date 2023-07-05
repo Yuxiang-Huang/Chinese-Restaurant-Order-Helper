@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import { Customer, calculateTotalPrice, FunctionsContext } from "../../App";
 import DescriptionModal, { CustomerDescription } from "./DescriptionModal";
-import Accessory, { accessoryToString } from "./Accessory";
+import { accessoryToString } from "./Accessory";
 
 interface Props {
   customer: Customer;
