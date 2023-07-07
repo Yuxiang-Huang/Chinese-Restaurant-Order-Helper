@@ -28,6 +28,7 @@ interface Props {
     valueAsString: string,
     valueAsNumber: number
   ) => void;
+  deleteFromCustomer: (id: string) => void;
 }
 
 const OrderDisplay = ({
@@ -35,6 +36,7 @@ const OrderDisplay = ({
   modifyCustomization,
   modifyPriceString,
   modifyCount,
+  deleteFromCustomer,
 }: Props) => {
   //#region Disclosures
   const priceDisclosure = useDisclosure();
@@ -66,7 +68,7 @@ const OrderDisplay = ({
     useNumberInput({
       step: 1,
       defaultValue: order.count,
-      min: 0,
+      min: 1,
       precision: 0,
       onChange: handleNumberInputChange,
     });
@@ -131,6 +133,12 @@ const OrderDisplay = ({
             <Input {...input} width={"12"} />
             <Button {...inc}>+</Button>
           </HStack>
+          <Button
+            colorScheme="red"
+            onClick={() => deleteFromCustomer(order.id)}
+          >
+            Delete
+          </Button>
         </HStack>
       </Flex>
     </Box>
