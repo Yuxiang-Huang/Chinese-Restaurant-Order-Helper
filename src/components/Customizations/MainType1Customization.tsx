@@ -20,10 +20,13 @@ import DonenessSlider, {
   markToValue,
   valueToMark,
 } from "../Templates/DonenessSlider";
+import SizeSelector from "./SizeSelector";
 
 interface Props {
   id: string;
-  priceDist: { [key: string]: number };
+  mainName: string;
+  sideName: string;
+  priceDict: { [key: string]: number };
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
@@ -32,7 +35,9 @@ interface Props {
 
 const MainType1Customization = ({
   id,
-  priceDist,
+  mainName,
+  sideName,
+  priceDict,
   lastCustomization,
   isOpen,
   onClose,
@@ -90,6 +95,7 @@ const MainType1Customization = ({
     let customization = "";
     if (chosenSauce !== "Regular Sauce") customization += chosenSauce + "; ";
     if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;
+    if (donenessText !== "Normal") customization += donenessText + "; ";
     if (ref.current) customization += ref.current.value;
     return customization;
   };
@@ -97,7 +103,31 @@ const MainType1Customization = ({
   const origDollarExtra = dollarAmount;
 
   const save = () => {
-    onEnter(id, dollarAmount - origDollarExtra, createCustomizationText());
+    let sizeDif = 0;
+    if (origSize === "small" && curSize == "large") {
+      sizeDif =
+        priceDict[mainName + " (Large) with " + sideName] -
+        priceDict[mainName + " with " + sideName];
+    } else if (origSize === "large" && curSize == "small") {
+      sizeDif =
+        priceDict[mainName + " with " + sideName] -
+        priceDict[mainName.replace(" (Large)", "") + " with " + sideName];
+    }
+    onEnter(
+      id,
+      dollarAmount - origDollarExtra + sizeDif,
+      createCustomizationText()
+    );
+  };
+
+  // size
+  let origSize = "small";
+  if (mainName.includes("(Large")) {
+    origSize = "large";
+  }
+  let curSize = origSize;
+  const setCurSize = (newSize: string) => {
+    curSize = newSize;
   };
 
   return (
@@ -108,6 +138,7 @@ const MainType1Customization = ({
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <SizeSelector defaultSize={origSize} setCurSize={setCurSize} />
             <RadioGroup defaultValue={chosenSauce} marginBottom={10}>
               <Text fontSize={"xl"}>Sauces</Text>
               <HStack spacing={5}>

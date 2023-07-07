@@ -139,7 +139,9 @@ const OrderDisplay = ({
       return (
         <MainType1Customization
           id={order.id}
-          priceDist={priceDict}
+          mainName={order.mainName}
+          sideName={order.sideName}
+          priceDict={priceDict}
           lastCustomization={lastCustomization}
           isOpen={dislosure.isOpen}
           onClose={dislosure.onClose}
