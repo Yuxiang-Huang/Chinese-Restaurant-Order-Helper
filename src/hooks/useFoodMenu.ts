@@ -9,56 +9,57 @@ export interface Order {
   unitPrice: number;
 }
 
+// by itself, with French Fries / Fried Rice / White Rice, Pork or Chicken Fried Rice, Beef or Shrimp Fried Rice
+const mainType0Dict: { [key: string]: number[] } = {
+  "Fried Chicken Wings": [6, 8, 8.75, 9.5],
+  "Fried Half Chicken": [6.5, 8.5, 9.25, 9.75],
+  "Chicken Wings w. Garlic Sauce": [6.5, 8.5, 9.25, 10],
+  "Bar-B-Q Wing": [6.5, 8.5, 9.25, 10],
+  "Honey Wing": [6.5, 8.5, 9.25, 10],
+  "Fried Scallops (8)": [4.5, 6.25, 7.25, 7.75],
+  "Chicken Gizzards": [4.75, 6.5, 7.25, 7.75],
+  "Chicken Liver": [4.75, 6.5, 7.25, 7.75],
+  "Fried Boneless Chicken": [5.75, 7.5, 8.25, 8.75],
+  "Boneless Spare Ribs": [6.75, 8.5, 9.25, 9.75],
+  "Spare Rib Tips": [5.25, 7, 7.75, 8.25],
+  "Fried Pork Chop (2)": [5.25, 7, 7.75, 8.25],
+  "Fried Crab Sticks (8)": [4.5, 6.25, 7.25, 7.75],
+  "Fried Shrimp (20)": [5.75, 7.5, 8.25, 8.75],
+  "Fried Jumbo Shrimp (8)": [7.5, 9, 9.75, 10.25],
+  "Fried Whiting Fish (4)": [5.5, 7.5, 8.25, 8.75],
+  "Chicken Nuggets (8)": [4.5, 6.25, 7.25, 7.75],
+  "Long Spare Ribs": [8.5, 10, 10.5, 11],
+};
+
+// small, large, with type0, with type1 small, with type 1 large
+const sideDict: { [key: string]: number[] } = {
+  "French Fries": [2.75, 5, -100, 1.5],
+  "Fried Green Banana": [3.5, 6.5, 3.25, 3],
+  "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
+
+  "White Rice": [1.75, 3, -100, 0, 0],
+  "Fried Rice": [3.0, 5.5, -100, 0.75, 1.25],
+  "Vegetable Fried Rice": [4.5, 8, -100, 1.5, 3],
+  "Roast Pork Fried Rice": [4.75, 8.5, -100, 1.5, 3],
+  "Chicken Fried Rice": [4.75, 8.5, -100, 1.5, 3],
+  "Beef Fried Rice": [5.5, 9.5, -100, 2, 3.75],
+  "Shrimp Fried Rice": [5.5, 9.5, -100, 2, 3.75],
+  "House Special Fried Rice": [6.5, 11, 5.5, 5, 5],
+
+  "Lo Mein": [5, 8, 4, 3.5],
+  "Vegetable Lo Mein": [5.5, 9.25, 5.25, 4.5],
+  "Roast Pork Lo Mein": [5.75, 10, 5.25, 4.5],
+  "Chicken Lo Mein": [5.75, 10, 5.25, 4.5],
+  "Beef Lo Mein": [6.5, 10.75, 6, 5.25],
+  "Shrimp Lo Mein": [6.5, 10.75, 6, 5.25],
+  "House Special Lo Mein": [7.5, 12, 7, 6],
+};
+
 const useFoodMenu = () => {
   // dict of mixing main with side
   const togetherDict: { [key: string]: number } = {};
 
-  // small, large, with type0, with type1 small, with type 1 large
-  const sideDict: { [key: string]: number[] } = {
-    "French Fries": [2.75, 5, -100, 1.5],
-    "Fried Green Banana": [3.5, 6.5, 3.25, 3],
-    "Fried Sweet Banana": [3.75, 7, 3.5, 3.25],
-
-    "White Rice": [1.75, 3, -100, 0, 0],
-    "Fried Rice": [3.0, 5.5, -100, 0.75, 1.25],
-    "Vegetable Fried Rice": [4.5, 8, -100, 1.5, 3],
-    "Roast Pork Fried Rice": [4.75, 8.5, -100, 1.5, 3],
-    "Chicken Fried Rice": [4.75, 8.5, -100, 1.5, 3],
-    "Beef Fried Rice": [5.5, 9.5, -100, 2, 3.75],
-    "Shrimp Fried Rice": [5.5, 9.5, -100, 2, 3.75],
-    "House Special Fried Rice": [6.5, 11, 5.5, 5, 5],
-
-    "Lo Mein": [5, 8, 4, 3.5],
-    "Vegetable Lo Mein": [5.5, 9.25, 5.25, 4.5],
-    "Roast Pork Lo Mein": [5.75, 10, 5.25, 4.5],
-    "Chicken Lo Mein": [5.75, 10, 5.25, 4.5],
-    "Beef Lo Mein": [6.5, 10.75, 6, 5.25],
-    "Shrimp Lo Mein": [6.5, 10.75, 6, 5.25],
-    "House Special Lo Mein": [7.5, 12, 7, 6],
-  };
-
-  // by itself, with French Fries / Fried Rice / White Rice, Pork or Chicken Fried Rice, Beef or Shrimp Fried Rice
-  const mainType0Dict: { [key: string]: number[] } = {
-    "Fried Chicken Wings": [6, 8, 8.75, 9.5],
-    "Fried Half Chicken": [6.5, 8.5, 9.25, 9.75],
-    "Chicken Wings w. Garlic Sauce": [6.5, 8.5, 9.25, 10],
-    "Bar-B-Q Wing": [6.5, 8.5, 9.25, 10],
-    "Honey Wing": [6.5, 8.5, 9.25, 10],
-    "Fried Scallops (8)": [4.5, 6.25, 7.25, 7.75],
-    "Chicken Gizzards": [4.75, 6.5, 7.25, 7.75],
-    "Chicken Liver": [4.75, 6.5, 7.25, 7.75],
-    "Fried Boneless Chicken": [5.75, 7.5, 8.25, 8.75],
-    "Boneless Spare Ribs": [6.75, 8.5, 9.25, 9.75],
-    "Spare Rib Tips": [5.25, 7, 7.75, 8.25],
-    "Fried Pork Chop (2)": [5.25, 7, 7.75, 8.25],
-    "Fried Crab Sticks (8)": [4.5, 6.25, 7.25, 7.75],
-    "Fried Shrimp (20)": [5.75, 7.5, 8.25, 8.75],
-    "Fried Jumbo Shrimp (8)": [7.5, 9, 9.75, 10.25],
-    "Fried Whiting Fish (4)": [5.5, 7.5, 8.25, 8.75],
-    "Chicken Nuggets (8)": [4.5, 6.25, 7.25, 7.75],
-    "Long Spare Ribs": [8.5, 10, 10.5, 11],
-  };
-
+  // main type 0 with side
   Object.keys(mainType0Dict).map((mainKey) => {
     togetherDict[mainKey] = mainType0Dict[mainKey][0];
     Object.keys(sideDict).map((sideKey) => {
@@ -111,8 +112,6 @@ const useFoodMenu = () => {
     Broccoli: [5.75, 9.75],
     "Mix Veg": [6, 10],
 
-    "Long Spare Ribs": [8.5, 15],
-
     "Plain Lobster Sauce": [5.5, 10],
     "Shrimp w. Lobster Sauce": [8, 14],
 
@@ -139,17 +138,17 @@ const useFoodMenu = () => {
     "Crab Meat Egg Foo Young": [9],
   };
 
-  // create full main type 2 dict by mixing meat types with mainType2NoMeat
+  // create full main type 1 dict by mixing meat types with mainType2NoMeat
   Object.keys(mainType1NoMeatDict).map((mainKey) => {
     Object.keys(meatTypeDict).map((meatKey) => {
-      mainType2Dict[meatKey + mainKey] = [
-        mainType2NoMeatDict[mainKey][0] + meatTypeDict[meatKey][0],
-        mainType2NoMeatDict[mainKey][1] + meatTypeDict[meatKey][1],
+      mainType1Dict[meatKey + mainKey] = [
+        mainType1NoMeatDict[mainKey][0] + meatTypeDict[meatKey][0],
+        mainType1NoMeatDict[mainKey][1] + meatTypeDict[meatKey][1],
       ];
     });
   });
-  //#endregion
 
+  // main type 1 with side
   Object.keys(mainType1Dict).map((mainKey) => {
     const priceList = mainType1Dict[mainKey];
     if (priceList.length > 1) {

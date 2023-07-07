@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Order } from "../../../hooks/useFoodMenu";
 import OneInputModal from "../../Templates/OneInputModal";
+import GeneralCustomizationModal from "../../Templates/GeneralCustomizationModal";
 
 interface Props {
   order: Order;
@@ -76,11 +77,10 @@ const OrderDisplay = ({
   return (
     <Box border={"2px"} margin={1} marginTop={5}>
       <Flex margin={2}>
-        <OneInputModal
+        <GeneralCustomizationModal
           id={order.id}
+          foodName={order.mainName}
           defaultText={order.mainCustomization}
-          header="Modify Main Customization"
-          placeholder="Enter customization..."
           isOpen={mainCustomizationDisclosure.isOpen}
           onClose={mainCustomizationDisclosure.onClose}
           onEnter={modifyMainCustomization}
