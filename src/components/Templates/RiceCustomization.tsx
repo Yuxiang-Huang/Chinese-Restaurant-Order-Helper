@@ -10,37 +10,43 @@ import {
   FormControl,
   Button,
   Input,
+  Checkbox,
+  useNumberInput,
+  HStack,
+  Flex,
 } from "@chakra-ui/react";
-import DonenessSlider, { markToValue, valueToMark } from "./DonenessSlider";
 
 interface Props {
   id: string;
-  foodName: string;
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
   onEnter: (id: string, priceDif: number, str: string) => void;
 }
 
-const GeneralCustomizationModal = ({
+const RiceCustomization = ({
   id,
-  foodName,
   lastCustomization,
   isOpen,
   onClose,
   onEnter,
 }: Props) => {
-  const donenessExcludeList = ["Can Soda", "Bottle Soda", "Bottle Water"];
-
-  // doneness
+  // parsing last customization
   let index = 0;
-  const doneness = markToValue(lastCustomization[index]);
-  if (doneness !== 50) index++;
-  let donenessText = valueToMark(doneness);
 
-  const setDonenessText = (newDonenessText: string) => {
-    donenessText = newDonenessText;
-  };
+  // sauce on rice
+  let sauceBoolean = false;
+  if (lastCustomization[index] == "Sauce on Rice") {
+    sauceBoolean = true;
+    index++;
+  }
+
+  // egg
+  let eggBoolean = false;
+  if (lastCustomization[index] == "Egg") {
+    eggBoolean = true;
+    index++;
+  }
 
   // default text
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
@@ -48,7 +54,8 @@ const GeneralCustomizationModal = ({
 
   const createCustomizationText = () => {
     let customization = "";
-    if (donenessText !== "Normal") customization += donenessText + "; ";
+    if (sauceBoolean) customization += "Sauce on Rice; ";
+    if (eggBoolean) customization += "Egg; ";
     if (ref.current) customization += ref.current.value;
     return customization;
   };
@@ -59,18 +66,26 @@ const GeneralCustomizationModal = ({
 
   return (
     <>
-      <Modal initialFocusRef={ref} isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {!donenessExcludeList.includes(foodName) && (
-              <DonenessSlider
-                defaultValue={doneness}
-                setDonenessText={setDonenessText}
-              />
-            )}
+            <HStack marginBottom={5} spacing={5}>
+              <Checkbox
+                defaultChecked={sauceBoolean}
+                onChange={(event) => (sauceBoolean = event.target.checked)}
+              >
+                Sauce on Rice
+              </Checkbox>
+              <Checkbox
+                defaultChecked={eggBoolean}
+                onChange={(event) => (eggBoolean = event.target.checked)}
+              >
+                Egg
+              </Checkbox>
+            </HStack>
             <FormControl>
               <Input
                 ref={ref}
@@ -103,4 +118,4 @@ const GeneralCustomizationModal = ({
   );
 };
 
-export default GeneralCustomizationModal;
+export default RiceCustomization;

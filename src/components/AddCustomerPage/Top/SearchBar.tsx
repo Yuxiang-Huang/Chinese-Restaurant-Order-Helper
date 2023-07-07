@@ -134,7 +134,7 @@ const SearchBar = ({ fullFoodList, addToCustomer }: Props) => {
         </InputGroup>
       </form>
 
-      {foodList.slice(startingIndex, startingIndex + 7).map((food, index) => (
+      {foodList.slice(startingIndex, startingIndex + 8).map((food, index) => (
         <Button
           key={index}
           style={{ width: "98%" }}

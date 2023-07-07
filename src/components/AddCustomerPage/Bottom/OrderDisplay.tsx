@@ -14,6 +14,7 @@ import { Order } from "../../../hooks/useFoodMenu";
 import OneInputModal from "../../Templates/OneInputModal";
 import GeneralCustomizationModal from "../../Templates/GeneralCustomizationModal";
 import ChickenWingCustomization from "../../Templates/ChickenWingCustomization";
+import RiceCustomization from "../../Templates/RiceCustomization";
 
 interface Props {
   order: Order;
@@ -100,6 +101,16 @@ const OrderDisplay = ({
     if (foodName === "Fried Chicken Wings") {
       return (
         <ChickenWingCustomization
+          id={order.id}
+          lastCustomization={lastCustomization}
+          isOpen={dislosure.isOpen}
+          onClose={dislosure.onClose}
+          onEnter={onEnter}
+        />
+      );
+    } else if (foodName.includes("Rice")) {
+      return (
+        <RiceCustomization
           id={order.id}
           lastCustomization={lastCustomization}
           isOpen={dislosure.isOpen}

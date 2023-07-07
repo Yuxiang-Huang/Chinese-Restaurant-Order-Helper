@@ -128,7 +128,7 @@ const ChickenWingCustomization = ({
             <FormControl>
               <Input
                 ref={ref}
-                placeholder="Enter customization..."
+                placeholder="Enter additional customization..."
                 defaultValue={defaultText}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
