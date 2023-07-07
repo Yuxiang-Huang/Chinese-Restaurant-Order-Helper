@@ -42,8 +42,8 @@ const HotKeyButton = ({
             }
           else handleHotKeyClick(event.currentTarget.innerHTML);
         }}
-        onMouseDown={handleButtonPress}
-        onMouseUp={handleButtonRelease}
+        onPointerDown={handleButtonPress}
+        onPointerUp={handleButtonRelease}
       >
         {hotKey}
       </Button>
