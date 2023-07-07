@@ -10,39 +10,54 @@ import {
   FormControl,
   Button,
   Input,
+  Text,
 } from "@chakra-ui/react";
-import DonenessSlider, { markToValue, valueToMark } from "./DonenessSlider";
+import DollarExtra from "../Templates/DollarExtra";
+import DonenessSlider, {
+  markToValue,
+  valueToMark,
+} from "../Templates/DonenessSlider";
+import RadioGroupTemplate from "../Templates/RadioGroupTemplate";
 
 interface Props {
   id: string;
-  foodName: string;
+  priceDist: { [key: string]: number };
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
   onEnter: (id: string, priceDif: number, str: string) => void;
 }
 
-const GeneralCustomizationModal = ({
+const MainType1Customization = ({
   id,
-  foodName,
+  priceDist,
   lastCustomization,
   isOpen,
   onClose,
   onEnter,
 }: Props) => {
-  const donenessExcludeList = [
-    "Can Soda",
-    "Bottle Soda",
-    "Bottle Water",
-    "Small Ice Tea",
-    "Large Ice Tea",
-    "Small Lemonade",
-    "Large Lemonade",
-    "Side Sauce",
-  ];
+  // parsing last customization
+  let index = 0;
+
+  // dollar extra
+  let dollarAmount = 0;
+  let meat = "";
+  if (lastCustomization[index].charAt(0) === "$") {
+    const plusIndex = lastCustomization[index].indexOf("+");
+    dollarAmount = parseFloat(lastCustomization[index].substring(1, plusIndex));
+    meat = lastCustomization[index].substring(plusIndex + 2);
+    index++;
+  }
+
+  const setAmount = (valueAsString: string) => {
+    dollarAmount = parseFloat(valueAsString);
+  };
+
+  const setMeat = (newMeat: string) => {
+    meat = newMeat;
+  };
 
   // doneness
-  let index = 0;
   const doneness = markToValue(lastCustomization[index]);
   if (doneness !== 50) index++;
   let donenessText = valueToMark(doneness);
@@ -57,29 +72,39 @@ const GeneralCustomizationModal = ({
 
   const createCustomizationText = () => {
     let customization = "";
-    if (donenessText !== "Normal") customization += donenessText + "; ";
+    if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;
     if (ref.current) customization += ref.current.value;
     return customization;
   };
 
+  const origDollarExtra = dollarAmount;
+
   const save = () => {
-    onEnter(id, 0, createCustomizationText());
+    onEnter(id, dollarAmount - origDollarExtra, createCustomizationText());
   };
 
   return (
     <>
-      <Modal initialFocusRef={ref} isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {!donenessExcludeList.includes(foodName) && (
-              <DonenessSlider
-                defaultValue={doneness}
-                setDonenessText={setDonenessText}
-              />
-            )}
+            <Text fontSize={"xl"}>Sauces</Text>
+            <RadioGroupTemplate />
+
+            <DollarExtra
+              defaultAmount={dollarAmount}
+              defaultMeat={meat}
+              setAmount={setAmount}
+              setMeat={setMeat}
+            />
+
+            <DonenessSlider
+              defaultValue={doneness}
+              setDonenessText={setDonenessText}
+            />
             <FormControl>
               <Input
                 ref={ref}
@@ -112,4 +137,4 @@ const GeneralCustomizationModal = ({
   );
 };
 
-export default GeneralCustomizationModal;
+export default MainType1Customization;

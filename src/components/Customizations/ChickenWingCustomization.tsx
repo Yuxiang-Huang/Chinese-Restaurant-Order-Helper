@@ -15,7 +15,10 @@ import {
   HStack,
   Flex,
 } from "@chakra-ui/react";
-import DonenessSlider, { markToValue, valueToMark } from "./DonenessSlider";
+import DonenessSlider, {
+  markToValue,
+  valueToMark,
+} from "../Templates/DonenessSlider";
 
 interface Props {
   id: string;

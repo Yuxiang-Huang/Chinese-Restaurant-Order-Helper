@@ -12,11 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { Order } from "../../../hooks/useFoodMenu";
 import OneInputModal from "../../Templates/OneInputModal";
-import GeneralCustomizationModal from "../../Templates/GeneralCustomizationModal";
-import ChickenWingCustomization from "../../Templates/ChickenWingCustomization";
-import RiceCustomization from "../../Templates/RiceCustomization";
-import LoMeinCustomization from "../../Templates/LoMeinCustomization";
-import MainType1Customization from "../../Templates/MainType1Customization";
+import GeneralCustomizationModal from "../../Customizations/GeneralCustomizationModal";
+import ChickenWingCustomization from "../../Customizations/ChickenWingCustomization";
+import RiceCustomization from "../../Customizations/RiceCustomization";
+import LoMeinCustomization from "../../Customizations/LoMeinCustomization";
+import MainType1Customization from "../../Customizations/MainType1Customization";
 
 interface Props {
   order: Order;
