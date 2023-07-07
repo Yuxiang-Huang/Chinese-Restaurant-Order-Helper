@@ -15,6 +15,7 @@ import OneInputModal from "../../Templates/OneInputModal";
 import GeneralCustomizationModal from "../../Templates/GeneralCustomizationModal";
 import ChickenWingCustomization from "../../Templates/ChickenWingCustomization";
 import RiceCustomization from "../../Templates/RiceCustomization";
+import LoMeinCustomization from "../../Templates/LoMeinCustomization";
 
 interface Props {
   order: Order;
@@ -113,6 +114,16 @@ const OrderDisplay = ({
         <RiceCustomization
           id={order.id}
           whiteRice={foodName === "White Rice"}
+          lastCustomization={lastCustomization}
+          isOpen={dislosure.isOpen}
+          onClose={dislosure.onClose}
+          onEnter={onEnter}
+        />
+      );
+    } else if (foodName.includes("Lo Mein")) {
+      return (
+        <LoMeinCustomization
+          id={order.id}
           lastCustomization={lastCustomization}
           isOpen={dislosure.isOpen}
           onClose={dislosure.onClose}

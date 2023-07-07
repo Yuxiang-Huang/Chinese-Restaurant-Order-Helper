@@ -29,11 +29,11 @@ const CustomerListDisplay = ({ customerList, archived }: Props) => {
                   <VStack align={"baseline"}>
                     <Text fontSize="xs">
                       {order.mainCustomization &&
-                        "Main: " + order.mainCustomization}
+                        "Main-" + order.mainCustomization}
                     </Text>
                     <Text fontSize="xs">
                       {order.sideCustomization &&
-                        "Side: " + order.sideCustomization}
+                        "Side-" + order.sideCustomization}
                     </Text>
                   </VStack>
                 </HStack>
