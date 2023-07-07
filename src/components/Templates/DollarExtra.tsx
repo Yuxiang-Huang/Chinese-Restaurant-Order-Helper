@@ -23,7 +23,6 @@ const DollarExtra = ({
       defaultValue: defaultAmount,
       min: 0,
       max: 9,
-      precision: 0,
       onChange: setAmount,
     });
 
@@ -37,7 +36,7 @@ const DollarExtra = ({
         -
       </Button>
       <Text>$</Text>
-      <Input {...input} width={"10"} size={"sm"} />
+      <Input {...input} width={"20"} size={"sm"} />
       <Button {...inc} size={"sm"}>
         +
       </Button>

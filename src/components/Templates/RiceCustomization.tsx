@@ -94,13 +94,14 @@ const RiceCustomization = ({
   let dollarAmount = 0;
   let meat = "";
   if (lastCustomization[index].charAt(0) === "$") {
-    dollarAmount = parseInt(lastCustomization[index].charAt(1));
-    meat = lastCustomization[index].substring(4);
+    const plusIndex = lastCustomization[index].indexOf("+");
+    dollarAmount = parseFloat(lastCustomization[index].substring(1, plusIndex));
+    meat = lastCustomization[index].substring(plusIndex + 2);
     index++;
   }
 
   const setAmount = (valueAsString: string) => {
-    dollarAmount = parseInt(valueAsString);
+    dollarAmount = parseFloat(valueAsString);
   };
 
   const setMeat = (newMeat: string) => {
@@ -115,13 +116,24 @@ const RiceCustomization = ({
     let customization = vegToString();
     if (sauceBoolean) customization += "Sauce on Rice; ";
     if (eggBoolean) customization += "Egg; ";
-    if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}`;
+    if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;
     if (ref.current) customization += ref.current.value;
     return customization;
   };
 
+  const origAddPrice = calculuateAdditionalPrice(
+    eggBoolean,
+    sauceBoolean,
+    dollarAmount
+  );
+
   const save = () => {
-    onEnter(id, 0, createCustomizationText());
+    onEnter(
+      id,
+      calculuateAdditionalPrice(eggBoolean, sauceBoolean, dollarAmount) -
+        origAddPrice,
+      createCustomizationText()
+    );
   };
 
   if (whiteRice) {
@@ -261,6 +273,14 @@ const RiceCustomization = ({
       </Modal>
     </>
   );
+};
+
+const calculuateAdditionalPrice = (
+  eggBoolean: boolean,
+  sauceBoolean: boolean,
+  dollarAmount: number
+) => {
+  return (eggBoolean ? 1 : 0) + (sauceBoolean ? 0.5 : 0) + dollarAmount;
 };
 
 export default RiceCustomization;
