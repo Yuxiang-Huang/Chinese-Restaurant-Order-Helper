@@ -66,7 +66,8 @@ const AddCustomerPage = ({
     id: string,
     priceDif: number,
     newCustomization: string,
-    main: boolean
+    main: boolean,
+    sizeChanged: boolean
   ) => {
     setCurCustomer(
       produce((draft) => {
@@ -82,6 +83,18 @@ const AddCustomerPage = ({
           orderToChange.unitPrice += priceDif;
           orderToChange.totalPrice =
             orderToChange.unitPrice * orderToChange.count;
+
+          // name change
+          if (sizeChanged) {
+            if (orderToChange.mainName.includes(" (Large)")) {
+              orderToChange.mainName = orderToChange.mainName.replace(
+                " (Large)",
+                ""
+              );
+            } else {
+              orderToChange.mainName += " (Large)";
+            }
+          }
         }
       })
     );

@@ -30,7 +30,12 @@ interface Props {
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (id: string, priceDif: number, str: string) => void;
+  onEnter: (
+    id: string,
+    priceDif: number,
+    newCustomization: string,
+    sizeChanged: boolean
+  ) => void;
 }
 
 const MainType1Customization = ({
@@ -104,25 +109,29 @@ const MainType1Customization = ({
 
   const save = () => {
     let sizeDif = 0;
+    let sizeChanged = false;
     if (origSize === "small" && curSize == "large") {
       sizeDif =
         priceDict[mainName + " (Large) with " + sideName] -
         priceDict[mainName + " with " + sideName];
+      sizeChanged = true;
     } else if (origSize === "large" && curSize == "small") {
       sizeDif =
-        priceDict[mainName + " with " + sideName] -
-        priceDict[mainName.replace(" (Large)", "") + " with " + sideName];
+        priceDict[mainName.replace(" (Large)", "") + " with " + sideName] -
+        priceDict[mainName + " with " + sideName];
+      sizeChanged = true;
     }
     onEnter(
       id,
       dollarAmount - origDollarExtra + sizeDif,
-      createCustomizationText()
+      createCustomizationText(),
+      sizeChanged
     );
   };
 
   // size
   let origSize = "small";
-  if (mainName.includes("(Large")) {
+  if (mainName.includes(" (Large")) {
     origSize = "large";
   }
   let curSize = origSize;

@@ -26,7 +26,8 @@ interface Props {
     id: string,
     priceDif: number,
     customization: string,
-    main: boolean
+    main: boolean,
+    sizeChanged: boolean
   ) => void;
   modifyPriceString: (id: string, price: number) => void;
   modifyCount: (
@@ -58,18 +59,20 @@ const OrderDisplay = ({
   const modifyMainCustomization = (
     id: string,
     priceDif: number,
-    customization: string
+    customization: string,
+    sizeChanged = false
   ) => {
-    modifyCustomization(id, priceDif, customization, true);
+    modifyCustomization(id, priceDif, customization, sizeChanged, true);
   };
 
   const sideCustomizationDisclosure = useDisclosure();
   const modifySideCustomization = (
     id: string,
     priceDif: number,
-    customization: string
+    customization: string,
+    sizeChanged = false
   ) => {
-    modifyCustomization(id, priceDif, customization, false);
+    modifyCustomization(id, priceDif, customization, sizeChanged, false);
   };
   //#endregion
 
@@ -102,7 +105,12 @@ const OrderDisplay = ({
       isOpen: boolean;
       onClose: () => void;
     },
-    onEnter: (id: string, priceDif: number, str: string) => void
+    onEnter: (
+      id: string,
+      priceDif: number,
+      newCustomization: string,
+      sizeChanged?: boolean
+    ) => void
   ) => {
     if (foodName === "Fried Chicken Wings") {
       return (
