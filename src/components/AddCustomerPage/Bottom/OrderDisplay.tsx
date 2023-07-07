@@ -66,6 +66,7 @@ const OrderDisplay = ({
   };
   //#endregion
 
+  //#region Number Input
   const handleNumberInputChange = (
     valueAsString: string,
     valueAsNumber: number
@@ -85,26 +86,56 @@ const OrderDisplay = ({
   const inc = getIncrementButtonProps();
   const dec = getDecrementButtonProps();
   const input = getInputProps();
+  //#endregion
+
+  const getModal = (
+    foodName: string,
+    lastCustomization: string[],
+    dislosure: {
+      isOpen: boolean;
+      onClose: () => void;
+    },
+    onEnter: (id: string, priceDif: number, str: string) => void
+  ) => {
+    if (foodName === "Fried Chicken Wings") {
+      return (
+        <ChickenWingCustomization
+          id={order.id}
+          lastCustomization={lastCustomization}
+          isOpen={dislosure.isOpen}
+          onClose={dislosure.onClose}
+          onEnter={onEnter}
+        />
+      );
+    } else {
+      return (
+        <GeneralCustomizationModal
+          id={order.id}
+          foodName={foodName}
+          lastCustomization={lastCustomization}
+          isOpen={dislosure.isOpen}
+          onClose={dislosure.onClose}
+          onEnter={onEnter}
+        />
+      );
+    }
+  };
 
   return (
     <Box border={"2px"} margin={1} marginTop={5}>
       <Flex margin={2}>
-        <ChickenWingCustomization
-          id={order.id}
-          foodName={order.mainName}
-          lastCustomization={order.mainCustomization.split("; ")}
-          isOpen={mainCustomizationDisclosure.isOpen}
-          onClose={mainCustomizationDisclosure.onClose}
-          onEnter={modifyMainCustomization}
-        />
-        <GeneralCustomizationModal
-          id={order.id}
-          foodName={order.sideName}
-          defaultText={order.sideCustomization}
-          isOpen={sideCustomizationDisclosure.isOpen}
-          onClose={sideCustomizationDisclosure.onClose}
-          onEnter={modifySideCustomization}
-        />
+        {getModal(
+          order.mainName,
+          order.mainCustomization.split("; "),
+          mainCustomizationDisclosure,
+          modifyMainCustomization
+        )}
+        {getModal(
+          order.sideName,
+          order.sideCustomization.split("; "),
+          sideCustomizationDisclosure,
+          modifySideCustomization
+        )}
 
         <VStack align={"baseline"}>
           <HStack>

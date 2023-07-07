@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -11,12 +11,12 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-import FriedSlider from "./FriedSlider";
+import DonenessSlider, { markToValue, valueToMark } from "./DonenessSlider";
 
 interface Props {
   id: string;
   foodName: string;
-  defaultText?: string;
+  lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
   onEnter: (id: string, priceDif: number, str: string) => void;
@@ -25,19 +25,34 @@ interface Props {
 const GeneralCustomizationModal = ({
   id,
   foodName,
-  defaultText,
+  lastCustomization,
   isOpen,
   onClose,
   onEnter,
 }: Props) => {
+  // doneness
+  let index = 0;
+  const doneness = markToValue(lastCustomization[index]);
+  if (doneness !== 50) index++;
+  let donenessText = valueToMark(doneness);
+
+  const setDonenessText = (newDonenessText: string) => {
+    donenessText = newDonenessText;
+  };
+
+  // default text
+  let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
-  // also submit when user press enter
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      onEnter(id, 0, ref.current === null ? "" : ref.current.value);
-      onClose();
-    }
+  const createCustomizationText = () => {
+    let customization = "";
+    if (donenessText !== "Normal") customization += donenessText + "; ";
+    if (ref.current) customization += ref.current.value;
+    return customization;
+  };
+
+  const save = () => {
+    onEnter(id, 0, createCustomizationText());
   };
 
   return (
@@ -48,13 +63,21 @@ const GeneralCustomizationModal = ({
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FriedSlider />
+            <DonenessSlider
+              defaultValue={doneness}
+              setDonenessText={setDonenessText}
+            />
             <FormControl marginTop={6}>
               <Input
                 ref={ref}
                 placeholder="Enter customization..."
                 defaultValue={defaultText}
-                onKeyDown={handleKeyPress}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    save();
+                    onClose();
+                  }
+                }}
               />
             </FormControl>
           </ModalBody>
@@ -63,7 +86,7 @@ const GeneralCustomizationModal = ({
             <Button
               colorScheme="blue"
               onClick={() => {
-                onEnter(id, 0, ref.current === null ? "" : ref.current.value);
+                save();
                 onClose();
               }}
             >

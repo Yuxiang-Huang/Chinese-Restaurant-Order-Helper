@@ -11,7 +11,7 @@ interface Props {
   setDonenessText: (newDonenessText: string) => void;
 }
 
-const FriedSlider = ({ defaultValue, setDonenessText }: Props) => {
+const DonenessSlider = ({ defaultValue, setDonenessText }: Props) => {
   const labelStyles = {
     mt: "2",
     fontSize: "sm",
@@ -34,10 +34,10 @@ const FriedSlider = ({ defaultValue, setDonenessText }: Props) => {
         Normal
       </SliderMark>
       <SliderMark value={75} {...labelStyles} ml={-6}>
-        Crispy
+        Hard
       </SliderMark>
       <SliderMark value={100} {...labelStyles} ml={-14}>
-        Very Crispy
+        Very Hard
       </SliderMark>
       <SliderTrack>
         <SliderFilledTrack />
@@ -53,9 +53,9 @@ export const markToValue = (mark: string) => {
       return 0;
     case "Soft":
       return 25;
-    case "Crispy":
+    case "Hard":
       return 75;
-    case "Very Crispy":
+    case "Very Hard":
       return 100;
     default:
       return 50;
@@ -71,12 +71,12 @@ export const valueToMark = (value: number) => {
     case 50:
       return "Normal";
     case 75:
-      return "Crispy";
+      return "Hard";
     case 100:
-      return "Very Crispy";
+      return "Very Hard";
     default:
       return "!!!;";
   }
 };
 
-export default FriedSlider;
+export default DonenessSlider;

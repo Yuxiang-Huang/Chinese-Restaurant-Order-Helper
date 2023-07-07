@@ -15,11 +15,10 @@ import {
   HStack,
   Flex,
 } from "@chakra-ui/react";
-import FriedSlider, { markToValue, valueToMark } from "./FriedSlider";
+import DonenessSlider, { markToValue, valueToMark } from "./DonenessSlider";
 
 interface Props {
   id: string;
-  foodName: string;
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
@@ -122,7 +121,7 @@ const ChickenWingCustomization = ({
                 Chop up
               </Checkbox>
             </Flex>
-            <FriedSlider
+            <DonenessSlider
               defaultValue={doneness}
               setDonenessText={setDonenessText}
             />
