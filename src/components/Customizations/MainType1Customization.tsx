@@ -17,7 +17,7 @@ import DonenessSlider, {
   markToValue,
   valueToMark,
 } from "../Templates/DonenessSlider";
-import RadioGroupTemplate from "../Templates/RadioGroupTemplate";
+import DeseletableRadioGroup from "../Templates/DeseletableRadioGroup";
 
 interface Props {
   id: string;
@@ -38,6 +38,14 @@ const MainType1Customization = ({
 }: Props) => {
   // parsing last customization
   let index = 0;
+
+  // sauce
+  const sauceList = [
+    "Regular Sauce",
+    "Garlic Sauce",
+    "White Sauce",
+    "No Sauce",
+  ];
 
   // dollar extra
   let dollarAmount = 0;
@@ -70,6 +78,7 @@ const MainType1Customization = ({
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
+  // submit
   const createCustomizationText = () => {
     let customization = "";
     if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;
@@ -92,7 +101,6 @@ const MainType1Customization = ({
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Text fontSize={"xl"}>Sauces</Text>
-            <RadioGroupTemplate />
 
             <DollarExtra
               defaultAmount={dollarAmount}

@@ -15,7 +15,7 @@ import {
   Checkbox,
   HStack,
 } from "@chakra-ui/react";
-import RadioGroupTemplate from "../Templates/RadioGroupTemplate";
+import DeseletableRadioGroup from "../Templates/DeseletableRadioGroup";
 import { Customer } from "../../App";
 import Accessory from "./Accessory";
 
@@ -137,7 +137,7 @@ const DescriptionModal = ({
               <>
                 <List spacing={5}>
                   {Object.keys(radioGroups).map((type) => (
-                    <RadioGroupTemplate
+                    <DeseletableRadioGroup
                       header={type}
                       options={radioGroups[type]}
                       initValue={getInitValue(type)}

@@ -112,6 +112,7 @@ const RiceCustomization = ({
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
+  // submit
   const createCustomizationText = () => {
     let customization = vegToString();
     if (sauceBoolean) customization += "Sauce on Rice; ";

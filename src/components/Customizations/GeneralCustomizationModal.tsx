@@ -58,6 +58,7 @@ const GeneralCustomizationModal = ({
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
+  // submit
   const createCustomizationText = () => {
     let customization = "";
     if (donenessText !== "Normal") customization += donenessText + "; ";

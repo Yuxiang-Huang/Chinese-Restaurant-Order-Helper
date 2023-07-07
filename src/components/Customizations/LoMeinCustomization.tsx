@@ -117,6 +117,7 @@ const LoMeinCustomization = ({
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
+  // submits
   const createCustomizationText = () => {
     let customization = vegToString();
     if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;

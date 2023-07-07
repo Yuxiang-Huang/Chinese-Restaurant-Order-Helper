@@ -8,7 +8,7 @@ interface Props {
   setValue: (type: string, newData: string) => void;
 }
 
-const RadioGroupTemplate = ({
+const DeseletableRadioGroup = ({
   header,
   options,
   initValue,
@@ -49,4 +49,4 @@ const RadioGroupTemplate = ({
   );
 };
 
-export default RadioGroupTemplate;
+export default DeseletableRadioGroup;
