@@ -18,33 +18,43 @@ const CustomerListDisplay = ({ customerList, archived }: Props) => {
           background={archived ? "gray" : "white"}
         >
           <TopDisplay customer={customer} />
-          {customer.orderList.map((order) => (
-            <ListItem key={order.id}>
-              <HStack justifyContent={"space-between"}>
-                <HStack>
-                  <Box margin={3}>
-                    {`${order.count} × ${order.mainName}` +
-                      (order.sideName && " with " + order.sideName)}
-                  </Box>
+          <List spacing={5}>
+            {customer.orderList.map((order) => (
+              <ListItem key={order.id}>
+                <HStack justifyContent={"space-between"}>
                   <VStack align={"baseline"}>
-                    <Text fontSize="xs">
-                      {order.mainCustomization &&
-                        "Main-" + order.mainCustomization}
-                    </Text>
-                    <Text fontSize="xs">
-                      {order.sideCustomization &&
-                        "Side-" + order.sideCustomization}
-                    </Text>
+                    <>
+                      <Box marginLeft={3}>
+                        {`${order.count} × ${order.mainName}` +
+                          (order.sideName && " with " + order.sideName)}
+                      </Box>
+                      <VStack align={"baseline"}>
+                        <Text fontSize="xs">
+                          {order.mainCustomization && (
+                            <>
+                              <b>Main:</b> {order.mainCustomization}
+                            </>
+                          )}
+                        </Text>
+                        <Text fontSize="xs">
+                          {order.sideCustomization && (
+                            <>
+                              <b>Side:</b> {order.sideCustomization}
+                            </>
+                          )}
+                        </Text>
+                      </VStack>
+                    </>
                   </VStack>
+                  <HStack>
+                    <Box margin={3}>
+                      {"$" + Number(order.totalPrice).toFixed(2)}
+                    </Box>
+                  </HStack>
                 </HStack>
-                <HStack>
-                  <Box margin={3}>
-                    {"$" + Number(order.totalPrice).toFixed(2)}
-                  </Box>
-                </HStack>
-              </HStack>
-            </ListItem>
-          ))}
+              </ListItem>
+            ))}
+          </List>
         </Box>
       ))}
     </List>
