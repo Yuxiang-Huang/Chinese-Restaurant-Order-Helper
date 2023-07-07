@@ -35,11 +35,11 @@ const ChickenWingCustomization = ({
 }: Props) => {
   // parsing last customization
   let index = 0;
-
   const origCount = parseInt(
     lastCustomization[index].substring(0, lastCustomization[index].length - 1)
   );
   const origPrice = calculateChickenWingsPrice(origCount);
+  index++;
 
   const {
     value,
@@ -57,12 +57,17 @@ const ChickenWingCustomization = ({
   const dec = getDecrementButtonProps();
   const input = getInputProps();
 
-  let chopUpBoolean = lastCustomization[0] == "Chop up";
-  let defaultText = lastCustomization.filter((_, i) => i > 0).join(", ");
+  let chopUpBoolean = false;
+  if (lastCustomization[index] == "Chop up") {
+    chopUpBoolean = true;
+    index++;
+  }
+
+  let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
   const createCustomizationText = () => {
-    let customization = "";
+    let customization = value + "×; ";
     if (chopUpBoolean) customization += "Chop up; ";
     if (ref.current) customization += ref.current.value;
     return customization;
