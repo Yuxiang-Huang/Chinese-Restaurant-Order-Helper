@@ -11,6 +11,9 @@ import {
   Button,
   Input,
   Checkbox,
+  useNumberInput,
+  HStack,
+  Flex,
 } from "@chakra-ui/react";
 import FriedSlider from "./FriedSlider";
 
@@ -31,6 +34,24 @@ const ChickenWingCustomization = ({
   onEnter,
 }: Props) => {
   // parsing last customization
+  const handleNumberInputChange = (
+    valueAsString: string,
+    valueAsNumber: number
+  ) => {};
+
+  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
+    useNumberInput({
+      step: 1,
+      defaultValue: 4,
+      min: 1,
+      precision: 0,
+      onChange: handleNumberInputChange,
+    });
+
+  const inc = getIncrementButtonProps();
+  const dec = getDecrementButtonProps();
+  const input = getInputProps();
+
   let chopUpBoolean = lastCustomization[0] == "Chop up";
   let defaultText = lastCustomization
     .filter((_, index) => index > 0)
@@ -52,13 +73,23 @@ const ChickenWingCustomization = ({
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Checkbox
-              defaultChecked={chopUpBoolean}
-              onChange={(event) => (chopUpBoolean = event.target.checked)}
-              marginBottom={10}
-            >
-              Chop up
-            </Checkbox>
+            <Flex justifyContent={"space-between"} marginBottom={5}>
+              <HStack>
+                <Button {...dec} size={"sm"}>
+                  -
+                </Button>
+                <Input {...input} width={"10"} size={"sm"} />
+                <Button {...inc} size={"sm"}>
+                  +
+                </Button>
+              </HStack>
+              <Checkbox
+                defaultChecked={chopUpBoolean}
+                onChange={(event) => (chopUpBoolean = event.target.checked)}
+              >
+                Chop up
+              </Checkbox>
+            </Flex>
             <FriedSlider />
             <FormControl marginTop={10}>
               <Input
