@@ -6,7 +6,12 @@ import {
   SliderThumb,
 } from "@chakra-ui/react";
 
-const FriedSlider = () => {
+interface Props {
+  defaultValue: number;
+  setDonenessText: (newDonenessText: string) => void;
+}
+
+const FriedSlider = ({ defaultValue, setDonenessText }: Props) => {
   const labelStyles = {
     mt: "2",
     fontSize: "sm",
@@ -14,9 +19,10 @@ const FriedSlider = () => {
 
   return (
     <Slider
-      //   onChange={(val) => setSliderValue(val)}
+      onChange={(val) => setDonenessText(valueToMark(val))}
       step={25}
       whiteSpace={"nowrap"}
+      defaultValue={defaultValue}
     >
       <SliderMark value={0} {...labelStyles} ml={-4}>
         Very Soft
@@ -39,6 +45,38 @@ const FriedSlider = () => {
       <SliderThumb />
     </Slider>
   );
+};
+
+export const markToValue = (mark: string) => {
+  switch (mark) {
+    case "Very Soft":
+      return 0;
+    case "Soft":
+      return 25;
+    case "Crispy":
+      return 75;
+    case "Very Crispy":
+      return 100;
+    default:
+      return 50;
+  }
+};
+
+export const valueToMark = (value: number) => {
+  switch (value) {
+    case 0:
+      return "Very Soft";
+    case 25:
+      return "Soft";
+    case 50:
+      return "Normal";
+    case 75:
+      return "Crispy";
+    case 100:
+      return "Very Crispy";
+    default:
+      return "!!!;";
+  }
 };
 
 export default FriedSlider;

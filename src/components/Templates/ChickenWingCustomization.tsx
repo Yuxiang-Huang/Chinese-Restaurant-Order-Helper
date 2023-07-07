@@ -15,7 +15,7 @@ import {
   HStack,
   Flex,
 } from "@chakra-ui/react";
-import FriedSlider from "./FriedSlider";
+import FriedSlider, { markToValue, valueToMark } from "./FriedSlider";
 
 interface Props {
   id: string;
@@ -34,6 +34,8 @@ const ChickenWingCustomization = ({
   onEnter,
 }: Props) => {
   // parsing last customization
+
+  //#region count
   let index = 0;
   const origCount = parseInt(
     lastCustomization[index].substring(0, lastCustomization[index].length - 1)
@@ -57,18 +59,32 @@ const ChickenWingCustomization = ({
   const dec = getDecrementButtonProps();
   const input = getInputProps();
 
+  //#endregion
+
+  // chop up
   let chopUpBoolean = false;
   if (lastCustomization[index] == "Chop up") {
     chopUpBoolean = true;
     index++;
   }
 
+  // doneness
+  const doneness = markToValue(lastCustomization[index]);
+  if (doneness !== 50) index++;
+  let donenessText = valueToMark(doneness);
+
+  const setDonenessText = (newDonenessText: string) => {
+    donenessText = newDonenessText;
+  };
+
+  // default text
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
   const createCustomizationText = () => {
     let customization = value + "×; ";
     if (chopUpBoolean) customization += "Chop up; ";
+    if (donenessText !== "Normal") customization += donenessText + "; ";
     if (ref.current) customization += ref.current.value;
     return customization;
   };
@@ -106,7 +122,10 @@ const ChickenWingCustomization = ({
                 Chop up
               </Checkbox>
             </Flex>
-            <FriedSlider />
+            <FriedSlider
+              defaultValue={doneness}
+              setDonenessText={setDonenessText}
+            />
             <FormControl marginTop={10}>
               <Input
                 ref={ref}
