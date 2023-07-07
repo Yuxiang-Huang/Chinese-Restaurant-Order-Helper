@@ -145,9 +145,9 @@ const RiceCustomization = ({
           <ModalContent>
             <ModalHeader>Modify Customization</ModalHeader>
             <ModalCloseButton />
-            <ModalBody pb={6}>
+            <ModalBody>
               <Text fontSize={"xl"}>Options</Text>
-              <HStack marginBottom={5} spacing={5}>
+              <HStack marginBottom={10} spacing={5}>
                 <Checkbox
                   defaultChecked={sauceBoolean}
                   onChange={(event) => (sauceBoolean = event.target.checked)}
@@ -200,9 +200,9 @@ const RiceCustomization = ({
         <ModalContent>
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody>
             <Text fontSize={"xl"}>Vegetables</Text>
-            <HStack marginBottom={5} spacing={5}>
+            <HStack marginBottom={10} spacing={5}>
               <Checkbox
                 defaultChecked={vegOptions[0]}
                 onChange={(event) => (vegOptions[0] = event.target.checked)}
@@ -224,7 +224,7 @@ const RiceCustomization = ({
             </HStack>
 
             <Text fontSize={"xl"}>Options</Text>
-            <HStack spacing={5} marginBottom={5}>
+            <HStack spacing={5} marginBottom={10}>
               <Checkbox
                 defaultChecked={sauceBoolean}
                 onChange={(event) => (sauceBoolean = event.target.checked)}

@@ -77,7 +77,7 @@ const GeneralCustomizationModal = ({
         <ModalContent>
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody>
             {!donenessExcludeList.includes(foodName) && (
               <DonenessSlider
                 defaultValue={doneness}

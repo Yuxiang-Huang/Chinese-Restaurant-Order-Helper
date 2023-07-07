@@ -36,7 +36,7 @@ const DollarExtra = ({
   return (
     <>
       <Text fontSize={"xl"}>Dollars Extra</Text>
-      <HStack marginBottom={5}>
+      <HStack marginBottom={10}>
         <Button {...dec} size={"sm"}>
           -
         </Button>

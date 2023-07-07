@@ -48,7 +48,7 @@ const OneInputModal = ({
         <ModalContent>
           <ModalHeader>{header}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody>
             <FormControl>
               <Input
                 ref={ref}

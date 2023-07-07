@@ -138,9 +138,9 @@ const LoMeinCustomization = ({
         <ModalContent>
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody>
             <Text fontSize={"xl"}>Vegetables</Text>
-            <HStack marginBottom={5} spacing={5}>
+            <HStack marginBottom={10} spacing={5}>
               <Checkbox
                 defaultChecked={vegOptions[0]}
                 onChange={(event) => (vegOptions[0] = event.target.checked)}

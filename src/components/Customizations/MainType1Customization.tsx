@@ -107,8 +107,8 @@ const MainType1Customization = ({
         <ModalContent>
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
-            <RadioGroup defaultValue={chosenSauce}>
+          <ModalBody>
+            <RadioGroup defaultValue={chosenSauce} marginBottom={10}>
               <Text fontSize={"xl"}>Sauces</Text>
               <HStack spacing={5}>
                 {sauceList.map((sauce) => (

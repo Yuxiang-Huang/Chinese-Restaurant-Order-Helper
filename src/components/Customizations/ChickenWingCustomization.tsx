@@ -107,8 +107,8 @@ const ChickenWingCustomization = ({
         <ModalContent>
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
-            <Flex justifyContent={"space-between"} marginBottom={5}>
+          <ModalBody>
+            <Flex justifyContent={"space-between"} marginBottom={10}>
               <HStack>
                 <Button {...dec} size={"sm"}>
                   -
