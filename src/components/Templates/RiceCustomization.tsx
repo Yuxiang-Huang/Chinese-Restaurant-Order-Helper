@@ -14,9 +14,11 @@ import {
   HStack,
   Text,
 } from "@chakra-ui/react";
+import DollarExtra from "./DollarExtra";
 
 interface Props {
   id: string;
+  whiteRice: boolean;
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
@@ -25,6 +27,7 @@ interface Props {
 
 const RiceCustomization = ({
   id,
+  whiteRice,
   lastCustomization,
   isOpen,
   onClose,
@@ -33,7 +36,7 @@ const RiceCustomization = ({
   // parsing last customization
   let index = 0;
 
-  // vegetables
+  //#region vegetables
   // default onion and beansprout
   let vegOptions = [true, true, false];
   if (lastCustomization[index].includes("Veg: ")) {
@@ -71,6 +74,7 @@ const RiceCustomization = ({
     if (vegOptions[2]) vegText += "scallion, ";
     return vegText.substring(0, vegText.length - 2) + "; ";
   };
+  //#endregion
 
   // sauce on rice
   let sauceBoolean = false;
@@ -86,6 +90,23 @@ const RiceCustomization = ({
     index++;
   }
 
+  // dollar extra
+  let dollarAmount = 0;
+  let meat = "";
+  if (lastCustomization[index].charAt(0) === "$") {
+    dollarAmount = parseInt(lastCustomization[index].charAt(1));
+    meat = lastCustomization[index].substring(4);
+    index++;
+  }
+
+  const setAmount = (valueAsString: string) => {
+    dollarAmount = parseInt(valueAsString);
+  };
+
+  const setMeat = (newMeat: string) => {
+    meat = newMeat;
+  };
+
   // default text
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
@@ -94,6 +115,7 @@ const RiceCustomization = ({
     let customization = vegToString();
     if (sauceBoolean) customization += "Sauce on Rice; ";
     if (eggBoolean) customization += "Egg; ";
+    if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}`;
     if (ref.current) customization += ref.current.value;
     return customization;
   };
@@ -101,6 +123,62 @@ const RiceCustomization = ({
   const save = () => {
     onEnter(id, 0, createCustomizationText());
   };
+
+  if (whiteRice) {
+    return (
+      <>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Modify Customization</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <Text fontSize={"xl"}>Options</Text>
+              <HStack marginBottom={5} spacing={5}>
+                <Checkbox
+                  defaultChecked={sauceBoolean}
+                  onChange={(event) => (sauceBoolean = event.target.checked)}
+                >
+                  Sauce on Rice
+                </Checkbox>
+                <Checkbox
+                  defaultChecked={eggBoolean}
+                  onChange={(event) => (eggBoolean = event.target.checked)}
+                >
+                  Egg
+                </Checkbox>
+              </HStack>
+              <FormControl>
+                <Input
+                  ref={ref}
+                  placeholder="Enter additional customization..."
+                  defaultValue={defaultText}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      save();
+                      onClose();
+                    }
+                  }}
+                />
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  save();
+                  onClose();
+                }}
+              >
+                Save
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
+    );
+  }
 
   return (
     <>
@@ -133,7 +211,7 @@ const RiceCustomization = ({
             </HStack>
 
             <Text fontSize={"xl"}>Options</Text>
-            <HStack marginBottom={5} spacing={5}>
+            <HStack spacing={5} marginBottom={5}>
               <Checkbox
                 defaultChecked={sauceBoolean}
                 onChange={(event) => (sauceBoolean = event.target.checked)}
@@ -147,7 +225,13 @@ const RiceCustomization = ({
                 Egg
               </Checkbox>
             </HStack>
-            <FormControl>
+            <DollarExtra
+              defaultAmount={dollarAmount}
+              defaultMeat={meat}
+              setAmount={setAmount}
+              setMeat={setMeat}
+            />
+            <FormControl marginTop={5}>
               <Input
                 ref={ref}
                 placeholder="Enter additional customization..."

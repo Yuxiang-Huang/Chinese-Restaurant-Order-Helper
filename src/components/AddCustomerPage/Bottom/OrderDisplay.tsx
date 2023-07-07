@@ -112,6 +112,7 @@ const OrderDisplay = ({
       return (
         <RiceCustomization
           id={order.id}
+          whiteRice={foodName === "White Rice"}
           lastCustomization={lastCustomization}
           isOpen={dislosure.isOpen}
           onClose={dislosure.onClose}
