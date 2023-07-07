@@ -276,6 +276,7 @@ const useFoodMenu = () => {
   const foodList = Object.keys(priceDict).filter(
     (foodName) => !foodName.includes("(Large)")
   );
+
   return { foodList, priceDict, mainType1Dict };
 };
 

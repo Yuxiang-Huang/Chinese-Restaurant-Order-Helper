@@ -31,7 +31,7 @@ const DollarExtra = ({
   const input = getInputProps();
 
   return (
-    <HStack>
+    <HStack marginBottom={5}>
       <Button {...dec} size={"sm"}>
         -
       </Button>

@@ -172,7 +172,7 @@ const LoMeinCustomization = ({
               setAmount={setAmount}
               setMeat={setMeat}
             />
-            <FormControl marginTop={5}>
+            <FormControl>
               <Input
                 ref={ref}
                 placeholder="Enter additional customization..."

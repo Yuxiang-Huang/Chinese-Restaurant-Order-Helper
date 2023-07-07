@@ -57,6 +57,9 @@ const App = () => {
   });
 
   const [fullFoodList, setFullFoodList] = useState<string[]>([]);
+  const [mainType1Dict, setMainType1Dict] = useState<{
+    [key: string]: number[];
+  }>({});
   const [priceDict, setPriceDict] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
@@ -64,6 +67,7 @@ const App = () => {
     const foodMenu = useFoodMenu();
     setFullFoodList(foodMenu.foodList);
     setPriceDict(foodMenu.priceDict);
+    setMainType1Dict(foodMenu.mainType1Dict);
 
     // customer, customer list, and archived customer list from session storage
     let rawValue = storage.getItem("Current Customer");
@@ -199,6 +203,7 @@ const App = () => {
           <AddCustomerPage
             customer={curCustomer}
             fullFoodList={fullFoodList}
+            mainType1Dict={mainType1Dict}
             priceDict={priceDict}
             setCurCustomer={setCurCustomer}
             addToCustomerList={addToCustomerList}

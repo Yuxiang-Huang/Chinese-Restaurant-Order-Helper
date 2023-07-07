@@ -16,9 +16,12 @@ import GeneralCustomizationModal from "../../Templates/GeneralCustomizationModal
 import ChickenWingCustomization from "../../Templates/ChickenWingCustomization";
 import RiceCustomization from "../../Templates/RiceCustomization";
 import LoMeinCustomization from "../../Templates/LoMeinCustomization";
+import MainType1Customization from "../../Templates/MainType1Customization";
 
 interface Props {
   order: Order;
+  mainType1Dict: { [key: string]: number[] };
+  priceDict: { [key: string]: number };
   modifyCustomization: (
     id: string,
     priceDif: number,
@@ -36,6 +39,8 @@ interface Props {
 
 const OrderDisplay = ({
   order,
+  mainType1Dict,
+  priceDict,
   modifyCustomization,
   modifyPriceString,
   modifyCount,
@@ -124,6 +129,17 @@ const OrderDisplay = ({
       return (
         <LoMeinCustomization
           id={order.id}
+          lastCustomization={lastCustomization}
+          isOpen={dislosure.isOpen}
+          onClose={dislosure.onClose}
+          onEnter={onEnter}
+        />
+      );
+    } else if (foodName.replace(" (Large)", "") in mainType1Dict) {
+      return (
+        <MainType1Customization
+          id={order.id}
+          priceDist={priceDict}
           lastCustomization={lastCustomization}
           isOpen={dislosure.isOpen}
           onClose={dislosure.onClose}

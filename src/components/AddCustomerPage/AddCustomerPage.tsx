@@ -12,6 +12,7 @@ import BottomBar from "./Bottom/BottomBar";
 interface Props {
   customer: Customer;
   fullFoodList: string[];
+  mainType1Dict: { [key: string]: number[] };
   priceDict: { [key: string]: number };
   setCurCustomer: React.Dispatch<React.SetStateAction<Customer>>;
   addToCustomerList: (customer: Customer) => void;
@@ -20,6 +21,7 @@ interface Props {
 const AddCustomerPage = ({
   customer,
   fullFoodList,
+  mainType1Dict,
   priceDict,
   setCurCustomer,
   addToCustomerList,
@@ -125,6 +127,8 @@ const AddCustomerPage = ({
           <ListItem key={index}>
             <OrderDisplay
               order={order}
+              mainType1Dict={mainType1Dict}
+              priceDict={priceDict}
               modifyCustomization={modifyCustomization}
               modifyPriceString={modifyPrice}
               modifyCount={modifyCount}
