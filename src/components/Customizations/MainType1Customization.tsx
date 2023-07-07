@@ -48,6 +48,11 @@ const MainType1Customization = ({
     "White Sauce",
     "No Sauce",
   ];
+  let chosenSauce = "Regular Sauce";
+  if (lastCustomization[index].includes("Sauce")) {
+    chosenSauce = lastCustomization[index];
+    index++;
+  }
 
   // dollar extra
   let dollarAmount = 0;
@@ -83,6 +88,7 @@ const MainType1Customization = ({
   // submit
   const createCustomizationText = () => {
     let customization = "";
+    if (chosenSauce !== "Regular Sauce") customization += chosenSauce + "; ";
     if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;
     if (ref.current) customization += ref.current.value;
     return customization;
@@ -102,17 +108,16 @@ const MainType1Customization = ({
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {/* <RadioGroup value={displayValue}> */}
-            <RadioGroup marginBottom={5}>
+            <RadioGroup defaultValue={chosenSauce}>
               <Text fontSize={"xl"}>Sauces</Text>
               <HStack spacing={5}>
                 {sauceList.map((sauce) => (
                   <Radio
                     key={sauce}
                     value={sauce}
-                    // onChange={() => {
-                    //     setValue(header, option);
-                    // }}
+                    onChange={() => {
+                      chosenSauce = sauce;
+                    }}
                   >
                     <Text fontSize={"sm"}>{sauce}</Text>
                   </Radio>
