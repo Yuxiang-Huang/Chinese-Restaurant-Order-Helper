@@ -5,10 +5,8 @@ import {
   SliderFilledTrack,
   SliderThumb,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
 const FriedSlider = () => {
-  const [sliderValue, setSliderValue] = useState(50);
   const labelStyles = {
     mt: "2",
     fontSize: "sm",
@@ -16,7 +14,7 @@ const FriedSlider = () => {
 
   return (
     <Slider
-      onChange={(val) => setSliderValue(val)}
+      //   onChange={(val) => setSliderValue(val)}
       step={25}
       whiteSpace={"nowrap"}
     >

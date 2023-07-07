@@ -46,7 +46,9 @@ const AddCustomerPage = ({
           id: nextId(),
           count: count,
           mainName: mainName,
+          mainCustomization: "",
           sideName: sideName,
+          sideCustomization: "",
           totalPrice: p,
           unitPrice: p,
         });

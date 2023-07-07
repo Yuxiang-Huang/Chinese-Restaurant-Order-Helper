@@ -13,6 +13,7 @@ import {
 import { Order } from "../../../hooks/useFoodMenu";
 import OneInputModal from "../../Templates/OneInputModal";
 import GeneralCustomizationModal from "../../Templates/GeneralCustomizationModal";
+import ChickenWingCustomization from "../../Templates/ChickenWingCustomization";
 
 interface Props {
   order: Order;
@@ -77,19 +78,18 @@ const OrderDisplay = ({
   return (
     <Box border={"2px"} margin={1} marginTop={5}>
       <Flex margin={2}>
-        <GeneralCustomizationModal
+        <ChickenWingCustomization
           id={order.id}
           foodName={order.mainName}
-          defaultText={order.mainCustomization}
+          lastCustomization={order.mainCustomization.split("; ")}
           isOpen={mainCustomizationDisclosure.isOpen}
           onClose={mainCustomizationDisclosure.onClose}
           onEnter={modifyMainCustomization}
         />
-        <OneInputModal
+        <GeneralCustomizationModal
           id={order.id}
+          foodName={order.sideName}
           defaultText={order.sideCustomization}
-          header="Modify Side Customization"
-          placeholder="Enter customization..."
           isOpen={sideCustomizationDisclosure.isOpen}
           onClose={sideCustomizationDisclosure.onClose}
           onEnter={modifySideCustomization}

@@ -2,9 +2,9 @@ export interface Order {
   id: string;
   count: number;
   mainName: string;
-  mainCustomization?: string;
+  mainCustomization: string;
   sideName: string;
-  sideCustomization?: string;
+  sideCustomization: string;
   totalPrice: number;
   unitPrice: number;
 }
