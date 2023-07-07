@@ -4,6 +4,7 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  Text,
 } from "@chakra-ui/react";
 
 interface Props {
@@ -18,33 +19,38 @@ const DonenessSlider = ({ defaultValue, setDonenessText }: Props) => {
   };
 
   return (
-    <Slider
-      onChange={(val) => setDonenessText(valueToMark(val))}
-      step={25}
-      whiteSpace={"nowrap"}
-      defaultValue={defaultValue}
-      marginBottom={10}
-    >
-      <SliderMark value={0} {...labelStyles} ml={-4}>
-        Very Soft
-      </SliderMark>
-      <SliderMark value={25} {...labelStyles} ml={-4}>
-        Soft
-      </SliderMark>
-      <SliderMark value={50} {...labelStyles} ml={-6}>
-        Normal
-      </SliderMark>
-      <SliderMark value={75} {...labelStyles} ml={-6}>
-        Hard
-      </SliderMark>
-      <SliderMark value={100} {...labelStyles} ml={-14}>
-        Very Hard
-      </SliderMark>
-      <SliderTrack>
-        <SliderFilledTrack />
-      </SliderTrack>
-      <SliderThumb />
-    </Slider>
+    <>
+      <Text fontSize={"xl"} marginBottom={1}>
+        Doneness
+      </Text>
+      <Slider
+        onChange={(val) => setDonenessText(valueToMark(val))}
+        step={25}
+        whiteSpace={"nowrap"}
+        defaultValue={defaultValue}
+        marginBottom={10}
+      >
+        <SliderMark value={0} {...labelStyles} ml={-4}>
+          Very Soft
+        </SliderMark>
+        <SliderMark value={25} {...labelStyles} ml={-4}>
+          Soft
+        </SliderMark>
+        <SliderMark value={50} {...labelStyles} ml={-6}>
+          Normal
+        </SliderMark>
+        <SliderMark value={75} {...labelStyles} ml={-4}>
+          Hard
+        </SliderMark>
+        <SliderMark value={100} {...labelStyles} ml={-12}>
+          Very Hard
+        </SliderMark>
+        <SliderTrack>
+          <SliderFilledTrack />
+        </SliderTrack>
+        <SliderThumb />
+      </Slider>
+    </>
   );
 };
 

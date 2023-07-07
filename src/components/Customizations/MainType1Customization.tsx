@@ -11,13 +11,15 @@ import {
   Button,
   Input,
   Text,
+  RadioGroup,
+  HStack,
+  Radio,
 } from "@chakra-ui/react";
 import DollarExtra from "../Templates/DollarExtra";
 import DonenessSlider, {
   markToValue,
   valueToMark,
 } from "../Templates/DonenessSlider";
-import DeseletableRadioGroup from "../Templates/DeseletableRadioGroup";
 
 interface Props {
   id: string;
@@ -100,7 +102,23 @@ const MainType1Customization = ({
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Text fontSize={"xl"}>Sauces</Text>
+            {/* <RadioGroup value={displayValue}> */}
+            <RadioGroup marginBottom={5}>
+              <Text fontSize={"xl"}>Sauces</Text>
+              <HStack spacing={5}>
+                {sauceList.map((sauce) => (
+                  <Radio
+                    key={sauce}
+                    value={sauce}
+                    // onChange={() => {
+                    //     setValue(header, option);
+                    // }}
+                  >
+                    <Text fontSize={"sm"}>{sauce}</Text>
+                  </Radio>
+                ))}
+              </HStack>
+            </RadioGroup>
 
             <DollarExtra
               defaultAmount={dollarAmount}

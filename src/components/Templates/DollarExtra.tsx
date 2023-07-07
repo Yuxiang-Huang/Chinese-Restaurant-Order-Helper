@@ -1,8 +1,11 @@
-import { Button } from "@chakra-ui/button";
-import { Input } from "@chakra-ui/input";
-import { HStack, Text } from "@chakra-ui/layout";
-import { useNumberInput } from "@chakra-ui/number-input";
-import { Select } from "@chakra-ui/select";
+import {
+  Button,
+  Input,
+  HStack,
+  Text,
+  useNumberInput,
+  Select,
+} from "@chakra-ui/react";
 
 interface Props {
   defaultAmount: number;
@@ -31,26 +34,29 @@ const DollarExtra = ({
   const input = getInputProps();
 
   return (
-    <HStack marginBottom={5}>
-      <Button {...dec} size={"sm"}>
-        -
-      </Button>
-      <Text>$</Text>
-      <Input {...input} width={"20"} size={"sm"} />
-      <Button {...inc} size={"sm"}>
-        +
-      </Button>
-      <Select
-        placeholder="Select meat"
-        onChange={(event) => setMeat(event.target.value)}
-        defaultValue={defaultMeat}
-      >
-        <option value="Pork">Pork</option>
-        <option value="Chicken">Chicken</option>
-        <option value="Beef">Beef</option>
-        <option value="Shrimp">Shrimp</option>
-      </Select>
-    </HStack>
+    <>
+      <Text fontSize={"xl"}>Dollars Extra</Text>
+      <HStack marginBottom={5}>
+        <Button {...dec} size={"sm"}>
+          -
+        </Button>
+        <Text>$</Text>
+        <Input {...input} width={"20"} size={"sm"} />
+        <Button {...inc} size={"sm"}>
+          +
+        </Button>
+        <Select
+          placeholder="Select meat"
+          onChange={(event) => setMeat(event.target.value)}
+          defaultValue={defaultMeat}
+        >
+          <option value="Pork">Pork</option>
+          <option value="Chicken">Chicken</option>
+          <option value="Beef">Beef</option>
+          <option value="Shrimp">Shrimp</option>
+        </Select>
+      </HStack>
+    </>
   );
 };
 
