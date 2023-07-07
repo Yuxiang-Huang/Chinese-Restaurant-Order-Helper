@@ -219,6 +219,8 @@ const useFoodMenu = () => {
     "Large Lemonade": 2,
     "Bottle Soda": 1.5,
     "Bottle Water": 1,
+
+    "Side Sauce": 0.5,
   };
 
   //#region soup and combo

@@ -30,7 +30,16 @@ const GeneralCustomizationModal = ({
   onClose,
   onEnter,
 }: Props) => {
-  const donenessExcludeList = ["Can Soda", "Bottle Soda", "Bottle Water"];
+  const donenessExcludeList = [
+    "Can Soda",
+    "Bottle Soda",
+    "Bottle Water",
+    "Small Ice Tea",
+    "Large Ice Tea",
+    "Small Lemonade",
+    "Large Lemonade",
+    "Side Sauce",
+  ];
 
   // doneness
   let index = 0;

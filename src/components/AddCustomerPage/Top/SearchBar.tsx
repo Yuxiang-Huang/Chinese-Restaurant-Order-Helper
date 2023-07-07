@@ -198,7 +198,12 @@ export const SatisfySearchBarRequirement = (
   }
 
   // make sure it is not the case where only food name words run out
-  return searchTextListIndex == searchTextList.length;
+  // possible terminate symbol case
+  return (
+    searchTextListIndex == searchTextList.length ||
+    (searchTextList[searchTextListIndex] === "." &&
+      foodNameListIndex === foodNameList.length)
+  );
 };
 
 export default SearchBar;
