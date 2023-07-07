@@ -125,7 +125,7 @@ const ChickenWingCustomization = ({
               defaultValue={doneness}
               setDonenessText={setDonenessText}
             />
-            <FormControl marginTop={10}>
+            <FormControl>
               <Input
                 ref={ref}
                 placeholder="Enter customization..."

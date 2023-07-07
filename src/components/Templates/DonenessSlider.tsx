@@ -23,6 +23,7 @@ const DonenessSlider = ({ defaultValue, setDonenessText }: Props) => {
       step={25}
       whiteSpace={"nowrap"}
       defaultValue={defaultValue}
+      marginBottom={10}
     >
       <SliderMark value={0} {...labelStyles} ml={-4}>
         Very Soft

@@ -30,6 +30,8 @@ const GeneralCustomizationModal = ({
   onClose,
   onEnter,
 }: Props) => {
+  const donenessExcludeList = ["Can Soda", "Bottle Soda", "Bottle Water"];
+
   // doneness
   let index = 0;
   const doneness = markToValue(lastCustomization[index]);
@@ -63,11 +65,13 @@ const GeneralCustomizationModal = ({
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <DonenessSlider
-              defaultValue={doneness}
-              setDonenessText={setDonenessText}
-            />
-            <FormControl marginTop={6}>
+            {!donenessExcludeList.includes(foodName) && (
+              <DonenessSlider
+                defaultValue={doneness}
+                setDonenessText={setDonenessText}
+              />
+            )}
+            <FormControl>
               <Input
                 ref={ref}
                 placeholder="Enter customization..."
