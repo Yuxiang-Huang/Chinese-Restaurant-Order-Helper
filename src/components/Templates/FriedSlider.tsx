@@ -18,7 +18,7 @@ const FriedSlider = () => {
       step={25}
       whiteSpace={"nowrap"}
     >
-      <SliderMark value={0} {...labelStyles} ml={-5}>
+      <SliderMark value={0} {...labelStyles} ml={-4}>
         Very Soft
       </SliderMark>
       <SliderMark value={25} {...labelStyles} ml={-4}>
@@ -30,8 +30,8 @@ const FriedSlider = () => {
       <SliderMark value={75} {...labelStyles} ml={-6}>
         Crispy
       </SliderMark>
-      <SliderMark value={100} {...labelStyles} ml={-12}>
-        Well Done
+      <SliderMark value={100} {...labelStyles} ml={-14}>
+        Very Crispy
       </SliderMark>
       <SliderTrack>
         <SliderFilledTrack />

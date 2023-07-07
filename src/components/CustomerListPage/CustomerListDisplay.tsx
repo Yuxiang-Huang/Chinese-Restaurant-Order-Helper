@@ -23,10 +23,8 @@ const CustomerListDisplay = ({ customerList, archived }: Props) => {
               <HStack justifyContent={"space-between"}>
                 <HStack>
                   <Box margin={3}>
-                    {order.mainName === "Fried Chicken Wings" && !order.sideName
-                      ? `Fried ${order.count} Chicken Wings`
-                      : `${order.count} × ${order.mainName}` +
-                        (order.sideName && " with " + order.sideName)}
+                    {`${order.count} × ${order.mainName}` +
+                      (order.sideName && " with " + order.sideName)}
                   </Box>
                   <VStack align={"baseline"}>
                     <Text fontSize="xs">

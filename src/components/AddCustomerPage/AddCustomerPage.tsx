@@ -29,12 +29,6 @@ const AddCustomerPage = ({
     const p = priceDict[foodName];
     setCurCustomer(
       produce((draft) => {
-        // default count for chicken wings is 4
-        let count = 1;
-        if (foodName === "Fried Chicken Wings") {
-          count = 4;
-        }
-
         let mainName = foodName;
         let sideName = "";
         if (foodName.indexOf("with") !== -1) {
@@ -44,9 +38,9 @@ const AddCustomerPage = ({
 
         draft.orderList.push({
           id: nextId(),
-          count: count,
+          count: 1,
           mainName: mainName,
-          mainCustomization: "",
+          mainCustomization: mainName === "Fried Chicken Wings" ? "4×; " : "",
           sideName: sideName,
           sideCustomization: "",
           totalPrice: p,
@@ -68,6 +62,7 @@ const AddCustomerPage = ({
   // modify the customization of an order from the order list of an customer
   const modifyCustomization = (
     id: string,
+    priceDif: number,
     newCustomization: string,
     main: boolean
   ) => {
@@ -81,6 +76,10 @@ const AddCustomerPage = ({
           } else {
             orderToChange.sideCustomization = newCustomization;
           }
+          // change price
+          orderToChange.unitPrice += priceDif;
+          orderToChange.totalPrice =
+            orderToChange.unitPrice * orderToChange.count;
         }
       })
     );
@@ -108,30 +107,10 @@ const AddCustomerPage = ({
       produce((draft) => {
         const orderToChange = draft.orderList.find((order) => order.id === id);
         if (orderToChange) {
+          // count and price change
           orderToChange.count = valueAsNumber;
-          // outlier: chicken wings
-          if (
-            orderToChange.mainName === "Fried Chicken Wings" &&
-            !orderToChange.sideName
-          ) {
-            switch (orderToChange.count) {
-              case 1:
-                orderToChange.totalPrice = 3.75;
-                break;
-              case 2:
-                orderToChange.totalPrice = 4.5;
-                break;
-              case 3:
-                orderToChange.totalPrice = 5.25;
-                break;
-              default:
-                orderToChange.totalPrice = 1.5 * orderToChange.count;
-                break;
-            }
-          } else {
-            orderToChange.totalPrice =
-              orderToChange.count * orderToChange.unitPrice;
-          }
+          orderToChange.totalPrice =
+            orderToChange.count * orderToChange.unitPrice;
         }
       })
     );

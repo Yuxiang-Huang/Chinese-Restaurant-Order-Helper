@@ -19,6 +19,7 @@ interface Props {
   order: Order;
   modifyCustomization: (
     id: string,
+    priceDif: number,
     customization: string,
     main: boolean
   ) => void;
@@ -47,13 +48,21 @@ const OrderDisplay = ({
   };
 
   const mainCustomizationDisclosure = useDisclosure();
-  const modifyMainCustomization = (id: string, customization: string) => {
-    modifyCustomization(id, customization, true);
+  const modifyMainCustomization = (
+    id: string,
+    priceDif: number,
+    customization: string
+  ) => {
+    modifyCustomization(id, priceDif, customization, true);
   };
 
   const sideCustomizationDisclosure = useDisclosure();
-  const modifySideCustomization = (id: string, customization: string) => {
-    modifyCustomization(id, customization, false);
+  const modifySideCustomization = (
+    id: string,
+    priceDif: number,
+    customization: string
+  ) => {
+    modifyCustomization(id, priceDif, customization, false);
   };
   //#endregion
 

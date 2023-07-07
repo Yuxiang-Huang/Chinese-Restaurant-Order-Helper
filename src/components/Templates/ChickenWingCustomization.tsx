@@ -23,7 +23,7 @@ interface Props {
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (id: string, str: string) => void;
+  onEnter: (id: string, priceDif: number, str: string) => void;
 }
 
 const ChickenWingCustomization = ({
@@ -34,28 +34,31 @@ const ChickenWingCustomization = ({
   onEnter,
 }: Props) => {
   // parsing last customization
-  const handleNumberInputChange = (
-    valueAsString: string,
-    valueAsNumber: number
-  ) => {};
+  let index = 0;
 
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({
-      step: 1,
-      defaultValue: 4,
-      min: 1,
-      precision: 0,
-      onChange: handleNumberInputChange,
-    });
+  const origCount = parseInt(
+    lastCustomization[index].substring(0, lastCustomization[index].length - 1)
+  );
+  const origPrice = calculateChickenWingsPrice(origCount);
+
+  const {
+    value,
+    getInputProps,
+    getIncrementButtonProps,
+    getDecrementButtonProps,
+  } = useNumberInput({
+    step: 1,
+    defaultValue: origCount,
+    min: 1,
+    precision: 0,
+  });
 
   const inc = getIncrementButtonProps();
   const dec = getDecrementButtonProps();
   const input = getInputProps();
 
   let chopUpBoolean = lastCustomization[0] == "Chop up";
-  let defaultText = lastCustomization
-    .filter((_, index) => index > 0)
-    .join(", ");
+  let defaultText = lastCustomization.filter((_, i) => i > 0).join(", ");
   const ref = useRef<HTMLInputElement>(null);
 
   const createCustomizationText = () => {
@@ -63,6 +66,14 @@ const ChickenWingCustomization = ({
     if (chopUpBoolean) customization += "Chop up; ";
     if (ref.current) customization += ref.current.value;
     return customization;
+  };
+
+  const save = () => {
+    onEnter(
+      id,
+      calculateChickenWingsPrice(parseInt(value)) - origPrice,
+      createCustomizationText()
+    );
   };
 
   return (
@@ -98,7 +109,7 @@ const ChickenWingCustomization = ({
                 defaultValue={defaultText}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
-                    onEnter(id, createCustomizationText());
+                    save();
                     onClose();
                   }
                 }}
@@ -110,7 +121,7 @@ const ChickenWingCustomization = ({
             <Button
               colorScheme="blue"
               onClick={() => {
-                onEnter(id, createCustomizationText());
+                save();
                 onClose();
               }}
             >
@@ -121,6 +132,19 @@ const ChickenWingCustomization = ({
       </Modal>
     </>
   );
+};
+
+const calculateChickenWingsPrice = (count: number) => {
+  switch (count) {
+    case 1:
+      return 3.75;
+    case 2:
+      return 4.5;
+    case 3:
+      return 5.25;
+    default:
+      return 1.5 * count;
+  }
 };
 
 export default ChickenWingCustomization;

@@ -19,7 +19,7 @@ interface Props {
   defaultText?: string;
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (id: string, str: string) => void;
+  onEnter: (id: string, priceDif: number, str: string) => void;
 }
 
 const GeneralCustomizationModal = ({
@@ -35,7 +35,7 @@ const GeneralCustomizationModal = ({
   // also submit when user press enter
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      onEnter(id, ref.current === null ? "" : ref.current.value);
+      onEnter(id, 0, ref.current === null ? "" : ref.current.value);
       onClose();
     }
   };
@@ -63,7 +63,7 @@ const GeneralCustomizationModal = ({
             <Button
               colorScheme="blue"
               onClick={() => {
-                onEnter(id, ref.current === null ? "" : ref.current.value);
+                onEnter(id, 0, ref.current === null ? "" : ref.current.value);
                 onClose();
               }}
             >
