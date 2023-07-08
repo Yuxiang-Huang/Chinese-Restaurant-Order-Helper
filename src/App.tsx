@@ -17,6 +17,16 @@ export interface Customer {
   archived: boolean;
 }
 
+export const resetCurCustomer = () => {
+  return {
+    id: nextId(),
+    description: {} as CustomerDescription,
+    orderList: [],
+    paid: false,
+    archived: false,
+  };
+};
+
 export const FunctionsContext = createContext({
   updateCustomerDescription: (
     id: string,
@@ -47,15 +57,6 @@ const App = () => {
   const [archivedCustomerList, setArchivedCustomerList] = useState<Customer[]>(
     []
   );
-  const resetCurCustomer = () => {
-    return {
-      id: nextId(),
-      description: {} as CustomerDescription,
-      orderList: [],
-      paid: false,
-      archived: false,
-    };
-  };
   const [curCustomer, setCurCustomer] = useState<Customer>(resetCurCustomer());
 
   const [fullFoodList, setFullFoodList] = useState<string[]>([]);

@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { Button, HStack, useDisclosure } from "@chakra-ui/react";
 import AlertDialogTemplate from "../../Templates/AlertDialogTemplate";
-import { Customer } from "../../../App";
-import { CustomerDescription } from "../../CustomerListPage/DescriptionModal";
+import { Customer, resetCurCustomer } from "../../../App";
 
 interface Props {
   customer: Customer;
+  setCurCustomer: (newCustomer: Customer) => void;
   deleteCustomer: () => void;
 }
 
-const TopBar = ({ customer, deleteCustomer }: Props) => {
+const TopBar = ({ customer, setCurCustomer, deleteCustomer }: Props) => {
   const navigate = useNavigate();
 
   const {
@@ -25,7 +25,7 @@ const TopBar = ({ customer, deleteCustomer }: Props) => {
   } = useDisclosure();
 
   const leavePage = () => {
-    deleteCustomer();
+    setCurCustomer(resetCurCustomer());
     navigate("/CustomerList");
   };
 
