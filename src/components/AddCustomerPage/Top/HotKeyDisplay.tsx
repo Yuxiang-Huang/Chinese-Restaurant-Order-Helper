@@ -57,10 +57,24 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
   // add to search text when a hot key is clicked
   // also set focus on search input
   const handleHotKeyClick = (textToAdd: string) => {
-    if (searchTextRef.current)
-      searchTextRef.current.value = searchTextRef.current?.value + textToAdd;
+    let index = 0;
+    if (searchTextRef.current) {
+      index = searchTextRef.current.selectionStart
+        ? searchTextRef.current.selectionStart
+        : 0;
+    }
+
+    if (searchTextRef.current) {
+      searchTextRef.current.value =
+        searchTextRef.current.value.substring(0, index) +
+        textToAdd +
+        searchTextRef.current.value.substring(index);
+    }
     handleSearch();
-    if (searchTextRef.current) searchTextRef.current.focus();
+
+    if (searchTextRef.current) {
+      searchTextRef.current.focus();
+    }
   };
 
   // add a hot key
