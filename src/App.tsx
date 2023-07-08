@@ -7,7 +7,6 @@ import CustomerListPage from "./components/CustomerListPage/CustomerListPage";
 import useFoodMenu, { Order } from "./hooks/useFoodMenu";
 import "./index.css";
 import { produce } from "immer";
-import MenuPage from "./components/MenuPage/MenuPage";
 import { CustomerDescription } from "./components/CustomerListPage/DescriptionModal";
 
 export interface Customer {
@@ -111,6 +110,17 @@ const App = () => {
     });
     navigate("/CustomerList");
   };
+
+  const deleteFromCustomerList = (id: string) => {
+    setCustomerList(customerList.filter((customer) => customer.id !== id));
+    setCurCustomer({
+      id: nextId(),
+      description: {} as CustomerDescription,
+      orderList: [],
+      paid: false,
+      archived: false,
+    });
+  };
   //#endregion
 
   //#region Four buttons for Each Customer
@@ -207,6 +217,7 @@ const App = () => {
             priceDict={priceDict}
             setCurCustomer={setCurCustomer}
             addToCustomerList={addToCustomerList}
+            deleteFromCustomerList={deleteFromCustomerList}
           />
         }
       />
@@ -221,7 +232,6 @@ const App = () => {
           </FunctionsContext.Provider>
         }
       />
-      <Route path="/Menu" element={<MenuPage priceDict={priceDict} />} />
     </Routes>
   );
 };

@@ -1,7 +1,25 @@
 import { Link } from "react-router-dom";
-import { Button, HStack } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Button,
+  HStack,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { useRef } from "react";
 
-const TopBar = () => {
+interface Props {
+  deleteCustomer: () => void;
+}
+
+const TopBar = ({ deleteCustomer }: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef(null);
+
   return (
     <HStack justifyContent={"space-between"}>
       <Link to="/CustomerList">
@@ -9,11 +27,42 @@ const TopBar = () => {
           View All Customers
         </Button>
       </Link>
-      <Link to="/Menu">
-        <Button colorScheme="orange" margin={3}>
-          View Menu (Dev Mode)
-        </Button>
-      </Link>
+      <Button colorScheme="red" margin={3} onClick={onOpen}>
+        Clear
+      </Button>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Customer
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  onClose();
+                  deleteCustomer();
+                }}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </HStack>
   );
 };

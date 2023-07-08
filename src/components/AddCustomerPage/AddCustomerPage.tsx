@@ -16,6 +16,7 @@ interface Props {
   priceDict: { [key: string]: number };
   setCurCustomer: React.Dispatch<React.SetStateAction<Customer>>;
   addToCustomerList: (customer: Customer) => void;
+  deleteFromCustomerList: (id: string) => void;
 }
 
 const AddCustomerPage = ({
@@ -25,6 +26,7 @@ const AddCustomerPage = ({
   priceDict,
   setCurCustomer,
   addToCustomerList,
+  deleteFromCustomerList,
 }: Props) => {
   // add an order to customer (called when a food button is clicked)
   const addToCustomer = (foodName: string) => {
@@ -131,9 +133,14 @@ const AddCustomerPage = ({
     );
   };
 
+  // delete this customer
+  const deleteCustomer = () => {
+    deleteFromCustomerList(customer.id);
+  };
+
   return (
     <>
-      <TopBar />
+      <TopBar deleteCustomer={deleteCustomer} />
       <SearchBar fullFoodList={fullFoodList} addToCustomer={addToCustomer} />
       <List>
         {customer.orderList.map((order, index) => (
