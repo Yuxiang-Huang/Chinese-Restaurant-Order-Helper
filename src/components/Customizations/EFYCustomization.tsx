@@ -11,6 +11,7 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
+import DollarExtra from "./HelperComponents/DollarExtra";
 import DonenessSlider, {
   markToValue,
   valueToMark,
@@ -18,34 +19,41 @@ import DonenessSlider, {
 
 interface Props {
   id: string;
-  foodName: string;
   lastCustomization: string[];
   isOpen: boolean;
   onClose: () => void;
-  onEnter: (id: string, priceDif: number, str: string) => void;
+  onEnter: (id: string, priceDif: number, newCustomization: string) => void;
 }
 
-const GeneralCustomizationModal = ({
+const EFYCustomization = ({
   id,
-  foodName,
   lastCustomization,
   isOpen,
   onClose,
   onEnter,
 }: Props) => {
-  const donenessExcludeList = [
-    "Can Soda",
-    "Bottle Soda",
-    "Bottle Water",
-    "Small Ice Tea",
-    "Large Ice Tea",
-    "Small Lemonade",
-    "Large Lemonade",
-    "Side Sauce",
-  ];
+  // parsing last customization
+  let index = 0;
+
+  // dollar extra
+  let dollarAmount = 0;
+  let meat = "";
+  if (lastCustomization[index].charAt(0) === "$") {
+    const plusIndex = lastCustomization[index].indexOf("+");
+    dollarAmount = parseFloat(lastCustomization[index].substring(1, plusIndex));
+    meat = lastCustomization[index].substring(plusIndex + 2);
+    index++;
+  }
+
+  const setAmount = (valueAsString: string) => {
+    dollarAmount = parseFloat(valueAsString);
+  };
+
+  const setMeat = (newMeat: string) => {
+    meat = newMeat;
+  };
 
   // doneness
-  let index = 0;
   const doneness = markToValue(lastCustomization[index]);
   if (doneness !== 50) index++;
   let donenessText = valueToMark(doneness);
@@ -61,13 +69,16 @@ const GeneralCustomizationModal = ({
   // submit
   const createCustomizationText = () => {
     let customization = "";
+    if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;
     if (donenessText !== "Normal") customization += donenessText + "; ";
     if (ref.current) customization += ref.current.value;
     return customization;
   };
 
+  const origDollarExtra = dollarAmount;
+
   const save = () => {
-    onEnter(id, 0, createCustomizationText());
+    onEnter(id, dollarAmount - origDollarExtra, createCustomizationText());
   };
 
   return (
@@ -78,12 +89,17 @@ const GeneralCustomizationModal = ({
           <ModalHeader>Modify Customization</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {!donenessExcludeList.includes(foodName) && (
-              <DonenessSlider
-                defaultValue={doneness}
-                setDonenessText={setDonenessText}
-              />
-            )}
+            <DollarExtra
+              defaultAmount={dollarAmount}
+              defaultMeat={meat}
+              setAmount={setAmount}
+              setMeat={setMeat}
+            />
+
+            <DonenessSlider
+              defaultValue={doneness}
+              setDonenessText={setDonenessText}
+            />
             <FormControl>
               <Input
                 ref={ref}
@@ -116,4 +132,4 @@ const GeneralCustomizationModal = ({
   );
 };
 
-export default GeneralCustomizationModal;
+export default EFYCustomization;

@@ -17,6 +17,7 @@ import ChickenWingCustomization from "../../Customizations/ChickenWingCustomizat
 import RiceCustomization from "../../Customizations/RiceCustomization";
 import LoMeinCustomization from "../../Customizations/LoMeinCustomization";
 import MainType1Customization from "../../Customizations/MainType1Customization";
+import EFYCustomization from "../../Customizations/EFYCustomization";
 
 interface Props {
   order: Order;
@@ -144,18 +145,30 @@ const OrderDisplay = ({
         />
       );
     } else if (foodName.replace(" (Large)", "") in mainType1Dict) {
-      return (
-        <MainType1Customization
-          id={order.id}
-          mainName={order.mainName}
-          sideName={order.sideName}
-          priceDict={priceDict}
-          lastCustomization={lastCustomization}
-          isOpen={dislosure.isOpen}
-          onClose={dislosure.onClose}
-          onEnter={onEnter}
-        />
-      );
+      if (foodName.includes("Egg Foo Young")) {
+        return (
+          <EFYCustomization
+            id={order.id}
+            lastCustomization={lastCustomization}
+            isOpen={dislosure.isOpen}
+            onClose={dislosure.onClose}
+            onEnter={onEnter}
+          />
+        );
+      } else {
+        return (
+          <MainType1Customization
+            id={order.id}
+            mainName={order.mainName}
+            sideName={order.sideName}
+            priceDict={priceDict}
+            lastCustomization={lastCustomization}
+            isOpen={dislosure.isOpen}
+            onClose={dislosure.onClose}
+            onEnter={onEnter}
+          />
+        );
+      }
     } else {
       return (
         <GeneralCustomizationModal
