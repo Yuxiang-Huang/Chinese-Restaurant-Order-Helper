@@ -62,7 +62,7 @@ const OrderDisplay = ({
     customization: string,
     sizeChanged = false
   ) => {
-    modifyCustomization(id, priceDif, customization, sizeChanged, true);
+    modifyCustomization(id, priceDif, customization, true, sizeChanged);
   };
 
   const sideCustomizationDisclosure = useDisclosure();
@@ -72,7 +72,7 @@ const OrderDisplay = ({
     customization: string,
     sizeChanged = false
   ) => {
-    modifyCustomization(id, priceDif, customization, sizeChanged, false);
+    modifyCustomization(id, priceDif, customization, false, sizeChanged);
   };
   //#endregion
 

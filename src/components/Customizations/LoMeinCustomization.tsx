@@ -90,7 +90,7 @@ const LoMeinCustomization = ({
     if (vegOptions[0]) vegText += "onion, ";
     if (vegOptions[1]) vegText += "beansprout, ";
     if (vegOptions[2]) vegText += "carrot, ";
-    if (vegOptions[2]) vegText += "bok choy, ";
+    if (vegOptions[3]) vegText += "bok choy, ";
     return vegText.substring(0, vegText.length - 2) + "; ";
   };
   //#endregion
