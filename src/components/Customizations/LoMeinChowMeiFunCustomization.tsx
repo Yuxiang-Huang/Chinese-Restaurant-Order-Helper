@@ -24,7 +24,7 @@ interface Props {
   onEnter: (id: string, priceDif: number, str: string) => void;
 }
 
-const LoMeinCustomization = ({
+const LoMeinChowMeiFunCustomization = ({
   id,
   lastCustomization,
   isOpen,
@@ -205,4 +205,4 @@ const LoMeinCustomization = ({
   );
 };
 
-export default LoMeinCustomization;
+export default LoMeinChowMeiFunCustomization;

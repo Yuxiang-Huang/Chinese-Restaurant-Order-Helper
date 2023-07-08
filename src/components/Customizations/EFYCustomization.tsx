@@ -53,15 +53,6 @@ const EFYCustomization = ({
     meat = newMeat;
   };
 
-  // doneness
-  const doneness = markToValue(lastCustomization[index]);
-  if (doneness !== 50) index++;
-  let donenessText = valueToMark(doneness);
-
-  const setDonenessText = (newDonenessText: string) => {
-    donenessText = newDonenessText;
-  };
-
   // default text
   let defaultText = lastCustomization.filter((_, i) => i >= index).join(", ");
   const ref = useRef<HTMLInputElement>(null);
@@ -70,7 +61,6 @@ const EFYCustomization = ({
   const createCustomizationText = () => {
     let customization = "";
     if (dollarAmount !== 0) customization += "$" + `${dollarAmount}+ ${meat}; `;
-    if (donenessText !== "Normal") customization += donenessText + "; ";
     if (ref.current) customization += ref.current.value;
     return customization;
   };
@@ -94,11 +84,6 @@ const EFYCustomization = ({
               defaultMeat={meat}
               setAmount={setAmount}
               setMeat={setMeat}
-            />
-
-            <DonenessSlider
-              defaultValue={doneness}
-              setDonenessText={setDonenessText}
             />
             <FormControl>
               <Input

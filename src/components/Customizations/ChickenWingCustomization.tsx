@@ -164,11 +164,11 @@ const ChickenWingCustomization = ({
 const calculateChickenWingsPrice = (count: number) => {
   switch (count) {
     case 1:
-      return 3.75;
+      return 1.75;
     case 2:
-      return 4.5;
+      return 3.5;
     case 3:
-      return 5.25;
+      return 5;
     default:
       return 1.5 * count;
   }

@@ -220,7 +220,7 @@ const useFoodMenu = () => {
     "Bottle Soda": 1.5,
     "Bottle Water": 1,
 
-    "Side Sauce": 0.5,
+    "Side Sauce": 1,
   };
 
   //#region soup and combo

@@ -15,10 +15,9 @@ import OneInputModal from "../../Templates/OneInputModal";
 import GeneralCustomizationModal from "../../Customizations/GeneralCustomizationModal";
 import ChickenWingCustomization from "../../Customizations/ChickenWingCustomization";
 import RiceCustomization from "../../Customizations/RiceCustomization";
-import LoMeinCustomization from "../../Customizations/LoMeinCustomization";
+import LoMeinChowMeiFunCustomization from "../../Customizations/oMeinChowMeiFunCustomization";
 import MainType1Customization from "../../Customizations/MainType1Customization";
 import EFYCustomization from "../../Customizations/EFYCustomization";
-import ChowMeiFunCustomization from "../../Customizations/ChowMeiFunCustomization";
 
 interface Props {
   order: Order;
@@ -135,19 +134,12 @@ const OrderDisplay = ({
           onEnter={onEnter}
         />
       );
-    } else if (foodName.includes("Lo Mein")) {
+    } else if (
+      foodName.includes("Lo Mein") ||
+      foodName.includes("Chow Mei Fun")
+    ) {
       return (
-        <LoMeinCustomization
-          id={order.id}
-          lastCustomization={lastCustomization}
-          isOpen={dislosure.isOpen}
-          onClose={dislosure.onClose}
-          onEnter={onEnter}
-        />
-      );
-    } else if (foodName.includes("Chow Mei Fun")) {
-      return (
-        <ChowMeiFunCustomization
+        <LoMeinChowMeiFunCustomization
           id={order.id}
           lastCustomization={lastCustomization}
           isOpen={dislosure.isOpen}
