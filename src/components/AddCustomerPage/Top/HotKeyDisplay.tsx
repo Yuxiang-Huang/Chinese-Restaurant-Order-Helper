@@ -14,9 +14,19 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
 
   const hotKeyDisclosure = useDisclosure();
   const [hotKeyList, setHotKeyList] = useState([
-    "Broccoli",
-    "with Fried Rice",
-    "with Lo Mein",
+    "Chicken ",
+    "Roast Pork ",
+    "Beef ",
+    "Shrimp ",
+    "Vegetable ",
+    "House Special ",
+    "Small ",
+    "Large ",
+    "Broccoli ",
+    "with ",
+    "Fried Rice",
+    "Lo Mein",
+    "French Fries",
   ]);
 
   // initialize all close buttons to be off
@@ -45,10 +55,12 @@ const HotKeyDisplay = ({ searchTextRef, handleSearch }: Props) => {
   }, [hotKeyList]);
 
   // add to search text when a hot key is clicked
+  // also set focus on search input
   const handleHotKeyClick = (textToAdd: string) => {
     if (searchTextRef.current)
       searchTextRef.current.value = searchTextRef.current?.value + textToAdd;
     handleSearch();
+    if (searchTextRef.current) searchTextRef.current.focus();
   };
 
   // add a hot key

@@ -15,7 +15,7 @@ import OneInputModal from "../../Templates/OneInputModal";
 import GeneralCustomizationModal from "../../Customizations/GeneralCustomizationModal";
 import ChickenWingCustomization from "../../Customizations/ChickenWingCustomization";
 import RiceCustomization from "../../Customizations/RiceCustomization";
-import LoMeinChowMeiFunCustomization from "../../Customizations/oMeinChowMeiFunCustomization";
+import LoMeinChowMeiFunCustomization from "../../Customizations/LoMeinChowMeiFunCustomization";
 import MainType1Customization from "../../Customizations/MainType1Customization";
 import EFYCustomization from "../../Customizations/EFYCustomization";
 

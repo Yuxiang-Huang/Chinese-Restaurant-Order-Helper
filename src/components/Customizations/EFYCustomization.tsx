@@ -12,10 +12,6 @@ import {
   Input,
 } from "@chakra-ui/react";
 import DollarExtra from "./HelperComponents/DollarExtra";
-import DonenessSlider, {
-  markToValue,
-  valueToMark,
-} from "./HelperComponents/DonenessSlider";
 
 interface Props {
   id: string;
