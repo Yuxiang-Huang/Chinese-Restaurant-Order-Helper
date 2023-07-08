@@ -11,7 +11,10 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-import DonenessSlider, { markToValue, valueToMark } from "./DonenessSlider";
+import DonenessSlider, {
+  markToValue,
+  valueToMark,
+} from "./HelperComponents/DonenessSlider";
 
 interface Props {
   id: string;

@@ -15,9 +15,12 @@ import {
   HStack,
   Radio,
 } from "@chakra-ui/react";
-import DollarExtra from "./DollarExtra";
-import DonenessSlider, { markToValue, valueToMark } from "./DonenessSlider";
-import SizeSelector from "./SizeSelector";
+import DollarExtra from "./HelperComponents/DollarExtra";
+import DonenessSlider, {
+  markToValue,
+  valueToMark,
+} from "./HelperComponents/DonenessSlider";
+import SizeSelector from "./HelperComponents/SizeSelector";
 
 interface Props {
   id: string;
