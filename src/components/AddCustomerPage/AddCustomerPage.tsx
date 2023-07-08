@@ -15,8 +15,10 @@ interface Props {
   mainType1Dict: { [key: string]: number[] };
   priceDict: { [key: string]: number };
   setCurCustomer: React.Dispatch<React.SetStateAction<Customer>>;
-  addToCustomerList: (customer: Customer) => void;
   deleteFromCustomerList: (id: string) => void;
+  addToCustomerList: (customer: Customer) => void;
+  editMode: boolean;
+  updateCustomerList: (customer: Customer) => void;
 }
 
 const AddCustomerPage = ({
@@ -25,8 +27,10 @@ const AddCustomerPage = ({
   mainType1Dict,
   priceDict,
   setCurCustomer,
-  addToCustomerList,
   deleteFromCustomerList,
+  addToCustomerList,
+  editMode,
+  updateCustomerList,
 }: Props) => {
   // add an order to customer (called when a food button is clicked)
   const addToCustomer = (foodName: string) => {
@@ -157,7 +161,12 @@ const AddCustomerPage = ({
           </ListItem>
         ))}
       </List>
-      <BottomBar customer={customer} addToCustomerList={addToCustomerList} />
+      <BottomBar
+        customer={customer}
+        addToCustomerList={addToCustomerList}
+        editMode={editMode}
+        updateCustomerList={updateCustomerList}
+      />
     </>
   );
 };

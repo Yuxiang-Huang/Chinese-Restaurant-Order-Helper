@@ -47,13 +47,16 @@ const App = () => {
   const [archivedCustomerList, setArchivedCustomerList] = useState<Customer[]>(
     []
   );
-  const [curCustomer, setCurCustomer] = useState<Customer>({
-    id: nextId(),
-    description: {} as CustomerDescription,
-    orderList: [],
-    paid: false,
-    archived: false,
-  });
+  const resetCurCustomer = () => {
+    return {
+      id: nextId(),
+      description: {} as CustomerDescription,
+      orderList: [],
+      paid: false,
+      archived: false,
+    };
+  };
+  const [curCustomer, setCurCustomer] = useState<Customer>(resetCurCustomer());
 
   const [fullFoodList, setFullFoodList] = useState<string[]>([]);
   const [mainType1Dict, setMainType1Dict] = useState<{
@@ -98,29 +101,28 @@ const App = () => {
   //#endregion
 
   //#region Customer List
+
   const addToCustomerList = (newCustomer: Customer) => {
     setCustomerList([newCustomer, ...customerList]);
-    // clear customer and go to customer list page
-    setCurCustomer({
-      id: nextId(),
-      description: {} as CustomerDescription,
-      orderList: [],
-      paid: false,
-      archived: false,
-    });
+    setCurCustomer(resetCurCustomer());
     navigate("/CustomerList");
   };
 
   const deleteFromCustomerList = (id: string) => {
     setCustomerList(customerList.filter((customer) => customer.id !== id));
-    setCurCustomer({
-      id: nextId(),
-      description: {} as CustomerDescription,
-      orderList: [],
-      paid: false,
-      archived: false,
-    });
+    setCurCustomer(resetCurCustomer());
   };
+
+  const updateCustomerList = (customerToUpdate: Customer) => {
+    setCustomerList(
+      customerList.map((customer) =>
+        customer.id === customerToUpdate.id ? customerToUpdate : customer
+      )
+    );
+    setCurCustomer(resetCurCustomer());
+    navigate("/CustomerList");
+  };
+
   //#endregion
 
   //#region Four buttons for Each Customer
@@ -161,10 +163,7 @@ const App = () => {
   const edit = (customerToEdit: Customer) => {
     // navigate to add customer page
     navigate("/");
-    // delete this customer from customer list
-    setCustomerList(
-      customerList.filter((customer) => customer.id !== customerToEdit.id)
-    );
+
     // set customer to this customer
     setCurCustomer(customerToEdit);
   };
@@ -218,6 +217,10 @@ const App = () => {
             setCurCustomer={setCurCustomer}
             addToCustomerList={addToCustomerList}
             deleteFromCustomerList={deleteFromCustomerList}
+            editMode={customerList.some(
+              (customer) => customer.id === curCustomer.id
+            )}
+            updateCustomerList={updateCustomerList}
           />
         }
       />

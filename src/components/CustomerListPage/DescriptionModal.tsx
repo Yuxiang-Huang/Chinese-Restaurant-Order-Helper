@@ -115,6 +115,7 @@ const DescriptionModal = ({
     }
   };
 
+  // called when save button is pressed
   const save = () => {
     if (ref.current)
       setDescription({
