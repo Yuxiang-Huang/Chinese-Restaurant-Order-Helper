@@ -14,6 +14,8 @@ import {
   Text,
   Checkbox,
   HStack,
+  useDisclosure,
+  Collapse,
 } from "@chakra-ui/react";
 import DeseletableRadioGroup from "../Templates/DeseletableRadioGroup";
 import { Customer } from "../../App";
@@ -58,6 +60,11 @@ const DescriptionModal = ({
       AdditionalText: customer.description.AdditionalText,
     };
   };
+  const {
+    isOpen: fullDisplayState,
+    onOpen: fullDisplay,
+    onClose: partialDisplay,
+  } = useDisclosure();
 
   const [description, setDescription] = useState(resetDescription);
 
@@ -99,6 +106,25 @@ const DescriptionModal = ({
     setDescription({ ...description, Accessory: newAccessory });
   };
 
+  // collapse when called and not present
+  const setFullDisplayState = (called: boolean, present: boolean) => {
+    if (!called || present) {
+      fullDisplay();
+    } else {
+      partialDisplay();
+    }
+  };
+
+  const save = () => {
+    if (ref.current)
+      setDescription({
+        ...description,
+        AdditionalText: ref.current.value,
+      });
+    updateCustomerDescription(id, description);
+    onClose();
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -116,6 +142,10 @@ const DescriptionModal = ({
                     ...description,
                     Called: event.target.checked,
                   });
+                  setFullDisplayState(
+                    event.target.checked,
+                    description.Present
+                  );
                 }}
               >
                 Called?
@@ -127,57 +157,45 @@ const DescriptionModal = ({
                     ...description,
                     Present: event.target.checked,
                   });
+                  setFullDisplayState(description.Called, event.target.checked);
                 }}
               >
                 Present?
               </Checkbox>
             </HStack>
 
-            {(!description.Called || description.Present) && (
-              <>
-                <List spacing={5}>
-                  {Object.keys(radioGroups).map((type) => (
-                    <DeseletableRadioGroup
-                      header={type}
-                      options={radioGroups[type]}
-                      initValue={getInitValue(type)}
-                      setValue={setCustomerDescriptionHelper}
-                      key={type}
-                    />
-                  ))}
-                </List>
-
-                <Accessory
-                  accessoryState={description.Accessory}
-                  setAccessory={setAccessory}
-                />
-
-                <Text fontSize={"xl"} marginTop={5}>
-                  Additional Description
-                </Text>
-                <FormControl>
-                  <Input
-                    ref={ref}
-                    placeholder={"Enter additional description..."}
-                    defaultValue={description.AdditionalText}
+            <Collapse in={fullDisplayState} animateOpacity>
+              <List spacing={5}>
+                {Object.keys(radioGroups).map((type) => (
+                  <DeseletableRadioGroup
+                    header={type}
+                    options={radioGroups[type]}
+                    initValue={getInitValue(type)}
+                    setValue={setCustomerDescriptionHelper}
+                    key={type}
                   />
-                </FormControl>
-              </>
-            )}
+                ))}
+              </List>
+
+              <Accessory
+                accessoryState={description.Accessory}
+                setAccessory={setAccessory}
+              />
+
+              <Text fontSize={"xl"} marginTop={5}>
+                Additional Description
+              </Text>
+              <FormControl>
+                <Input
+                  ref={ref}
+                  placeholder={"Enter additional description..."}
+                  defaultValue={description.AdditionalText}
+                />
+              </FormControl>
+            </Collapse>
           </ModalBody>
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                if (ref.current)
-                  setDescription({
-                    ...description,
-                    AdditionalText: ref.current.value,
-                  });
-                updateCustomerDescription(id, description);
-                onClose();
-              }}
-            >
+            <Button colorScheme="blue" onClick={() => save()}>
               Save
             </Button>
           </ModalFooter>
