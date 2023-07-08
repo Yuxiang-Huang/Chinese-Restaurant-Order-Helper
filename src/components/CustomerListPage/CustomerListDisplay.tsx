@@ -22,9 +22,9 @@ const CustomerListDisplay = ({ customerList, archived }: Props) => {
             {customer.orderList.map((order) => (
               <ListItem key={order.id}>
                 <HStack justifyContent={"space-between"}>
-                  <VStack align={"baseline"}>
+                  <VStack align={"baseline"} marginLeft={3}>
                     <>
-                      <Box marginLeft={3}>
+                      <Box>
                         {`${order.count} × ${order.mainName}` +
                           (order.sideName && " with " + order.sideName)}
                       </Box>

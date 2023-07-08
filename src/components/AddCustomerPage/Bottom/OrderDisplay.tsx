@@ -18,6 +18,7 @@ import RiceCustomization from "../../Customizations/RiceCustomization";
 import LoMeinCustomization from "../../Customizations/LoMeinCustomization";
 import MainType1Customization from "../../Customizations/MainType1Customization";
 import EFYCustomization from "../../Customizations/EFYCustomization";
+import ChowMeiFunCustomization from "../../Customizations/ChowMeiFunCustomization";
 
 interface Props {
   order: Order;
@@ -137,6 +138,16 @@ const OrderDisplay = ({
     } else if (foodName.includes("Lo Mein")) {
       return (
         <LoMeinCustomization
+          id={order.id}
+          lastCustomization={lastCustomization}
+          isOpen={dislosure.isOpen}
+          onClose={dislosure.onClose}
+          onEnter={onEnter}
+        />
+      );
+    } else if (foodName.includes("Chow Mei Fun")) {
+      return (
+        <ChowMeiFunCustomization
           id={order.id}
           lastCustomization={lastCustomization}
           isOpen={dislosure.isOpen}
