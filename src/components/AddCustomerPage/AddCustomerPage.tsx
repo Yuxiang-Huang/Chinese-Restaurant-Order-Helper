@@ -144,7 +144,7 @@ const AddCustomerPage = ({
 
   return (
     <>
-      <TopBar deleteCustomer={deleteCustomer} />
+      <TopBar customer={customer} deleteCustomer={deleteCustomer} />
       <SearchBar fullFoodList={fullFoodList} addToCustomer={addToCustomer} />
       <List>
         {customer.orderList.map((order, index) => (
