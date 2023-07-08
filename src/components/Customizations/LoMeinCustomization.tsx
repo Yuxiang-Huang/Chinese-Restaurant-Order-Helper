@@ -14,7 +14,7 @@ import {
   HStack,
   Text,
 } from "@chakra-ui/react";
-import DollarExtra from "../Templates/DollarExtra";
+import DollarExtra from "./DollarExtra";
 
 interface Props {
   id: string;
