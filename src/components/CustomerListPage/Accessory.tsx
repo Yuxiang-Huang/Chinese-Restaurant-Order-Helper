@@ -10,8 +10,9 @@ const accessories = ["Glasses", "Hat", "Bag"];
 
 const Accessory = ({ accessoryState, setAccessory }: Props) => {
   // initlialize to false if no value
-  if (accessoryState === undefined)
-    accessoryState = accessories.map(() => false, false);
+  if (accessoryState === undefined) {
+    accessoryState = [...accessories.map(() => false), false];
+  }
 
   const handleChange = (indexToChange: number, newState: boolean) => {
     const copy = [...accessoryState];
@@ -24,7 +25,7 @@ const Accessory = ({ accessoryState, setAccessory }: Props) => {
         newState &&
         state
       )
-        copy[index] = false;
+        copy[copy.length - 1] = false;
     });
 
     setAccessory(copy);

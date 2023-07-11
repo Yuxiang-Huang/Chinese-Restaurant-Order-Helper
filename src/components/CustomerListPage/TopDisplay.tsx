@@ -24,8 +24,10 @@ const TopDisplay = ({ customer }: Props) => {
       str += accessoryToString(description.Accessory) + " ";
 
     if (description.AdditionalText)
-      str =
-        str.substring(0, str.length - 1) + "; " + description.AdditionalText;
+      if (str)
+        str =
+          str.substring(0, str.length - 1) + "; " + description.AdditionalText;
+      else str = description.AdditionalText;
 
     if (!str) {
       if (description.Called)

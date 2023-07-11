@@ -60,13 +60,16 @@ const DescriptionModal = ({
       AdditionalText: customer.description.AdditionalText,
     };
   };
+
+  const [description, setDescription] = useState(resetDescription);
+
   const {
     isOpen: fullDisplayState,
     onOpen: fullDisplay,
     onClose: partialDisplay,
-  } = useDisclosure();
-
-  const [description, setDescription] = useState(resetDescription);
+  } = useDisclosure({
+    defaultIsOpen: !description.Called || description.Present,
+  });
 
   const ref = useRef<HTMLInputElement>(null);
 
@@ -117,12 +120,17 @@ const DescriptionModal = ({
 
   // called when save button is pressed
   const save = () => {
-    if (ref.current)
+    if (ref.current) {
       setDescription({
         ...description,
         AdditionalText: ref.current.value,
       });
-    updateCustomerDescription(id, description);
+      updateCustomerDescription(id, {
+        ...description,
+        AdditionalText: ref.current.value,
+      });
+    }
+
     onClose();
   };
 
