@@ -51,7 +51,7 @@ const useFoodMenu = () => {
     "House Special Fried Rice": [6.5, 11, 5.5, 5, 5],
 
     "Lo Mein": [5, 8, 4, 3.5],
-    "Vegetable Lo Mein": [5.5, 9.25, 5.25, 4.5],
+    "Vegetable Lo Mein": [5.5, 9.25, 5, 4.25],
     "Roast Pork Lo Mein": [5.75, 10, 5.25, 4.5],
     "Chicken Lo Mein": [5.75, 10, 5.25, 4.5],
     "Beef Lo Mein": [6.5, 10.75, 6, 5.25],

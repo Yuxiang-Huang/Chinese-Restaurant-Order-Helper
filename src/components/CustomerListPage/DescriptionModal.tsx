@@ -72,7 +72,7 @@ const DescriptionModal = ({
 
   const radioGroups: { [key: string]: string[] } = {
     Age: ["Teen", "18-35", "35-60", "60+"],
-    Ethnity: ["Black", "Hispanic", "White", "Asian"],
+    Ethnity: ["Black", "Brown", "Hispanic", "White"],
     Sex: ["Male", "Female", "?"],
   };
 
